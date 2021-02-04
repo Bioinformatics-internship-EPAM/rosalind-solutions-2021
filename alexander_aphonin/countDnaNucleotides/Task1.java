@@ -14,8 +14,7 @@ public class Task1 {
     private String readInputStreamIntoString(InputStream inputStream)
             throws IOException {
         StringBuilder resultStringBuilder = new StringBuilder();
-        try (BufferedReader br
-                     = new BufferedReader(new InputStreamReader(inputStream))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
             String line;
             while ((line = br.readLine()) != null) {
                 resultStringBuilder.append((line));
@@ -25,9 +24,7 @@ public class Task1 {
     }
 
     public void countDNANucleotides(String inputFileName) {
-        InputStream inputFileStream = null;
-        try {
-            inputFileStream = new FileInputStream(inputFileName);
+        try (InputStream inputFileStream = new FileInputStream(inputFileName)) {
             String nucleotidesString = readInputStreamIntoString(inputFileStream); // A C G T
             // there are other more efficient ways of making an array from a string, but for shown datasets it'll do
             Map<String, Long> l = Stream.of(nucleotidesString.split(""))
