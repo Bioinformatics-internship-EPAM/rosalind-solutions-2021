@@ -1,22 +1,25 @@
 import java.io.{File, PrintWriter}
 import scala.io.StdIn.{readInt, readLine}
+import scala.util.Using
 
 object LEXV extends App {
-  val writer = new PrintWriter(new File("answer.txt"))
   val alphabet = readLine().toCharArray.filter(_ != ' ')
 
-  def calc_pert(array: Array[Char], depth: Int): Unit = {
-    def calc_pert_acc(array: Array[Char], str_acc: String, current_depth: Int): Unit = {
-      if (current_depth > 0) {
-        writer.println(str_acc)
+  Using(new PrintWriter(new File("answer.txt"))) { writer =>
+
+    def output_permutations(depth: Int): Unit = {
+      def output_permutations_rec(str_acc: String, current_depth: Int): Unit = {
+        if (current_depth > 0) {
+          writer.println(str_acc)
+        }
+        if (current_depth != depth)
+          alphabet.foreach(x => output_permutations_rec(str_acc + x, current_depth + 1))
       }
-      if (current_depth != depth)
-        array.foreach(x => calc_pert_acc(array, str_acc + x, current_depth + 1))
+
+      output_permutations_rec("", 0)
     }
 
-    calc_pert_acc(array, "", 0)
+    val depth = readInt()
+    output_permutations(depth)
   }
-  calc_pert(alphabet, readInt())
-  writer.close()
-
 }

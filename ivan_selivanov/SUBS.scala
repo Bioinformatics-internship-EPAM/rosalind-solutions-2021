@@ -1,6 +1,7 @@
 import scala.io.StdIn.readLine
 
 object SUBS extends App {
-  val s = readLine()
-  s"(?=($readLine))".r.findAllMatchIn(s).map(_.start + 1).foreach(x => print(x + " "))
+  val (text, pattern) = (readLine(), readLine())
+  val matches = s"(?=($pattern))".r.findAllMatchIn(text)
+  println(matches.map(_.start + 1).mkString(" "))
 }
