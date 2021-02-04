@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 public class Task1 {
 
-    private String readInputStreamIntoString(InputStream inputStream)
+    private static String readInputStreamIntoString(InputStream inputStream)
             throws IOException {
         StringBuilder resultStringBuilder = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
@@ -23,7 +23,7 @@ public class Task1 {
         return resultStringBuilder.toString();
     }
 
-    public void countDNANucleotides(String inputFileName) {
+    public static void countDNANucleotides(String inputFileName) {
         try (InputStream inputFileStream = new FileInputStream(inputFileName)) {
             String nucleotidesString = readInputStreamIntoString(inputFileStream); // A C G T
             // there are other more efficient ways of making an array from a string, but for shown datasets it'll do
