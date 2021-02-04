@@ -30,7 +30,6 @@ public class DNA
 						break;					
 				}
 			}
-			System.out.println(countNuc[0] + " " + countNuc[1] + " " + countNuc[2] + " " + countNuc[3]);
 			Files.writeString(fout, countNuc[0] + " " + countNuc[1] + " " + countNuc[2] + " " + countNuc[3]);
 		} catch (IOException e) {
 			e.printStackTrace();
