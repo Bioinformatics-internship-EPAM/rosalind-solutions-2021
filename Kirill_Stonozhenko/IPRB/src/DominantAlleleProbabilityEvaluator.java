@@ -1,8 +1,7 @@
 public class DominantAlleleProbabilityEvaluator {
     public static void main(String[] args) {
         if (args.length != 3) {
-            System.err.println("Number of months and rabbit life length as input arguments were expected");
-            return;
+            throw new NumberFormatException();
         }
 
         int dominant;
@@ -17,7 +16,7 @@ public class DominantAlleleProbabilityEvaluator {
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException e) {
-            System.err.println("Two positive integers expected");
+            System.err.println("Three positive integers expected");
             return;
         }
 
