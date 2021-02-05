@@ -1,8 +1,8 @@
-import scala.io.StdIn
+import scala.io.StdIn.readLine
 
 object RNA {
   def main(args: Array[String]) {
-    for (c <- StdIn.readLine.toList) print(transform(c))
+    println(readLine.map(ch => transform(ch)))
   }
 
   def transform(c: Char): Char = c match {

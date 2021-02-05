@@ -3,17 +3,11 @@ import scala.io.StdIn.readLine
 
 object REVC {
   def main(args: Array[String]) {
-    val result = reverse(readLine.toList)
-    for (c <- result) print(c)
+    println(reverseDNA(readLine))
   }
 
-  def reverse(dna: List[Char]): List[Char] = {
-    @tailrec def inner(in: List[Char], out: List[Char]): List[Char] = in match {
-      case elem :: tail => inner(tail, transform(elem) :: out)
-      case Nil => out
-    }
-
-    inner(dna, List())
+  def reverseDNA(dna: String) = {
+    dna.reverse.map(ch => transform(ch))
   }
 
   def transform(c: Char): Char = c match {

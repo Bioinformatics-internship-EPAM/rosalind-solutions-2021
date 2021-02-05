@@ -7,10 +7,10 @@ object FIB {
   }
 
   def countRabbits(n: Int, k: Int): Long = {
-    @tailrec def updRabbits(n: Int, k: Int, big: Long, little: Long): Long = n match {
+    @tailrec def updRabbits(n: Int, k: Int, adult: Long, small: Long): Long = n match {
       case 0 => 1
-      case 1 => big + little
-      case _ => updRabbits(n - 1, k, big + little, big * k)
+      case 1 => adult + small
+      case _ => updRabbits(n - 1, k, adult + small, adult * k)
     }
 
     updRabbits(n, k, 0, 1)
