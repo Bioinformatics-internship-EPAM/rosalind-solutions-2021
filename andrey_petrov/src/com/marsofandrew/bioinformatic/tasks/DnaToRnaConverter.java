@@ -9,13 +9,7 @@ public class DnaToRnaConverter {
     }
 
     public static String convert(final String dna) {
-        if (dna == null) {
-            throw new IllegalArgumentException("Argument couldn't be null");
-        }
-
-        if (dna.length() > 1000) {
-            throw new IllegalArgumentException("Maximum data length is 1000");
-        }
+        Helpers.checkDnaFast(dna);
         return dna.toUpperCase().replace('T', 'U');
     }
 }

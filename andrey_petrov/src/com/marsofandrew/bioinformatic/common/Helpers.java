@@ -30,4 +30,14 @@ public final class Helpers {
             System.out.println(converter.apply(result));
         }
     }
+
+    public static void checkDnaFast(final String dna) {
+        if (dna == null) {
+            throw new IllegalArgumentException("Argument couldn't be null");
+        }
+
+        if (dna.length() > 1000) {
+            throw new IllegalArgumentException("Maximum data length is 1000");
+        }
+    }
 }
