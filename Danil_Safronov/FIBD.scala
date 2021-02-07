@@ -7,10 +7,10 @@ object FIBD {
   }
 
   def countRabbits(n: Int, m: Int): Long = {
+    //d - past days
+    //adult - array with counts of adult rabbits for each day
+    //small - with small
     @tailrec def updRabbits(n: Int, m: Int, d: Int, adult: List[Long], small: List[Long]): Long = n match {
-        //d - past days
-        //adult - array with counts of adult rabbits for each day
-        //small - with small
       case 0 => 1
       case 1 => adult.last + small.last
       case _ if d < m => updRabbits(n - 1, m, d + 1, adult :+ (adult.last + small.last), small :+ adult.last)

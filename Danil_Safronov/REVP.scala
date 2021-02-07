@@ -1,5 +1,4 @@
-import GC.splitFile
-import REVC.reverseDNA
+import scala.io.Source
 
 object REVP {
   def main(args: Array[String]) {
@@ -14,5 +13,36 @@ object REVP {
          if (i + len <= dna.length) &&
            (dna.substring(i, i + (len / 2)) == reverseDNA(dna.substring(i + (len / 2), i + len))) }
               yield (i + 1, len)
+  }
+
+  def splitFile(filename: String): Array[(String, String)] = {
+    val lines = Source.fromFile(filename)
+      .toArray
+      .mkString
+      .split('>')
+      .filter(_.length != 0)
+
+    {
+      for (line <- lines)
+        yield (
+          line.split('\n')(0)
+            .replaceAll("\r", ""),
+          line.replaceAll("\r", "")
+            .split('\n')
+            .drop(1)
+            .mkString("")
+        )
+    }
+  }
+
+  def reverseDNA(dna: String) = {
+    dna.reverse.map(ch => transform(ch))
+  }
+
+  def transform(c: Char): Char = c match {
+    case 'T' => 'A'
+    case 'A' => 'T'
+    case 'C' => 'G'
+    case 'G' => 'C'
   }
 }

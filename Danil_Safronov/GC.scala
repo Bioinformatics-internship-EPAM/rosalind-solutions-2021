@@ -1,6 +1,4 @@
-import scala.io.StdIn.readLine
-import DNA.rec_count
-
+import scala.annotation.tailrec
 import scala.io.Source
 
 object GC {
@@ -36,5 +34,19 @@ object GC {
   def countGC(dna: String): Double = {
     val res = rec_count(dna)
     ((res('C') + res('G')).toDouble / (res('C') + res('G') + res('A') + res('T'))) * 100
+  }
+
+  def rec_count(dna: String): Map[Char, Int] = {
+    @tailrec def inner(dna: List[Char], counts: Map[Char, Int]): Map[Char, Int] = dna match {
+      case Nil => counts
+      case elem :: tail => inner(tail, counts + (elem -> (counts(elem) + 1)))
+    }
+
+    inner(dna.toList, Map(
+      'A' -> 0,
+      'C' -> 0,
+      'G' -> 0,
+      'T' -> 0,
+    ))
   }
 }
