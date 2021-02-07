@@ -12,7 +12,7 @@ public final class ComputingGCContentTask implements RosalindTask {
 
     @Override
     public String resolve(final List<String> dataset) {
-        String idWithHighestGCContent = "";
+        var idWithHighestGCContent = "";
         var highestGCContent = 0.0;
         var gcCount = 0L;
         var dnaLength = 0L;

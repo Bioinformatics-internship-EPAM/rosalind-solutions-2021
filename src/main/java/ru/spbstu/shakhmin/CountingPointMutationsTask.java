@@ -10,11 +10,11 @@ public final class CountingPointMutationsTask implements RosalindTask {
 
     @Override
     public String resolve(final List<String> dataset) {
-        final var dna1 = dataset.get(0);
-        final var dna2 = dataset.get(1);
+        final var dnaString1 = dataset.get(0);
+        final var dnaString2 = dataset.get(1);
         var hammingDistance = 0;
-        for (int i = 0; i < dna1.length(); i++) {
-            if (dna1.charAt(i) != dna2.charAt(i)) {
+        for (int i = 0; i < dnaString1.length(); i++) {
+            if (dnaString1.charAt(i) != dnaString2.charAt(i)) {
                 hammingDistance++;
             }
         }

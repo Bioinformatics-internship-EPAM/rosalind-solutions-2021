@@ -11,15 +11,15 @@ public class FindingAMotifInDNATask implements RosalindTask {
 
     @Override
     public String resolve(final List<String> dataset) {
-        final var string = dataset.get(0);
-        final var substring = dataset.get(1);
-        final var answer = new StringJoiner(" ");
-        var index = string.indexOf(substring);
+        final var dnaString = dataset.get(0);
+        final var dnaSubstring = dataset.get(1);
+        final var locations = new StringJoiner(" ");
+        var index = dnaString.indexOf(dnaSubstring);
         while (index >= 0) {
-            answer.add(String.valueOf(index + 1));
-            index = string.indexOf(substring, index + 1);
+            locations.add(String.valueOf(index + 1));
+            index = dnaString.indexOf(dnaSubstring, index + 1);
         }
-        return answer.toString();
+        return locations.toString();
     }
 
     public static void main(String[] args) throws Exception {

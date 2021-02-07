@@ -12,7 +12,7 @@ public final class RosalindUtils {
 
     public static final String FASTA_LABEL = ">";
 
-    public static final Map<Character, Character> COMPLEMENTS = Map.of(
+    public static final Map<Character, Character> DNA_COMPLEMENTS = Map.of(
             'A', 'T',
             'T', 'A',
             'C', 'G',

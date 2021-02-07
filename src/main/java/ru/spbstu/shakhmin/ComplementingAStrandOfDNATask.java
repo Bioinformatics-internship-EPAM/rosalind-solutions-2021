@@ -4,7 +4,7 @@ import ru.spbstu.shakhmin.utils.RosalindUtils;
 
 import java.util.List;
 
-import static ru.spbstu.shakhmin.utils.RosalindUtils.COMPLEMENTS;
+import static ru.spbstu.shakhmin.utils.RosalindUtils.DNA_COMPLEMENTS;
 
 public final class ComplementingAStrandOfDNATask implements RosalindTask {
 
@@ -12,11 +12,11 @@ public final class ComplementingAStrandOfDNATask implements RosalindTask {
 
     @Override
     public String resolve(final List<String> dataset) {
-        final var answer = new StringBuilder();
+        final var complementOfDNAString = new StringBuilder();
         for (final var ch : dataset.get(0).toCharArray()) {
-            answer.append(COMPLEMENTS.getOrDefault(ch, ch));
+            complementOfDNAString.append(DNA_COMPLEMENTS.getOrDefault(ch, ch));
         }
-        return answer.reverse().toString();
+        return complementOfDNAString.reverse().toString();
     }
 
     public static void main(String[] args) throws Exception {

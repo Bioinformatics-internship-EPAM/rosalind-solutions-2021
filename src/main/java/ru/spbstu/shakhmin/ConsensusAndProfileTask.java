@@ -13,7 +13,21 @@ import static ru.spbstu.shakhmin.utils.RosalindUtils.FASTA_LABEL;
 
 public final class ConsensusAndProfileTask implements RosalindTask {
 
-    private static final String DATASET_FILE_NAME = "consensus_and_profile_task.txt";
+    private static final String DATASET_FILE_NAME = "consensus_and_profile.txt";
+
+    private static void updateFreqOfDNASymbol(final Map<String, List<Integer>> profile,
+                                              final StringBuilder dnaString,
+                                              final int position) {
+        profile.compute(
+                String.valueOf(dnaString.charAt(position)),
+                (dnaSymbol, frequencies) -> {
+                    if (frequencies == null) {
+                        frequencies = new ArrayList<>(Collections.nCopies(dnaString.length(), 0));
+                    }
+                    frequencies.set(position, frequencies.get(position) + 1);
+                    return frequencies;
+                });
+    }
 
     private static Map<String, List<Integer>> buildProfile(final List<String> dataset) {
         final var profile = new TreeMap<String, List<Integer>>();
@@ -21,18 +35,8 @@ public final class ConsensusAndProfileTask implements RosalindTask {
         var line = dataset.get(1);
         for (int i = 1; i <= dataset.size(); i++) {
             if (i == dataset.size() || line.startsWith(FASTA_LABEL)) {
-                final var dnaLength = dnaString.length();
-                for (int j = 0; j < dnaLength; j++) {
-                    final var index = j;
-                    profile.compute(
-                            String.valueOf(dnaString.charAt(index)),
-                            (dnaSymbol, frequencies) -> {
-                                if (frequencies == null) {
-                                    frequencies = new ArrayList<>(Collections.nCopies(dnaLength, 0));
-                                }
-                                frequencies.set(index, frequencies.get(index) + 1);
-                                return frequencies;
-                            });
+                for (int j = 0; j < dnaString.length(); j++) {
+                    updateFreqOfDNASymbol(profile, dnaString, j);
                 }
                 dnaString = new StringBuilder();
             } else {
@@ -49,8 +53,8 @@ public final class ConsensusAndProfileTask implements RosalindTask {
         final var dnaLength = profile.get(RosalindUtils.DNASymbol.A.toString()).size();
         final var consensus = new StringBuilder();
         for (int i = 0; i < dnaLength; i++) {
-            String mostCommonSymbol = "";
-            int maxFreq = 0;
+            var mostCommonSymbol = "";
+            var maxFreq = 0;
             for (final var profileEntry : profile.entrySet()) {
                 final var currentFreq = profileEntry.getValue().get(i);
                 if (currentFreq > maxFreq) {
@@ -67,14 +71,14 @@ public final class ConsensusAndProfileTask implements RosalindTask {
     public String resolve(final List<String> dataset) {
         final var profile = buildProfile(dataset);
         final var consensus = buildConsensus(profile);
-        final var answer = new StringBuilder(consensus).append("\n");
+        final var consensusAndProfile = new StringBuilder(consensus).append("\n");
         for (final var profileEntry : profile.entrySet()) {
-            answer.append(profileEntry.getKey())
+            consensusAndProfile.append(profileEntry.getKey())
                     .append(": ")
                     .append(Joiner.on(" ").join(profileEntry.getValue()))
                     .append("\n");
         }
-        return answer.toString();
+        return consensusAndProfile.toString();
     }
 
     public static void main(String[] args) throws Exception {

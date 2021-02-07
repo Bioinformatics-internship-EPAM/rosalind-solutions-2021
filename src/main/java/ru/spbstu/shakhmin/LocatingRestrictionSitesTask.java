@@ -5,7 +5,7 @@ import ru.spbstu.shakhmin.utils.RosalindUtils;
 
 import java.util.List;
 
-import static ru.spbstu.shakhmin.utils.RosalindUtils.COMPLEMENTS;
+import static ru.spbstu.shakhmin.utils.RosalindUtils.DNA_COMPLEMENTS;
 
 public final class LocatingRestrictionSitesTask implements RosalindTask {
 
@@ -16,14 +16,14 @@ public final class LocatingRestrictionSitesTask implements RosalindTask {
     private static String reverseComplement(final String dnaString) {
         final var reverseComplement = new StringBuilder();
         for (final var ch : dnaString.toCharArray()) {
-            reverseComplement.append(COMPLEMENTS.get(ch));
+            reverseComplement.append(DNA_COMPLEMENTS.get(ch));
         }
         return reverseComplement.reverse().toString();
     }
 
     @Override
     public String resolve(final List<String> dataset) {
-        final var answer = new StringBuilder();
+        final var positionAndLengthPairs = new StringBuilder();
         final var dnaString = Joiner.on("").join(dataset.subList(1, dataset.size()));
         final var dnaLength = dnaString.length();
         for (int i = 0; i < dnaLength; i++) {
@@ -31,13 +31,13 @@ public final class LocatingRestrictionSitesTask implements RosalindTask {
                 if (i + j > dnaLength) {
                     break;
                 }
-                final var substring = dnaString.substring(i, i + j);
-                if (substring.equals(reverseComplement(substring))) {
-                    answer.append(i + 1).append(" ").append(j).append("\n");
+                final var dnaSubstring = dnaString.substring(i, i + j);
+                if (dnaSubstring.equals(reverseComplement(dnaSubstring))) {
+                    positionAndLengthPairs.append(i + 1).append(" ").append(j).append("\n");
                 }
             }
         }
-        return answer.toString();
+        return positionAndLengthPairs.toString();
     }
 
     public static void main(String[] args) throws Exception {

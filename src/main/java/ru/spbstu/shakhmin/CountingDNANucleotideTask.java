@@ -14,7 +14,9 @@ public final class CountingDNANucleotideTask implements RosalindTask {
     public String resolve(final List<String> dataset) {
         final var symbolToCount = new TreeMap<String, Integer>();
         for (final var ch : dataset.get(0).toCharArray()) {
-            symbolToCount.compute(String.valueOf(ch), (symbol, count) -> count == null ? 1 : count + 1);
+            symbolToCount.compute(
+                    String.valueOf(ch),
+                    (symbol, count) -> count == null ? 1 : count + 1);
         }
         return Joiner.on(" ").join(symbolToCount.values());
     }
