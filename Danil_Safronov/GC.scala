@@ -18,15 +18,13 @@ object GC {
       .split('>')
       .filter(_.length != 0)
 
+    val splitted_lines = { for (line <- lines) yield line.split("\r\n") }
+
     {
-      for (line <- lines)
+      for (line <- splitted_lines)
         yield (
-          line.split('\n')(0)
-            .replaceAll("\r", ""),
-          line.replaceAll("\r", "")
-            .split('\n')
-            .drop(1)
-            .mkString("")
+          line(0),
+          line.drop(1).mkString("")
         )
     }
   }
