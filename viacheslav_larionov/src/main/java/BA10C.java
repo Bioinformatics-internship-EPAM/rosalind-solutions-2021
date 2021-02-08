@@ -2,6 +2,8 @@ import java.util.*;
 
 public class BA10C {
 
+    private static String filename = "ba10c.txt";
+
     // Implement the Viterbi Algorithm
     public static void main(String[] args) {
         // Read HMM from file
@@ -14,11 +16,11 @@ public class BA10C {
                 add(Section.EMISSION_MATRIX);
             }
         };
-        HMM hmm = new HMM("ba10c.txt");
+        HMM hmm = new HMM(filename);
         hmm.readData(sections);
 
         // Get HMM parameters
-        String outcomeSequence = hmm.getOutcome();
+        String outcomeSequence = hmm.getOutcomeSequence();
         String[] states = hmm.getStates();
         Map<String, Double> transitionMatrix = hmm.getTransitionMatrix();
         Map<String, Double> emissionMatrix = hmm.getEmissionMatrix();

@@ -2,9 +2,11 @@ import java.util.HashMap;
 
 public class GC {
 
+    private static String filename = "gc.txt";
+
     // Computing GC Content
     public static void main(String[] args) {
-        HashMap<String, String> fastaRecordsMap = Utils.getFastaRecords("gc.txt");
+        HashMap<String, String> fastaRecordsMap = Utils.getFastaRecords(filename);
 
         String recKey = "";
         double maxPercentageOfGC = 0;

@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 public class FIBD {
 
+    private static String filename = "fibd.txt";
+
     public static Integer[] getMethodParameters(final String filename) {
         ClassLoader classLoader = FIBD.class.getClassLoader();
         List<String> params = new LinkedList<>();
@@ -33,27 +35,30 @@ public class FIBD {
 
     // Mortal Fibonacci Rabbits
     public static void main(String[] args) {
-        Integer[] params = getMethodParameters("fibd.txt");
+        Integer[] params = getMethodParameters(filename);
 
         if (params.length == 2
                 && (params[0] <= 100 && params[1] <= 20)) {
-            BigInteger[] generation = new BigInteger[params[0]];
+            int all_months = params[0];
+            int life_months = params[1];
+
+            BigInteger[] generation = new BigInteger[all_months];
             generation[0] = BigInteger.valueOf(1);
             generation[1] = generation[0];
 
-            for (int i = 2; i < params[0]; ++i) {
+            for (int i = 2; i < all_months; ++i) {
                 BigInteger tmp = generation[i - 1].add(generation[i - 2]);
 
                 if (i == params[1]) {
                     tmp = tmp.subtract(BigInteger.valueOf(1));
                 } else if (i > params[1]) {
-                    tmp = tmp.subtract(generation[i - params[1] - 1]);
+                    tmp = tmp.subtract(generation[i - life_months - 1]);
                 }
 
                 generation[i] = tmp;
             }
 
-            System.out.println(generation[params[0] - 1]);
+            System.out.println(generation[all_months - 1]);
         }
     }
 }

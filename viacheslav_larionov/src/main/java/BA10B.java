@@ -2,6 +2,8 @@ import java.util.*;
 
 public class BA10B {
 
+    private static String filename = "ba10b.txt";
+
     // Compute the Probability of an Outcome Given a Hidden Path
     public static void main(String[] args) {
         // Read HMM from file
@@ -14,11 +16,11 @@ public class BA10B {
                 add(Section.EMISSION_MATRIX);
             }
         };
-        HMM hmm = new HMM("ba10b.txt");
+        HMM hmm = new HMM(filename);
         hmm.readData(sections);
 
         // Get HMM parameters
-        String outcomeSequence = hmm.getOutcome();
+        String outcomeSequence = hmm.getOutcomeSequence();
         String hiddenPath = hmm.getHiddenPath();
         Map<String, Double> emissionMatrix = hmm.getEmissionMatrix();
 

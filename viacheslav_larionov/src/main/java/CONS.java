@@ -3,9 +3,11 @@ import java.util.stream.IntStream;
 
 public class CONS {
 
+    private static String filename = "cons.txt";
+
     // Consensus and Profile
     public static void main(String[] args) {
-        HashMap<String, String> fastaRecords = Utils.getFastaRecords("cons.txt");
+        HashMap<String, String> fastaRecords = Utils.getFastaRecords(filename);
 
         // Assumed that all DNAs in file have equal length
         int dnaLength = fastaRecords.values().toArray(String[]::new)[0].length();
@@ -24,11 +26,8 @@ public class CONS {
         nucleobasesMap.keySet().forEach(nucleobase ->
                 Arrays.fill(nucleobasesMap.get(nucleobase), 0));
         fastaRecords.values().forEach(dna ->
-                IntStream.range(0, dnaLength).forEach(k ->
-                        nucleobasesMap.get(dna.charAt(k))[k] =
-                                (nucleobasesMap.get(dna.charAt(k))[k] != null)
-                                        ? nucleobasesMap.get(dna.charAt(k))[k] + 1
-                                        : 1));
+                IntStream.range(0, dnaLength)
+                        .forEach(k -> nucleobasesMap.get(dna.charAt(k))[k] = + 1));
 
         // Find one of the consensus strings
         StringBuilder consensusStr = new StringBuilder();

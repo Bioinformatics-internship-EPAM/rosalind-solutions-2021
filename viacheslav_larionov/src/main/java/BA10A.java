@@ -4,6 +4,8 @@ import java.util.Map;
 
 public class BA10A {
 
+    private static String filename = "ba10a.txt";
+
     // Probability of a Hidden Path Problem
     public static void main(String[] args) {
         // Read HMM from file
@@ -14,7 +16,7 @@ public class BA10A {
                 add(Section.TRANSITION_MATRIX);
             }
         };
-        HMM hmm = new HMM("ba10a.txt");
+        HMM hmm = new HMM(filename);
         hmm.readData(sections);
 
         // Get HMM parameters

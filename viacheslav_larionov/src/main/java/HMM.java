@@ -18,7 +18,7 @@ public class HMM {
 
     private String filename;
 
-    private String outcome;
+    private String outcomeSequence;
 
     private String[] outcomeAlphabet;
 
@@ -53,7 +53,7 @@ public class HMM {
         for (int i = 0; i < sections.size(); ++i) {
             switch (sections.get(i)) {
                 case OUTCOME_SEQUENCE:
-                    outcome = lines.get(lineIdx);
+                    outcomeSequence = lines.get(lineIdx);
                     break;
 
                 case OUTCOME_ALPHABET:
@@ -114,8 +114,8 @@ public class HMM {
         }
     }
 
-    public String getOutcome() {
-        return outcome;
+    public String getOutcomeSequence() {
+        return outcomeSequence;
     }
 
     public String[] getOutcomeAlphabet() {

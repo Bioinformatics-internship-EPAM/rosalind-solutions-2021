@@ -5,12 +5,16 @@ import java.util.stream.IntStream;
 
 public class SPLC {
 
+    private static final String fastaRecordsFilename = "splc.txt";
+
+    private static final String codonsTableFilename = "codons_table.txt";
+
     // RNA Splicing
     public static void main(String[] args) {
         // Read FASTA format records from file
-        LinkedHashMap<String, String> fastaRecordsMap = Utils.getFastaRecords("splc.txt");
+        LinkedHashMap<String, String> fastaRecordsMap = Utils.getFastaRecords(fastaRecordsFilename);
         // Read codons pairs table file to properties
-        Properties codonsPairs = Utils.getProperties("codons_table.txt");
+        Properties codonsPairs = Utils.getProperties(codonsTableFilename);
 
         // Get map key to DNA fasta record
         String dnaKey = fastaRecordsMap.keySet().iterator().next();

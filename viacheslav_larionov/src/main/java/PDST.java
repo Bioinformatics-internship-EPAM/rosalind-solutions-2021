@@ -3,9 +3,11 @@ import java.util.Map;
 
 public class PDST {
 
+    private static final String filename = "cons.txt";
+
     // Creating a Distance Matrix
     public static void main(String[] args) {
-        Map<String, String> fastaRecords = Utils.getFastaRecords("cons.txt");
+        Map<String, String> fastaRecords = Utils.getFastaRecords(filename);
 
         // Calculate length for each DNA string
         int dnaLength = fastaRecords.values().toArray(String[]::new)[0].length();
