@@ -2,6 +2,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ReverseComplementor {
     public static void main(String[] args) {
@@ -20,14 +22,18 @@ public class ReverseComplementor {
             return;
         }
 
+        Map<Character, Character> replacements = new HashMap<>();
+        replacements.put('A', 'T');
+        replacements.put('T', 'A');
+        replacements.put('C', 'G');
+        replacements.put('G', 'C');
+
         String reversedDna = new StringBuilder(dna).reverse().toString();
-        String complementDna = reversedDna
-                .replace('A','X')
-                .replace('T','A')
-                .replace('X','T')
-                .replace('C','X')
-                .replace('G','C')
-                .replace('X','G');
+
+        StringBuilder complementDna = new StringBuilder();
+        for (char c: reversedDna.toCharArray()) {
+            complementDna.append(replacements.get(c));
+        }
 
         System.out.println(complementDna);
     }

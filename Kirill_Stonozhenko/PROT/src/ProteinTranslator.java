@@ -1,23 +1,14 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.*;
+import java.util.Properties;
 
 public class ProteinTranslator {
 
     private static final String TRANSLATION_TABLE_FILENAME = "resources/rna_codon_table.dsv";
-    private static final Map<String, String> TRANSLATION_TABLE;
+    private static final Properties TRANSLATION_TABLE;
     static {
-        TRANSLATION_TABLE = new HashMap<>();
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(TRANSLATION_TABLE_FILENAME));
-            String str = reader.readLine();
-            while (str != null) {
-                TRANSLATION_TABLE.put(str.substring(0,3), str.substring(4));
-                str = reader.readLine();
-            }
-            reader.close();
+        TRANSLATION_TABLE = new Properties();
+        try (InputStream input = new FileInputStream(TRANSLATION_TABLE_FILENAME)) {
+            TRANSLATION_TABLE.load(input);
         } catch (IOException e) {
             System.err.println("Problems with " + TRANSLATION_TABLE_FILENAME + " reading:");
             e.printStackTrace();
@@ -38,7 +29,8 @@ public class ProteinTranslator {
             BufferedReader reader = new BufferedReader(new FileReader(filename));
             dna = reader.readLine();
             if (dna.length() % 3 != 0) {
-                throw new IOException("Chains of nucleic triplets expected");
+                System.err.println("Chains of nucleic triplets expected");
+                return;
             }
         } catch (IOException e) {
             System.err.println("Problems with file reading:");
@@ -49,7 +41,7 @@ public class ProteinTranslator {
         StringBuilder protein = new StringBuilder();
 
         for (int i = 0; i < dna.length(); i+=3) {
-            String aminoacid = TRANSLATION_TABLE.get(dna.substring(i, i+3));
+            String aminoacid = (String) TRANSLATION_TABLE.get(dna.substring(i, i+3));
             if (aminoacid != null) {
                 if (aminoacid.equals("Stop")) {
                     break;

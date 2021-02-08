@@ -1,7 +1,7 @@
 import java.math.BigInteger;
 import java.util.LinkedList;
 
-public class MortalRabbitCounter {
+public class NotImmortalRabbitCounter {
 
     private static int months;
     private static int month;

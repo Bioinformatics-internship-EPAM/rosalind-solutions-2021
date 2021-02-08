@@ -18,7 +18,8 @@ public class MotifFinder {
             dna = reader.readLine();
             motif = reader.readLine();
             if (dna == null || motif == null) {
-                throw new IOException("Two DNA strings expected");
+                System.err.println("Two DNA strings in input file expected");
+                return;
             }
         } catch (IOException e) {
             System.err.println("Problems with file reading:");

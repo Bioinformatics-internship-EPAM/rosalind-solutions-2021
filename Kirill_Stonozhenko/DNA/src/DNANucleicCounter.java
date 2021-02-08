@@ -2,10 +2,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DNANucleicCounter {
-
-    private static final int ALPHABET_LENGTH = 4;
 
     public static void main(String[] args) {
 
@@ -24,30 +24,23 @@ public class DNANucleicCounter {
             return;
         }
 
-        int[] counter = new int[ALPHABET_LENGTH];
+        Map<Character, Integer> counter = new HashMap<>();
+        counter.put('A', 0);
+        counter.put('C', 0);
+        counter.put('G', 0);
+        counter.put('T', 0);
 
         for (char c: content.toCharArray()) {
-            switch (c) {
-                case 'A' :
-                    counter[0]++;
-                    break;
-                case 'C' :
-                    counter[1]++;
-                    break;
-                case 'G' :
-                    counter[2]++;
-                    break;
-                case 'T' :
-                    counter[3]++;
-                    break;
-                default:
-                    if (!Character.isWhitespace(c)) {
-                        System.err.println("Invalid nucleobase detected: " + c);
-                        return;
-                    }
+            if (!Character.isWhitespace(c)) {
+                Integer currentNumber = counter.get(c);
+                if (currentNumber == null) {
+                    System.err.println("Invalid nucleobase detected: " + c);
+                    return;
+                }
+                counter.put(c, currentNumber + 1);
             }
         }
 
-        System.out.println(counter[0] + " " + counter[1] + " " + counter[2] + " " + counter[3]);
+        System.out.println(counter.get('A') + " " + counter.get('C') + " " + counter.get('G') + " " + counter.get('T'));
     }
 }
