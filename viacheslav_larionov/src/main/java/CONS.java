@@ -25,9 +25,12 @@ public class CONS {
         // Form profile matrix
         nucleobasesMap.keySet().forEach(nucleobase ->
                 Arrays.fill(nucleobasesMap.get(nucleobase), 0));
-        fastaRecords.values().forEach(dna ->
-                IntStream.range(0, dnaLength)
-                        .forEach(k -> nucleobasesMap.get(dna.charAt(k))[k] = + 1));
+
+        for (String key : fastaRecords.keySet()) {
+            String dnaString = fastaRecords.get(key);
+            IntStream.range(0, dnaLength)
+                    .forEach(k -> nucleobasesMap.get(dnaString.charAt(k))[k] += 1);
+        }
 
         // Find one of the consensus strings
         StringBuilder consensusStr = new StringBuilder();
