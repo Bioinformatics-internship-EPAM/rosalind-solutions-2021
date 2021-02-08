@@ -17,7 +17,7 @@ public class HammingDistanceEvaluator {
             BufferedReader reader = new BufferedReader(new FileReader(filename));
             dna1 = reader.readLine().replaceAll("\\s","");
             dna2 = reader.readLine().replaceAll("\\s","");
-            if (dna1 == null || dna2 == null) {
+            if (dna1.length() == 0) {
                 throw new IOException("Two DNA strings expected");
             }
             if (dna1.length() != dna2.length()) {
