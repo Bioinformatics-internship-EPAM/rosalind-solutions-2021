@@ -1,19 +1,14 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.stream.Collectors;
 
 public class DatasetReader {
-    public static String readFileIntoString(final InputStream inputStream)
+    public static String readFileIntoString(final Path path)
             throws IOException {
-        final StringBuilder resultStringBuilder = new StringBuilder();
-        try (BufferedReader br
-                     = new BufferedReader(new InputStreamReader(inputStream))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                resultStringBuilder.append((line));
-            }
-        }
-        return resultStringBuilder.toString();
+        return Files.readAllLines(path)
+                .stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(""));
     }
 }

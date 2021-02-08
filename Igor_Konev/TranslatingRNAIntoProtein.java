@@ -1,50 +1,42 @@
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import static java.util.Map.entry;
 
 public class TranslatingRNAIntoProtein {
-    private final static Map<String, String> codonsMap;
-    static {
-        codonsMap = Stream.of(new String[][]{
-                {"UUU", "F"}, {"CUU", "L"}, {"AUU", "I"},
-                {"GUU", "V"}, {"UUC", "F"}, {"CUC", "L"},
-                {"AUC", "I"}, {"GUC", "V"}, {"UUA", "L"},
-                {"CUA", "L"}, {"AUA", "I"}, {"GUA", "V"},
-                {"UUG", "L"}, {"CUG", "L"}, {"AUG", "M"},
-                {"GUG", "V"}, {"UCU", "S"}, {"CCU", "P"},
-                {"ACU", "T"}, {"GCU", "A"}, {"UCC", "S"},
-                {"CCC", "P"}, {"ACC", "T"}, {"GCC", "A"},
-                {"UCA", "S"}, {"CCA", "P"}, {"ACA", "T"},
-                {"GCA", "A"}, {"UCG", "S"}, {"CCG", "P"},
-                {"ACG", "T"}, {"GCG", "A"}, {"UAU", "Y"},
-                {"CAU", "H"}, {"AAU", "N"}, {"GAU", "D"},
-                {"UAC", "Y"}, {"CAC", "H"}, {"AAC", "N"},
-                {"GAC", "D"}, {"UAA", "Stop"}, {"CAA", "Q"},
-                {"AAA", "K"}, {"GAA", "E"}, {"UAG", "Stop"},
-                {"CAG", "Q"}, {"AAG", "K"}, {"GAG", "E"},
-                {"UGU", "C"}, {"CGU", "R"}, {"AGU", "S"},
-                {"GGU", "G"}, {"UGC", "C"}, {"CGC", "R"},
-                {"AGC", "S"}, {"GGC", "G"}, {"UGA", "Stop"},
-                {"CGA", "R"}, {"AGA", "R"}, {"GGA", "G"},
-                {"UGG", "W"}, {"CGG", "R"}, {"AGG", "R"},
-                {"GGG", "G"},
-        }).collect(Collectors.toMap(data -> data[0], data -> data[1]));
-    }
+    private final static Map<String, String> codonsMap = Map.ofEntries(
+            entry("UUU", "F"), entry("CUU", "L"), entry("AUU", "I"),
+            entry("GUU", "V"), entry("UUC", "F"), entry("CUC", "L"),
+            entry("AUC", "I"), entry("GUC", "V"), entry("UUA", "L"),
+            entry("CUA", "L"), entry("AUA", "I"), entry("GUA", "V"),
+            entry("UUG", "L"), entry("CUG", "L"), entry("AUG", "M"),
+            entry("GUG", "V"), entry("UCU", "S"), entry("CCU", "P"),
+            entry("ACU", "T"), entry("GCU", "A"), entry("UCC", "S"),
+            entry("CCC", "P"), entry("ACC", "T"), entry("GCC", "A"),
+            entry("UCA", "S"), entry("CCA", "P"), entry("ACA", "T"),
+            entry("GCA", "A"), entry("UCG", "S"), entry("CCG", "P"),
+            entry("ACG", "T"), entry("GCG", "A"), entry("UAU", "Y"),
+            entry("CAU", "H"), entry("AAU", "N"), entry("GAU", "D"),
+            entry("UAC", "Y"), entry("CAC", "H"), entry("AAC", "N"),
+            entry("GAC", "D"), entry("UAA", "Stop"), entry("CAA", "Q"),
+            entry("AAA", "K"), entry("GAA", "E"), entry("UAG", "Stop"),
+            entry("CAG", "Q"), entry("AAG", "K"), entry("GAG", "E"),
+            entry("UGU", "C"), entry("CGU", "R"), entry("AGU", "S"),
+            entry("GGU", "G"), entry("UGC", "C"), entry("CGC", "R"),
+            entry("AGC", "S"), entry("GGC", "G"), entry("UGA", "Stop"),
+            entry("CGA", "R"), entry("AGA", "R"), entry("GGA", "G"),
+            entry("UGG", "W"), entry("CGG", "R"), entry("AGG", "R"),
+            entry("GGG", "G")
+    );
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         try (InputStream dataset = new FileInputStream("/tmp/rosalind_prot.txt")) {
             final String protein = readRNAFromFileAndConvertIntoProtein(dataset);
             System.out.println(protein);
-        } catch (FileNotFoundException e) {
-            System.out.println("Wrong directory to file: " + e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -55,7 +47,7 @@ public class TranslatingRNAIntoProtein {
                      = new BufferedReader(new InputStreamReader(inputStream))) {
             char[] codon = new char[3];
             // Read file by three elements to convert them into acid
-            while ((br.read(codon, 0, 3)) != -1) {
+            while ((br.read(codon, 0, 3)) == 3) {
                 final String acid = codonsMap.getOrDefault(String.valueOf(codon), "");
                 if (acid.equals("Stop")) {
                     break;

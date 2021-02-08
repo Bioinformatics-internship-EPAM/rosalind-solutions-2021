@@ -1,18 +1,13 @@
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
 
 public class CountingPointMutations {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         try (Scanner s = new Scanner(new FileReader("/tmp/rosalind_hamm.txt"))) {
             final String dna1 = s.nextLine();
             final String dna2 = s.nextLine();
             final int hammingDistance = countHammingDistance(dna1, dna2);
             System.out.printf("%d", hammingDistance);
-        } catch (FileNotFoundException e) {
-            System.out.println("Wrong directory to file: " + e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

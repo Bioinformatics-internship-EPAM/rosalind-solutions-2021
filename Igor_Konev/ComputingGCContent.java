@@ -1,21 +1,15 @@
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class ComputingGCContent {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         try (Scanner scan = new Scanner(new FileReader("/tmp/rosalind_gc.txt"))) {
-            final Tuple<String, Double> maxResult = readFASTAAndComputeGCContent(scan);
-            System.out.printf("%s\n%f", maxResult.first, maxResult.second);
-        } catch (FileNotFoundException e) {
-            System.out.println("Wrong directory to file: " + e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
+            readFASTAAndPrintMaxGCContent(scan);
         }
     }
 
-    public static Tuple<String, Double> readFASTAAndComputeGCContent(final Scanner scan) {
+    public static void readFASTAAndPrintMaxGCContent(final Scanner scan) {
         scan.useDelimiter(Pattern.compile(">"));
         String maxGCPercentageId = "";
         double maxGCPercentage = 0;
@@ -44,16 +38,6 @@ public class ComputingGCContent {
                 }
             }
         }
-        return new Tuple<>(maxGCPercentageId, maxGCPercentage * 100);
-    }
-}
-
-class Tuple<K, V> {
-    K first;
-    V second;
-
-    public Tuple(K first, V second){
-        this.first = first;
-        this.second = second;
+        System.out.printf("%s\n%f", maxGCPercentageId, maxGCPercentage * 100);
     }
 }
