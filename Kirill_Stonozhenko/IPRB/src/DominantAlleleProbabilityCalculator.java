@@ -1,7 +1,7 @@
 public class DominantAlleleProbabilityCalculator {
     public static void main(String[] args) {
         if (args.length != 3) {
-            throw new NumberFormatException();
+            System.err.println("Three positive integers as input arguments expected");
         }
 
         int dominant;
@@ -13,10 +13,10 @@ public class DominantAlleleProbabilityCalculator {
             heterozygous = Integer.parseInt(args[1]);
             recessive = Integer.parseInt(args[2]);
             if (dominant <= 0 || heterozygous <= 0 || recessive <= 0) {
-                System.err.println("Three positive integers expected");
+                System.err.println("Positive integers expected");
             }
         } catch (NumberFormatException e) {
-            System.err.println("Three positive integers expected");
+            System.err.println("Three integers expected");
             return;
         }
 
