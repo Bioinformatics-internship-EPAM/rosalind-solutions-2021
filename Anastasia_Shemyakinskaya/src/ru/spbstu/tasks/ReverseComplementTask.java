@@ -11,14 +11,15 @@ public class ReverseComplementTask {
         StringBuilder reverseComplDna = new StringBuilder();
         String reverseDna = new StringBuilder(dnaString).reverse().toString();
         for (char c : reverseDna.toCharArray()) {
-            if (c == 'A') {
-                reverseComplDna.append('T');
-            } else if (c == 'C') {
-                reverseComplDna.append('G');
-            } else if (c == 'T') {
-                reverseComplDna.append('A');
-            } else if (c == 'G') {
-                reverseComplDna.append('C');
+            switch (c) {
+                case 'A':
+                    reverseComplDna.append('T');
+                case 'C':
+                    reverseComplDna.append('G');
+                case 'T':
+                    reverseComplDna.append('A');
+                case 'G':
+                    reverseComplDna.append('C');
             }
         }
         return reverseComplDna.toString();

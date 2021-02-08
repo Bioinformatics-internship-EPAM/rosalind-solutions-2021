@@ -14,8 +14,7 @@ public class HammingDistanceTask {
 
     public Long evaluateHammingDistance() {
         if (dna2.length() != dna1.length()) {
-            System.err.println("Strings length are not equal");
-            return 0L;
+            throw new IllegalArgumentException("Strings are not equals");
         }
         return IntStream.range(0, dna1.length()).filter(i -> dna1.charAt(i)!=dna2.charAt(i)).count();
     }
