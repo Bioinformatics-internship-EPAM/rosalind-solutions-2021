@@ -49,9 +49,9 @@ public class FIBD {
             for (int i = 2; i < all_months; ++i) {
                 BigInteger tmp = generation[i - 1].add(generation[i - 2]);
 
-                if (i == params[1]) {
+                if (i == life_months) {
                     tmp = tmp.subtract(BigInteger.valueOf(1));
-                } else if (i > params[1]) {
+                } else if (i > life_months) {
                     tmp = tmp.subtract(generation[i - life_months - 1]);
                 }
 
