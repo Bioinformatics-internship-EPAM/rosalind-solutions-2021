@@ -34,17 +34,14 @@ object GC {
     ((res('C') + res('G')).toDouble / (res('C') + res('G') + res('A') + res('T'))) * 100
   }
 
-  def rec_count(dna: String): Map[Char, Int] = {
-    @tailrec def inner(dna: List[Char], counts: Map[Char, Int]): Map[Char, Int] = dna match {
-      case Nil => counts
-      case elem :: tail => inner(tail, counts + (elem -> (counts(elem) + 1)))
-    }
-
-    inner(dna.toList, Map(
+  def count(dna: String) = {
+    val empty = Map(
       'A' -> 0,
       'C' -> 0,
       'G' -> 0,
       'T' -> 0,
-    ))
+    )
+
+    empty ++ dna.groupBy(identity).transform((_, v) => v.size)
   }
 }
