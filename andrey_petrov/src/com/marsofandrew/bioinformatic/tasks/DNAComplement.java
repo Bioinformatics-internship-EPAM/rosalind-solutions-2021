@@ -6,8 +6,11 @@ import java.util.Map;
 
 public class DNAComplement {
 
-    private static final Map<Character, Character> COMPLEMENT_MAP =
-            Map.of('A', 'T', 'T', 'A', 'C', 'G', 'G', 'C');
+    private static final Map<Character, Character> COMPLEMENT_MAP = Map.of(
+            'A', 'T',
+            'T', 'A',
+            'C', 'G',
+            'G', 'C');
 
     public static String complement(final String dna) {
         Helpers.checkDnaFast(dna);

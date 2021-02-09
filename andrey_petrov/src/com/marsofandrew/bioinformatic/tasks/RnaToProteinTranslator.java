@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class RnaToProteinTranslator {
 
-    private final static Character STOP_SYMBOL = 'Z';
+    private final static Character STOP_SYMBOL = 'Z'; // In accordance to theory there is no protein Z
     private final static Map<CharSequence, Character> RNA_CODON_TABLE = new HashMap<>() {{
         put("UUU", 'F');
         put("UUC", 'F');
