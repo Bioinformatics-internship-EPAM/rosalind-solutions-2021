@@ -1,55 +1,40 @@
 //Dataset at the moment:
-//GACGTGGATTCACTGGCCTCCAAAGACAAAGACCAGGCGTTTGCTCGAGTTCACTCTCCTAGGAGCTCATCTACACCAGAAGGAGGAAAGGACACATGCTTTTACAGGGCACAGGGCCGCTAAATATATGCGTGTAATTCTATCAGGTGTTCATTATTAACGCGGGGGCATCAGCAGAATACATCCACTCTTAGGCCAATGCAATGGCCACCGCTTTCTCATTAAGCAGGTGCGGGTTCTTTGCTAGCGTTACCAACTACTGGCGAAGGTGGACGTTTGGACAACCCGATGAGCGCTTAATTGACTACCGCTCCACTATATAAGTCAACTTTATTCTTCACTAACTTCTCAGTGCGCGTAAAGTTAGCGAGCCGTATGTTAACTGTTAAGCCACGGGACCGAAGTAACACGCGTCGTTTATCACTGCGGTACGCGGCGTCCATAAGTGAACCTGTCTACTTGCGCCCAGTCACGGTCGGCCTGCTTTACACCGGCCCTCGGCGACGGCCGTACCTCAGGGGGGGAGGCATGATACTGCAGTGTAAGCATACTTCGACACCTGGCCCTTCGTAAGTTGTAACAATCCCAATAGTACAACATGCAAACTGTGGCTATGCACACCACTATATTTCTTAAAATATCGTCGAGTGTCGATTCTACCCGTAGTAAAATCGCAACGCGCGCTGATGTGTCCCTCGTGCGAGAAAGTCTCTATGTGCCCCGACAATTGTGATGGATGCAAACTGTGCTGTGGACACGTAGGTCACATACCCTGTCCTGAGATGGGTGTGCGTTGTTTTTCTAAGATGTACGTGCGTAATGAAAGAGTCCCGTG
-
 package com.company;
+import java.io.*;
+import java.nio.charset.Charset;
 
 public class Main {
 
     public static void main(String[] args) {
 
         //To load a dataset
-        String s = "GACGTGGATTCACTGGCCTCCAAAGACAAAGACCAGGCGTTTGCTCGAGTTCACTCTCCTAGGAGCTCATCTACACCAGAAGGAGGAAAGGACACATGCTTTTACAGGGCACAGGGCCGCTAAATATATGCGTGTAATTCTATCAGGTGTTCATTATTAACGCGGGGGCATCAGCAGAATACATCCACTCTTAGGCCAATGCAATGGCCACCGCTTTCTCATTAAGCAGGTGCGGGTTCTTTGCTAGCGTTACCAACTACTGGCGAAGGTGGACGTTTGGACAACCCGATGAGCGCTTAATTGACTACCGCTCCACTATATAAGTCAACTTTATTCTTCACTAACTTCTCAGTGCGCGTAAAGTTAGCGAGCCGTATGTTAACTGTTAAGCCACGGGACCGAAGTAACACGCGTCGTTTATCACTGCGGTACGCGGCGTCCATAAGTGAACCTGTCTACTTGCGCCCAGTCACGGTCGGCCTGCTTTACACCGGCCCTCGGCGACGGCCGTACCTCAGGGGGGGAGGCATGATACTGCAGTGTAAGCATACTTCGACACCTGGCCCTTCGTAAGTTGTAACAATCCCAATAGTACAACATGCAAACTGTGGCTATGCACACCACTATATTTCTTAAAATATCGTCGAGTGTCGATTCTACCCGTAGTAAAATCGCAACGCGCGCTGATGTGTCCCTCGTGCGAGAAAGTCTCTATGTGCCCCGACAATTGTGATGGATGCAAACTGTGCTGTGGACACGTAGGTCACATACCCTGTCCTGAGATGGGTGTGCGTTGTTTTTCTAAGATGTACGTGCGTAATGAAAGAGTCCCGTG";
-
+        String s = "";
+        try {
+            FileReader reader = new FileReader("rosalind-DNA.txt", Charset.forName("utf-8"));
+            while (reader.read() != -1) {
+                s += (char)reader.read();
+            }
+            reader.close();
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         //To convert to char array
         char[] c = s.toCharArray();
+        char[] Nucleotids = {'A', 'C', 'G', 'T'};
+        int freq = 0;
 
         //To init frequency for A, C, G and T components
-        int freq =0, freq2 = 0,freq3 = 0,freq4=0;
 
         //To realize the algorithm
-        for(int i = 0; i< c.length;i++) {
-            if(c[i]=='A') {
-                freq++;
+        for (int i = 0; i < 4; i++) {
+            freq = 0;
+            for (int j = 0; j < c.length; j++) {
+                if (c[j] == Nucleotids[i]) {
+                    freq++;
+                }
             }
-            if(c[i]=='C') {
-                freq2++;
-            }
-            if (c[i]=='G') {
-                freq3++;
-            }
-            if (c[i]=='T') {
-                freq4++;
-            }
-        }
-
-        //To set dataset-result
-        if (freq > 0) {
-            System.out.println("Number of 'A' are: "+freq);
-        }
-        if (freq2 > 0) {
-            System.out.println("Number of 'C' are: "+freq2);
-        }
-        if (freq3 > 0) {
-            System.out.println("Number of 'G' are: "+freq3);
-        }
-        if (freq4 > 0) {
-            System.out.println("Number of 'T' are: "+freq4);
+            System.out.printf("Number of %c-Nucleotids: %d\n", Nucleotids[i], freq);
         }
     }
 }
-
-//The getting result
-//Number of 'a' are 206
-//Number of 'c' are 212
-//Number of 'g' are 206
-//Number of 't' are 211
