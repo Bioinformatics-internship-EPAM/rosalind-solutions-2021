@@ -12,10 +12,10 @@ public class HammingDistanceTask {
         this.dna2 = dna2;
     }
 
-    public Long evaluateHammingDistance() {
+    public long evaluateHammingDistance() {
         if (dna2.length() != dna1.length()) {
-            throw new IllegalArgumentException("Strings are not equals");
+            throw new IllegalArgumentException("Strings length is not equal");
         }
-        return IntStream.range(0, dna1.length()).filter(i -> dna1.charAt(i)!=dna2.charAt(i)).count();
+        return IntStream.range(0, dna1.length()).filter(i -> dna1.charAt(i) != dna2.charAt(i)).count();
     }
 }

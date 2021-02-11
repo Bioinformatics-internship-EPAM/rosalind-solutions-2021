@@ -8,6 +8,6 @@ public class TranscribeDnaTask {
     }
 
     public String transformToRna() {
-       return dnaString.replace('T', 'U');
+        return dnaString.replace('T', 'U');
     }
 }

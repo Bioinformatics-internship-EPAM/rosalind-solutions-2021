@@ -1,6 +1,6 @@
 package ru.spbstu.tasks;
 
-import ru.spbstu.utils.FastaFile;
+import ru.spbstu.utils.FileUtils;
 
 import java.io.IOException;
 import java.util.Map;
@@ -8,11 +8,11 @@ import java.util.Map;
 public class ComputeGCTask {
 
     private String maxId;
-    private Double maxPercentage = 0.0;
+    private double maxPercentage = 0.0;
 
     public void countMaxGC() throws IOException {
-        Map<String, String> dnaMap = FastaFile.readFileAndReturnDnaMap("compute_gc.fasta");
-        for ( Map.Entry<String, String> entry : dnaMap.entrySet()) {
+        Map<String, String> dnaMap = FileUtils.readFastaFileAndReturnDnaMap("compute_gc.fasta");
+        for (Map.Entry<String, String> entry : dnaMap.entrySet()) {
             String dna = entry.getValue();
             long count = dna.chars().filter(c -> c == 'G' || c == 'C').count();
             double gcPercentage = ((double) count) / ((double) dna.length()) * 100;
@@ -27,7 +27,7 @@ public class ComputeGCTask {
         return maxId;
     }
 
-    public Double getMaxPercentage() {
+    public double getMaxPercentage() {
         return maxPercentage;
     }
 }

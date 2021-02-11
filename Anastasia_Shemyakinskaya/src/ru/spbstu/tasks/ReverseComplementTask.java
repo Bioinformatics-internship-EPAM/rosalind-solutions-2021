@@ -14,12 +14,16 @@ public class ReverseComplementTask {
             switch (c) {
                 case 'A':
                     reverseComplDna.append('T');
+                    break;
                 case 'C':
                     reverseComplDna.append('G');
+                    break;
                 case 'T':
                     reverseComplDna.append('A');
+                    break;
                 case 'G':
                     reverseComplDna.append('C');
+                    break;
             }
         }
         return reverseComplDna.toString();

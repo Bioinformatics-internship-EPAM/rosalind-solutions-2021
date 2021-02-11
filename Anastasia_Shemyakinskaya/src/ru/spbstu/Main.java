@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
         System.out.println("Task #1 Counting DNA Nucleotides");
         CountNucleotidsTask dnaTask = new CountNucleotidsTask("AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC");
         dnaTask.countNucleotides().forEach((k, v) -> System.out.println("Nucleotide: " + k + " count: " + v));
@@ -25,11 +25,7 @@ public class Main {
 
         System.out.println("Task #4 Computing GC Content");
         ComputeGCTask gcTask = new ComputeGCTask();
-        try {
-            gcTask.countMaxGC();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        gcTask.countMaxGC();
         System.out.println(gcTask.getMaxId() + " " + gcTask.getMaxPercentage());
         System.out.println("-------------------------------------------------");
 
@@ -52,29 +48,17 @@ public class Main {
 
         System.out.println("Task #8 Finding a Shared Motif");
         SharedMotifTask lcsmTask = new SharedMotifTask();
-        try {
-            System.out.println(lcsmTask.countMaxSubstring());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        System.out.println(lcsmTask.countMaxSubstring());
         System.out.println("-------------------------------------------------");
 
         System.out.println("Task #9 RNA Splicing");
         RnaSplicingTask splcTask = new RnaSplicingTask();
-        try {
-            System.out.println(splcTask.spliceDna());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        System.out.println(splcTask.spliceDna());
         System.out.println("-------------------------------------------------");
 
         System.out.println("Task #10 Calculating Protein Mass");
         ProteinMassTask prtmTask = new ProteinMassTask("SKADYEK");
-        try {
-            System.out.println(prtmTask.countWeight());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        System.out.println(prtmTask.countWeight());
 
     }
 }
