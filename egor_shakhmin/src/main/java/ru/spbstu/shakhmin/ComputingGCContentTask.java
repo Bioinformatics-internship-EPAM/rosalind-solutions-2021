@@ -1,10 +1,10 @@
 package ru.spbstu.shakhmin;
 
+import ru.spbstu.shakhmin.utils.FastaBlock;
 import ru.spbstu.shakhmin.utils.RosalindUtils;
 
 import java.util.List;
-
-import static ru.spbstu.shakhmin.utils.RosalindUtils.FASTA_LABEL;
+import java.util.stream.StreamSupport;
 
 public final class ComputingGCContentTask implements RosalindTask {
 
@@ -12,35 +12,37 @@ public final class ComputingGCContentTask implements RosalindTask {
 
     @Override
     public String resolve(final List<String> dataset) {
-        var idWithHighestGCContent = "";
-        var highestGCContent = 0.0;
-        var gcCount = 0L;
-        var dnaLength = 0L;
-        for (int i = dataset.size() - 1; i >= 0; i--) {
-            final var line = dataset.get(i);
-            if (line.startsWith(FASTA_LABEL)) {
-                final var currentId = line.substring(1);
-                if (dnaLength != 0L) {
-                    final var currentGCContent = (double) gcCount / dnaLength;
-                    highestGCContent = Math.max(highestGCContent, currentGCContent);
-                    if (highestGCContent == currentGCContent) {
-                        idWithHighestGCContent = currentId;
-                    }
-                }
-                gcCount = 0L;
-                dnaLength = 0L;
-            } else {
-                gcCount += line.chars()
-                        .filter(ch -> ch == 'C' || ch == 'G')
-                        .count();
-                dnaLength += line.length();
-            }
-        }
-        return idWithHighestGCContent + "\n" + (highestGCContent * 100);
+        final var fastaBlockWithHighestGCContent =
+                StreamSupport.stream(RosalindUtils.fastaBlocks(dataset).spliterator(), false)
+                        .map(DNAFastaBlock::new)
+                        .max(DNAFastaBlock::compareTo).orElseThrow(IllegalArgumentException::new);
+        return fastaBlockWithHighestGCContent.getId() + "\n" + fastaBlockWithHighestGCContent.getGCContent();
     }
 
     public static void main(String[] args) throws Exception {
         System.out.println(new ComputingGCContentTask().resolve(
                 RosalindUtils.loadDataset(DATASET_FILE_NAME)));
+    }
+
+    private static final class DNAFastaBlock extends FastaBlock implements Comparable<DNAFastaBlock> {
+        private final double gcContent;
+
+        private DNAFastaBlock(final FastaBlock fastaBlock) {
+            super(fastaBlock);
+            final var gcCount = getDescription()
+                    .chars()
+                    .filter(ch -> ch == 'C' || ch == 'G')
+                    .count();
+            gcContent = ((double) gcCount / getDescription().length()) * 100;
+        }
+
+        public double getGCContent() {
+            return gcContent;
+        }
+
+        @Override
+        public int compareTo(final DNAFastaBlock dnaFastaBlock) {
+            return Double.compare(gcContent, dnaFastaBlock.gcContent);
+        }
     }
 }
