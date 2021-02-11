@@ -10,7 +10,6 @@ public class MyPower {
         return res;
     }
 
-    //builder pattern
     public static int pow(int level) {
         res = 1;
         for (int i = 0; i < level; i++) {

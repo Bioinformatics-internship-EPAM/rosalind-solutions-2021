@@ -7,7 +7,7 @@ public class SaverOutput {
 
     static void GoSave() {
         try {
-            writer = new FileWriter("output.txt");
+            writer = new FileWriter("output.txt" ,Charset.forName("utf-8"));
         }
         catch (Exception e) {
             System.out.println(e.getMessage());

@@ -24,7 +24,7 @@ public class Main {
         int n = 6;
         int[] indexes = new int[n];
         int[] elements = new int[n];
-        MinusMap minusMap = new MinusMap(n);
+        TranslationMap translationMap = new TranslationMap(n);
         //boolean boo = minusMap.GetMap();
         Arrays.fill(indexes, 0);
         for (int i = 0; i < elements.length; i++) {
@@ -33,13 +33,13 @@ public class Main {
 
         //the first permutation
         int count = 0;
-        count = minusMap.GetMap(elements, count);
+        count = translationMap.GetMap(elements, count);
 
         int i = 0;
         while (i < n) {
             if (indexes[i] < i) {
                 swap(elements, i % 2 == 0 ?  0: indexes[i], i);
-                count = minusMap.GetMap(elements, count);
+                count = translationMap.GetMap(elements, count);
                 indexes[i]++;
                 i = 0;
             }
@@ -50,6 +50,7 @@ public class Main {
         }
         System.out.println(count);
     }
+    MyWriter.QuitRosalind();
 }
 
 //Total lines

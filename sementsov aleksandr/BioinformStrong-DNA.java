@@ -34,7 +34,7 @@ public class Main {
                     freq++;
                 }
             }
-            System.out.printf("Number of %c-Nucleotids: %d\n", Nucleotids[i], freq);
+            System.out.printf("%d ", freq);
         }
     }
 }
