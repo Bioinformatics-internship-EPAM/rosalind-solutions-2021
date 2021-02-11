@@ -1,1 +1,3 @@
-rootProject.name = "rosalind-solutions-2021"
+include("egor_shakhmin")
+
+rootProject.name = "rosalind-solutions"
