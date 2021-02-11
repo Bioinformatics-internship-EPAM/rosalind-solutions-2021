@@ -41,6 +41,6 @@ public class ProteinMass {
     }
 
     public static void main(String[] args) {
-        Helpers.executeStringInput(ProteinMass::count, Objects::toString);
+        Helpers.executeStringInput(ProteinMass::count, str -> { }, Objects::toString);
     }
 }

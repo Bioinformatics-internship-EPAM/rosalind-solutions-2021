@@ -9,7 +9,7 @@ import java.util.Map;
 public class CountingDNANucleotide {
 
     public static void main(String[] args) {
-        Helpers.executeStringInput(CountingDNANucleotide::countDNANucleotides);
+        Helpers.executeStringInput(CountingDNANucleotide::countDNANucleotides, Helpers::checkDnaFast);
     }
 
     public static String countDNANucleotides(final String data) {

@@ -7,9 +7,6 @@ import java.util.stream.IntStream;
 public class EnumeratingGeneOrders {
 
     public static Set<List<Integer>> count(int n) {
-        if (n > 7 || n < 1) {
-            throw new IllegalArgumentException("n should be less than 8 and positive");
-        }
 
         return getPermutations(IntStream.rangeClosed(1, n).boxed().collect(Collectors.toList()));
 
@@ -42,6 +39,11 @@ public class EnumeratingGeneOrders {
             System.err.println("Couldn't read a number, or it is not positive");
             return;
         }
+        if (n > 7 || n < 1) {
+            System.err.println("n should be less than 8 and positive");
+            return;
+        }
+
         final Set<List<Integer>> permutations = count(n);
         System.out.println(permutations.size());
         permutations.forEach(var -> System.out.println(var.stream()

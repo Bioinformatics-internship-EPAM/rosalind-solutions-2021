@@ -7,9 +7,6 @@ import java.util.Scanner;
 public class PointMutationsCounter {
 
     public static int count(final String dna1, final String dna2) {
-        Helpers.checkDnaFast(dna1);
-        Helpers.checkDnaFast(dna2);
-
         if (dna1.length() != dna2.length()) {
             throw new IllegalArgumentException("Strings should have the same length");
         }
@@ -29,6 +26,8 @@ public class PointMutationsCounter {
         try (Scanner scanner = new Scanner(System.in)) {
             final String dna1 = scanner.nextLine();
             final String dna2 = scanner.nextLine();
+            Helpers.checkDnaFast(dna1);
+            Helpers.checkDnaFast(dna2);
             System.out.println(count(dna1, dna2));
         }
     }

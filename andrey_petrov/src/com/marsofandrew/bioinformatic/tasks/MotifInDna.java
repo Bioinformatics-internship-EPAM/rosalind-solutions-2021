@@ -9,9 +9,6 @@ import java.util.Scanner;
 public class MotifInDna {
 
     public static List<Integer> count(final String dna, final String subDna) {
-        Helpers.checkDnaFast(dna);
-        Helpers.checkDnaFast(subDna);
-
         if (dna.length() < subDna.length()) {
             throw new IllegalArgumentException("subDNA couldn't be larger than DNA");
         }
@@ -34,6 +31,8 @@ public class MotifInDna {
         try (Scanner scanner = new Scanner(System.in)) {
             final String dna = scanner.nextLine();
             final String subDna = scanner.nextLine();
+            Helpers.checkDnaFast(dna);
+            Helpers.checkDnaFast(subDna);
             count(dna, subDna).forEach(pos -> System.out.printf("%d ", pos));
             System.out.println();
         }

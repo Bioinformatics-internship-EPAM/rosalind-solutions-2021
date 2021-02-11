@@ -79,9 +79,6 @@ public class RnaToProteinTranslator {
         if (rna == null) {
             throw new IllegalArgumentException("RNA couldn't be null");
         }
-        if (rna.length() > 10_000) {
-            throw new IllegalArgumentException("Max size of RNA is 10_000");
-        }
 
         StringBuilder proteins = new StringBuilder();
         String rnaUpper = rna.toUpperCase();
@@ -98,6 +95,10 @@ public class RnaToProteinTranslator {
     }
 
     public static void main(String[] args) {
-        Helpers.executeStringInput(RnaToProteinTranslator::convert);
+        Helpers.executeStringInput(RnaToProteinTranslator::convert, rna -> {
+            if (rna.length() > 10_000) {
+                throw new IllegalArgumentException("Max size of RNA is 10_000");
+            }
+        });
     }
 }

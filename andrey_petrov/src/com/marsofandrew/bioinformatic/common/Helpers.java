@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public final class Helpers {
@@ -19,13 +20,15 @@ public final class Helpers {
         return builder.toString();
     }
 
-    public static void executeStringInput(Function<String, String> executor) {
-        executeStringInput(executor, str -> str);
+    public static void executeStringInput(Function<String, String> executor, Consumer<String> validator) {
+        executeStringInput(executor, validator, str -> str);
     }
 
-    public static <T> void executeStringInput(Function<String, T> executor, Function<T, String> converter) {
+    public static <T> void executeStringInput(
+            Function<String, T> executor, Consumer<String> validator, Function<T, String> converter) {
         try (Scanner scanner = new Scanner(System.in)) {
             String dataSet = scanner.nextLine();
+            validator.accept(dataSet);
             var result = executor.apply(dataSet);
             System.out.println(converter.apply(result));
         }

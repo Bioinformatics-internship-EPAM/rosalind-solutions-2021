@@ -5,11 +5,10 @@ import com.marsofandrew.bioinformatic.common.Helpers;
 public class DnaToRnaConverter {
 
     public static void main(String[] args) {
-        Helpers.executeStringInput(DnaToRnaConverter::convert);
+        Helpers.executeStringInput(DnaToRnaConverter::convert, Helpers::checkDnaFast);
     }
 
     public static String convert(final String dna) {
-        Helpers.checkDnaFast(dna);
         return dna.toUpperCase().replace('T', 'U');
     }
 }
