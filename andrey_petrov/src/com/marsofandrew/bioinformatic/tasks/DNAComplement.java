@@ -25,6 +25,6 @@ public class DNAComplement {
     }
 
     public static void main(String[] args) {
-        Helpers.executeStringInput(DNAComplement::complement);
+        Helpers.executeStringInput(DNAComplement::complement, Helpers::checkDnaFast);
     }
 }
