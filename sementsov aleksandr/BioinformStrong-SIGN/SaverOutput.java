@@ -5,7 +5,7 @@ import java.nio.charset.Charset;
 public class SaverOutput {
     static FileWriter writer;
 
-    static void GoSave() {
+    static void goSave() {
         try {
             writer = new FileWriter("output.txt" ,Charset.forName("utf-8"));
         }
@@ -14,7 +14,7 @@ public class SaverOutput {
         }
     }
 
-    static void GoSave(String fileType) {
+    static void goSave(String fileType) {
         try {
             writer = new FileWriter("output." + fileType, Charset.forName("utf-8"));
         }
@@ -23,7 +23,7 @@ public class SaverOutput {
         }
     }
 
-    static public void QuitRosalind() {
+    static public void quitRosalind() {
         try {
             writer.close();
         }

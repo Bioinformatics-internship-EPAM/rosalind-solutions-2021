@@ -21,21 +21,21 @@ public class ExclusiveTxtPrsr {
         return res;
     }
 
-    static String ParseAlphabet(Scanner scanner) {
+    static String parseAlphabet(Scanner scanner) {
         int c;
         return scanner.nextLine().replaceAll("\s", "");
     }
 
-    static int ParseWidth(Scanner scanner) {
+    static int parseWidth(Scanner scanner) {
         return scanner.nextInt();
     }
 
-    public static void Parse(String stringWay) {
+    public static void parse(String stringWay) {
         try {
             FileReader reader = new FileReader(stringWay, Charset.forName("utf-8"));
             Scanner scanner = new Scanner(reader);
-            parsedAlphabet = ParseAlphabet(scanner);
-            parsedNumber = ParseWidth(scanner);
+            parsedAlphabet = parseAlphabet(scanner);
+            parsedNumber = parseWidth(scanner);
             scanner.close();
             reader.close();
         }
@@ -44,11 +44,11 @@ public class ExclusiveTxtPrsr {
         }
     }
 
-    public static void GoParse() {
+    public static void goParse() {
         Parse(findDataSet());
     }
 
-    public static void GoParse(String stringWay) {
+    public static void goParse(String stringWay) {
         Parse(stringWay);
     }
 

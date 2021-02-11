@@ -30,8 +30,6 @@ public class Main {
                 "V" +
                 "W" +
                 "Y";
-        int c = s.indexOf('L');
-        System.out.println(c);
 
         //the second column mass protein
         double[] z = {
@@ -57,13 +55,24 @@ public class Main {
             163.06333
         };
 
-        String loadedData = "PWCMLSENHYAPYIHATFPRHFTYISKAWWATCYAQMGSCGQGFDIVTSDPSVMVCQPALACDMKAAMDYEVIIQSPTGDLPPLAAREVCPPPVYYLYQCLANHVDAERFIDMWMALAHDLLQATLVEKMTRIERGHSCRDHACMFFYCIGCAPAGNRDASDWLTLKFCIVLEAHVNFRMRQGKLPAEMVLAYQQRIPTLELNPAMGVPKCNTMDEDPPPYQMKQTPVNKACNACTTDEFINITTYEMKDEVRSFDDRGSGPTPIRLMINDTKYGPFVLWYATVCIGFPHEYASSYWILKWRVVKFKVKGCWHCWDPTKMGIMSLYFQNFNTMYIDANYSYRFPVSNIETPDPQPINKIKAPHYLAQVYYRYITTYWKWHFDEWTDIGCDQDVMQHWGKAKLEFDSPAGDKVQNAAGNATRMIMQLRIAKACNMFPIMQCYTLYWRDGSVLRFCHTIQTADVGVQAYKKNPAEICPCDNQDRTDWDGTKMWMEQQQFFLQHRESFFKFYKSQIKWCTYMNEYVDQKDDSGRRLTALTEWPKTMMWWEYSGLNTEANRCMITKSQGIEERPQCIAMPEWPASSQVVMADLNDECQHITNTLLYNHPASFRFPKENWIFMIPRAQWPKMHDWGHYNKHKSILRLKPFTCWSYHVMSYCLDVIDVTYLSKFMIIMQTMNFQNVVCMQGREYIAKNGFIQDLLVGMNMQFNMTQSPYQSAFWEDHFPQKCRAHEDSHFQYVKELHQDLFNKFHYFIESPNQVFVILESMQKNNHIRCHNWGFFKTCLSKLDENPTKAIKALSDTMDNEKGWGIIQSALDFAFFTHMTWTGFSMDQTNSHEKYEQARTYSIHQDSWNDCACSYHSWVLEECRPAPLNEGQYIKDPTWIKGNCEFPLFSCPLDLSRC";
-        char[] preparedData = loadedData.toCharArray();
+        String loadedData = "";
+        try {
+            FileReader reader = new Filereader("rosalind-PRTM.txt", Charset.forname("utf-8"));
+            Scanner scanner = new Scanner(reader);
+            loadedData = scanner.nextLine();
+            scanner.close();
+            reader.close();
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        
         double summ = 0;
 
-        for (int i = 0; i < preparedData.length; i++) {
+        for (int i = 0; i < loadedData.length(); i++) {
+            
             //each letter is assigned its own mass value
-            summ += z[s.indexOf(preparedData[i])];
+            summ += z[s.indexOf(loadedData.charAt(i))];
         }
 
         System.out.println(String.format("%.3f", summ));

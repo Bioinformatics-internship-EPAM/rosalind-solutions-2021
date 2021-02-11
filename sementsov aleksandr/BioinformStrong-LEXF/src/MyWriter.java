@@ -4,7 +4,7 @@ import java.io.Writer;
 import java.io.*;
 
 public class MyWriter extends SaverOutput {
-    public static void WriteResult(char c) {
+    public static void writeResult(char c) {
         try
         {
             writer.append(c);
@@ -15,7 +15,7 @@ public class MyWriter extends SaverOutput {
         }
     }
 
-    public static void WriteResult(String s) {
+    public static void writeResult(String s) {
         try
         {
             writer.write(s);

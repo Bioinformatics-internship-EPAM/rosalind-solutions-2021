@@ -3,42 +3,44 @@
 
 package com.company;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.nio.charset.Charset;
+import java.util.Scanner;
+
 public class Main {
 
     public static void main(String[] args) {
+        
+        String s = "";
 
         //To load a dataset
-        String s = "TCATATTCTCTTCTCGTTCAGGGGTCAGGCGCGTGCGCAGGACACGATAGGGCAGTGGCTGTATTGACACGCCGGAATTATCTCTCAGTCGCGCGAGTACATGTGAAGTTGAAAGAATACCGGACAGTATGGCCGTGGAAAGTTAATTTTGTTTAAGGCTTTACTGCCTGCAATGACCTCCACTCGCAGTCTGGGCCCTACGTGAACCGAAGGAAGACTATGGGGTTACCCGCGAACTGAGTTTACTGAACTGCACGGTTTGTGGATAGGACTCTCGGGTCTAGTGGGCAAGTGAACCCCGCGCTGTGTACCGCCGTTGCAAGCAGTTTCGGTTATGTATGCGAGTATGGTGCCAGAGCCCTAGATATGGATCGGTCCACATCAGTTGAATCCCCGCCAGAGTACCACGCCGGCCAAGCTCGGGTCCAGCGGAGCGAAGCCCCAGACTCGGCCACGCCTGACCTATGGGCGGGTTTACTTGTTCCCATCGGTGGTTAGCCGCCGCCCGCCTAGAGTCAATCTTCACCGCGGTCGTAGATTACAGAGAGCCATTCTTGTAGATTTGGAGTCTGTCCACAGACTCGCTTGTAGCGCGTGATCGGCTACACTTTTTAACATATTCACTTTTCAAGGTTAGCTTAATACTAATAGGAAAATTTCTATCTGTATCTTGCATCCGAGAGGGAGTATTATCCGTGGTACGAGATTCCGTGGTTTGGAGAGATGAACAGCACAGTATGGGCACAGGTCCCGTTTCACAACACGTTTTCTACTCTGAACCCCTTGCCAAGCACGTATAACCTAACAATCCCTGGGCAACTCCTACGTTGTGAAAAAATATGGAACTGTGCCTTATCTGGAGCTTGCTTTCCAAATATTGCAGCGTCAGCAACGGAATGATTGATCGTAGCCCCGAGATT";
-
-        //To convert to char array
-        char[] c = s.toCharArray();
-
-        //To init frequency for A, C, G and T components
-        int freq =0, freq2 = 0,freq3 = 0,freq4=0;
-
-        //To realize the algorithm
-        for(int i = 0; i < c.length; i++) {
-            if(c[i]=='A') {
-                c[i] = 'T';
-                continue;
-            }
-            if(c[i]=='T') {
-                c[i] = 'A';
-                continue;
-            }
-            if(c[i]=='G') {
-                c[i] = 'C';
-                continue;
-            }
-            if(c[i]=='C') {
-                c[i] = 'G';
-                continue;
-            }
+        try {
+            FileReader reader = new FileReader("rosalind-REVC.txt", Charset.forName("utf-8"));
+            Scanner scanner = new Scanner(reader);
+            s = scanner.nextLine();
+            scanner.close();
+            reader.close();
         }
-
-        //To set dataset-result
-        for(int i = 0; i< c.length; i++) {
-            System.out.print(c[c.length - i - 1]);
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        char[] nucleotids = new char[]{'A', 'C', 'T', 'G'};
+        int j = 0;
+        //To realize the algorithm
+        try {
+            FileWriter writer = new FileWriter("output.txt", Charset.forName("utf-8"));
+            for (int i = s.length() - 1; i > -1; i--) {
+                for (j = 0; j < 4; j++) {
+                    if (s.charAt(i) == nucleotids[j]) {
+                        writer.append(nucleotids[((j + 2) % 4)]);
+                    }
+                }
+            }
+            writer.close();
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 }

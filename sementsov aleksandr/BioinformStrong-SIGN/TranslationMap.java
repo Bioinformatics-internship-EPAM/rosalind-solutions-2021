@@ -12,21 +12,21 @@ public class TranslationMap {
         static int[] buffer;
         static int sizeOfBuffer;
 
-        static void BufferInitializator(int[] sourceData) {
+        static void bufferInitializator(int[] sourceData) {
             sizeOfBuffer = sourceData.length;
             buffer = new int[sizeOfBuffer];
         }
 
-        public static int[] ToReWrite(int[] sourceData) {
-            BufferInitializator(sourceData);
+        public static int[] toReWrite(int[] sourceData) {
+            bufferInitializator(sourceData);
             for (int k = 0; k < sizeOfBuffer; k++) {
                 buffer[k] = sourceData[k];
             }
             return buffer;
         }
 
-        public static int[] ReverseWrite(int[] sourceData) {
-            BufferInitializator(sourceData);
+        public static int[] reverseWrite(int[] sourceData) {
+            bufferInitializator(sourceData);
             for (int k = sizeOfBuffer-1; k > -1; k--) {
                 buffer[k] = sourceData[k];
             }
@@ -78,23 +78,23 @@ public class TranslationMap {
                 }
             }
             if (i+1 <  MyPower.pow(n, numeration)) {
-                translationMap[i+1] = ReWriter.ReverseWrite(translationMap[i]);
+                translationMap[i+1] = ReWriter.reverseWrite(translationMap[i]);
             }
             else { System.out.println("TranslationMap is ready!"); }
         }
     }
 
     TranslationMap(int width) {
-        ConstructMap(width, 2);
+        constructMap(width, 2);
     }
 
     TranslationMap(int width, int numeration) {
-        ConstructMap(width, numeration);
+        constructMap(width, numeration);
     }
 
     //каждый из этих визуализаторов, GetMap, различными способами визуализирует получившуюся карту перевода и разными способами сопоставляет её с исходными данными
     //поэтому нет необходимости реализовывать на данный момент метод, общий для всех этих перегрузок
-    public boolean GetMap() {
+    public boolean getMap() {
         try {
             for (int i = 0; i < translationMap.length; i++) {
                 for (int j = 0; j < translationMap[i].length; j++) {
@@ -110,7 +110,7 @@ public class TranslationMap {
         }
     }
 
-    public void GetMap(int[] combination) {
+    public void getMap(int[] combination) {
         for (int i = 0; i < translationMap.length; i++) {
             for (int j = 0; j < translationMap[i].length; j++) {
                 if (translationMap[i][j] == 0) {
@@ -131,19 +131,19 @@ public class TranslationMap {
             for (int j = 0; j < translationMap[i].length; j++) {
                 if (translationMap[i][j] == 0) {
                     System.out.print(numberArray[j]*(-1));
-                    MyWriter.WriteResult('-');
-                    MyWriter.WriteResult((char)numberArray[j]);
+                    MyWriter.writeResult('-');
+                    MyWriter.writeResult((char)numberArray[j]);
                 }
                 else {
                     System.out.print(numberArray[j]);
-                    MyWriter.WriteResult((char)numberArray[j]);
+                    MyWriter.writeResult((char)numberArray[j]);
                 }
                 System.out.print(" ");
-                MyWriter.WriteResult(' ');
+                MyWriter.writeResult(' ');
             }
             counter++;
             System.out.println();
-            MyWriter.WriteResult('\n');
+            MyWriter.writeResult('\n');
         }
         return counter;
     }
