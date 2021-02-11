@@ -5,6 +5,8 @@ import ru.spbstu.shakhmin.utils.RosalindUtils;
 
 import java.util.List;
 import java.util.TreeMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public final class CountingDNANucleotideTask implements RosalindTask {
 
@@ -12,13 +14,11 @@ public final class CountingDNANucleotideTask implements RosalindTask {
 
     @Override
     public String resolve(final List<String> dataset) {
-        final var symbolToCount = new TreeMap<String, Integer>();
-        for (final var ch : dataset.get(0).toCharArray()) {
-            symbolToCount.compute(
-                    String.valueOf(ch),
-                    (symbol, count) -> count == null ? 1 : count + 1);
-        }
-        return Joiner.on(" ").join(symbolToCount.values());
+        final var symbolToCount = dataset.get(0).chars()
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.groupingBy(
+                        Function.identity(), Collectors.counting()));
+        return Joiner.on(" ").join(new TreeMap<>(symbolToCount).values());
     }
 
     public static void main(String[] args) throws Exception {

@@ -55,15 +55,11 @@ public final class ConsensusAndProfileTask implements RosalindTask {
 
         private void updateFreqOfDNASymbol(final int position,
                                            final String dnaString) {
-            dnaSymbolToFreq.compute(
-                    String.valueOf(dnaString.charAt(position)),
-                    (dnaSymbol, frequencies) -> {
-                        if (frequencies == null) {
-                            frequencies = new ArrayList<>(Collections.nCopies(dnaString.length(), 0));
-                        }
-                        frequencies.set(position, frequencies.get(position) + 1);
-                        return frequencies;
-                    });
+            final var dnaSymbol = String.valueOf(dnaString.charAt(position));
+            final var frequencies = dnaSymbolToFreq.computeIfAbsent(
+                    dnaSymbol,
+                    symbol -> new ArrayList<>(Collections.nCopies(dnaString.length(), 0)));
+            frequencies.set(position, frequencies.get(position) + 1);
         }
 
         private void buildConsensus(final long dnaLength) {

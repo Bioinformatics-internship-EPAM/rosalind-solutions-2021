@@ -13,6 +13,7 @@ public final class TranslatingRNAIntoProteinTask implements RosalindTask {
     private static final String DATASET_FILE_NAME = "translating_rna_into_protein.txt";
     private static final String RNA_CODON_TABLE_FILE_NAME = "rna_codon_table.txt";
     private static final String STOP = "Stop";
+    private static final int RNA_CODON_LENGTH = 3;
 
     private final Map<String, String> rnaCodonToAminoAcid;
 
@@ -26,7 +27,9 @@ public final class TranslatingRNAIntoProteinTask implements RosalindTask {
     @Override
     public String resolve(final List<String> dataset) {
         final var protein = new StringBuilder();
-        for (final var rnaCodon : Splitter.fixedLength(3).split(dataset.get(0))) {
+        final var rnaCodons = Splitter.fixedLength(RNA_CODON_LENGTH)
+                .split(dataset.get(0));
+        for (final var rnaCodon : rnaCodons) {
             final var aminoAcid = rnaCodonToAminoAcid.get(rnaCodon);
             if (STOP.equals(aminoAcid)) {
                 break;

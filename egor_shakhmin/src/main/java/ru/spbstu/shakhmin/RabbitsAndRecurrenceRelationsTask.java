@@ -11,7 +11,9 @@ public final class RabbitsAndRecurrenceRelationsTask implements RosalindTask {
     @Override
     public String resolve(final List<String> dataset) {
         final var inputData = dataset.get(0).split(" ");
-        return String.valueOf(countRabbits(Integer.parseInt(inputData[0]), Integer.parseInt(inputData[1])));
+        final var monthsCount = Integer.parseInt(inputData[0]);
+        final var rabbitPairsToProduce = Integer.parseInt(inputData[1]);
+        return String.valueOf(countRabbits(monthsCount, rabbitPairsToProduce));
     }
 
     private static long countRabbits(final int monthsCount, final int rabbitPairsToProduce) {
