@@ -1,4 +1,6 @@
-import java.util.LinkedList;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -7,15 +9,13 @@ public class BA10A {
     private static String filename = "ba10a.txt";
 
     // Probability of a Hidden Path Problem
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, URISyntaxException {
         // Read HMM from file
-        List<Section> sections = new LinkedList<>() {
-            {
-                add(Section.HIDDEN_PATH);
-                add(Section.STATES);
-                add(Section.TRANSITION_MATRIX);
-            }
-        };
+        List<Section> sections = Arrays.asList(
+                Section.HIDDEN_PATH,
+                Section.STATES,
+                Section.TRANSITION_MATRIX
+        );
         HMM hmm = new HMM(filename);
         hmm.readData(sections);
 
@@ -30,6 +30,7 @@ public class BA10A {
         for (int i = 0; i < hiddenPath.length() - 1; ++i) {
             prob *= transitionMatrix.get(hiddenPath.substring(i, i + 2));
         }
+
         System.out.println(prob);
     }
 }

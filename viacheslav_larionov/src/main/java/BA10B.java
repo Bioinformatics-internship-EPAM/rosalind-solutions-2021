@@ -1,3 +1,5 @@
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.*;
 
 public class BA10B {
@@ -5,17 +7,15 @@ public class BA10B {
     private static String filename = "ba10b.txt";
 
     // Compute the Probability of an Outcome Given a Hidden Path
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, URISyntaxException {
         // Read HMM from file
-        List<Section> sections = new LinkedList<>() {
-            {
-                add(Section.OUTCOME_SEQUENCE);
-                add(Section.OUTCOME_ALPHABET);
-                add(Section.HIDDEN_PATH);
-                add(Section.STATES);
-                add(Section.EMISSION_MATRIX);
-            }
-        };
+        List<Section> sections = Arrays.asList(
+                Section.OUTCOME_SEQUENCE,
+                Section.OUTCOME_ALPHABET,
+                Section.HIDDEN_PATH,
+                Section.STATES,
+                Section.EMISSION_MATRIX
+        );
         HMM hmm = new HMM(filename);
         hmm.readData(sections);
 

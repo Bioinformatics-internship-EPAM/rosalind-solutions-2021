@@ -1,64 +1,66 @@
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import javax.naming.SizeLimitExceededException;
+import java.io.IOException;
 import java.math.BigInteger;
+import java.net.URISyntaxException;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class FIBD {
 
     private static String filename = "fibd.txt";
 
-    public static Integer[] getMethodParameters(final String filename) {
-        ClassLoader classLoader = FIBD.class.getClassLoader();
-        List<String> params = new LinkedList<>();
+    public static int[] getMethodParameters(final String filename)
+            throws IOException, URISyntaxException, SizeLimitExceededException {
+        List<String> lines = Utils.readLinesFromFile(filename);
+        if (lines.size() != 1)
+            throw new SizeLimitExceededException("Must be only one parameters string in file");
+        int[] params = Arrays.stream(lines.get(0).split("\\s+"))
+                .mapToInt(Integer::parseInt)
+                .toArray();
 
-        try (InputStream rd = classLoader.getResourceAsStream(filename);
-             InputStreamReader inp = new InputStreamReader(Objects.requireNonNull(rd));
-             BufferedReader reader = new BufferedReader(inp)) {
-            String line;
-            if ((line = reader.readLine()) != null) {
-                params.addAll(Arrays.stream(line.split("\\s+"))
-                        .collect(Collectors.toList()));
-            } else {
-                throw new Exception("No Mortal Fibonacci Rabbits parameters in file");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (params.length != 2) {
+            throw new SizeLimitExceededException("Must be only 2 parameters:" +
+                    " months count and life months count");
+        } else if (params[0] > 100 || params[1] > 20) {
+            throw new IllegalArgumentException("Months count must be <= 100" +
+                    " and rabbits life months count must be <= 20");
         }
 
-        return params.stream().map(Integer::parseInt).toArray(Integer[]::new);
+        return params;
     }
 
     // Mortal Fibonacci Rabbits
-    public static void main(String[] args) {
-        Integer[] params = getMethodParameters(filename);
+    public static void main(String[] args)
+            throws IOException, URISyntaxException, SizeLimitExceededException {
+        int[] params = getMethodParameters(filename);
+        int monthsCount = params[0];
+        int lifeMonthsCount = params[1];
 
-        if (params.length == 2
-                && (params[0] <= 100 && params[1] <= 20)) {
-            int all_months = params[0];
-            int life_months = params[1];
-
-            BigInteger[] generation = new BigInteger[all_months];
+        if (monthsCount == 0 || lifeMonthsCount == 0) {
+            throw new IllegalArgumentException("Minimal months count = 1," +
+                    " minimal rabbits life months count = 1");
+        } else if (monthsCount == 1) {
+            System.out.println(1);
+        } else if (lifeMonthsCount == 1) {
+            System.out.println(0);
+        } else {
+            BigInteger[] generation = new BigInteger[monthsCount];
             generation[0] = BigInteger.valueOf(1);
             generation[1] = generation[0];
 
-            for (int i = 2; i < all_months; ++i) {
+            for (int i = 2; i < monthsCount; ++i) {
                 BigInteger tmp = generation[i - 1].add(generation[i - 2]);
 
-                if (i == life_months) {
+                if (i == lifeMonthsCount) {
                     tmp = tmp.subtract(BigInteger.valueOf(1));
-                } else if (i > life_months) {
-                    tmp = tmp.subtract(generation[i - life_months - 1]);
+                } else if (i > lifeMonthsCount) {
+                    tmp = tmp.subtract(generation[i - lifeMonthsCount - 1]);
                 }
 
                 generation[i] = tmp;
             }
 
-            System.out.println(generation[all_months - 1]);
+            System.out.println(generation[monthsCount - 1]);
         }
     }
 }

@@ -1,3 +1,11 @@
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+
+import javax.naming.SizeLimitExceededException;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -6,56 +14,43 @@ public class CONS {
     private static String filename = "cons.txt";
 
     // Consensus and Profile
-    public static void main(String[] args) {
-        HashMap<String, String> fastaRecords = Utils.getFastaRecords(filename);
+    public static void main(String[] args)
+            throws SizeLimitExceededException, IOException, URISyntaxException {
+        List<Pair<String, String>> fastaRecords = Utils.getFastaRecords(filename);
 
         // Assumed that all DNAs in file have equal length
-        int dnaLength = fastaRecords.values().toArray(String[]::new)[0].length();
+        int dnaLength = fastaRecords.get(0).getValue().length();
 
         // Initialize profile matrix
-        Map<Character, Integer[]> nucleobasesMap = new LinkedHashMap<>() {
+        Map<Character, int[]> nucleobasesMap = new LinkedHashMap<>() {
             {
-                put('A', new Integer[dnaLength]);
-                put('C', new Integer[dnaLength]);
-                put('G', new Integer[dnaLength]);
-                put('T', new Integer[dnaLength]);
+                put('A', new int[dnaLength]);
+                put('C', new int[dnaLength]);
+                put('G', new int[dnaLength]);
+                put('T', new int[dnaLength]);
             }
         };
 
         // Form profile matrix
-        nucleobasesMap.keySet().forEach(nucleobase ->
-                Arrays.fill(nucleobasesMap.get(nucleobase), 0));
-
-        for (String key : fastaRecords.keySet()) {
-            String dnaString = fastaRecords.get(key);
-            IntStream.range(0, dnaLength)
-                    .forEach(k -> nucleobasesMap.get(dnaString.charAt(k))[k] += 1);
+        for (Pair<String, String> record : fastaRecords) {
+            String dnaString = record.getValue();
+            for (int k = 0; k < dnaLength; ++k) {
+                nucleobasesMap.get(dnaString.charAt(k))[k] += 1;
+            }
         }
 
         // Find one of the consensus strings
         StringBuilder consensusStr = new StringBuilder();
-        for (int i = 0; i < dnaLength; ++i) {
-            int biggestFrequency = 0;
-            int nucleobaseFrequency;
-            char mostFoundedNucleobase = ' ';
-
-            for (Character key : nucleobasesMap.keySet()) {
-                if ((nucleobaseFrequency = nucleobasesMap.get(key)[i])
-                        > biggestFrequency) {
-                    biggestFrequency = nucleobaseFrequency;
-                    mostFoundedNucleobase = key;
-                }
-            }
-            consensusStr.append(mostFoundedNucleobase);
-        }
+        IntStream.range(0, dnaLength).forEach(i -> {
+            nucleobasesMap.entrySet().stream()
+                    .map(pair -> ImmutablePair.of(pair.getKey(), pair.getValue()[i]))
+                    .max(Comparator.comparingInt(Pair::getValue))
+                    .ifPresent(pair -> consensusStr.append(pair.getKey()));
+        });
 
         // Print consensus string and profile matrix
         System.out.println(consensusStr);
-        nucleobasesMap.keySet().forEach(nucleobase -> {
-            System.out.format("%c:", nucleobase);
-            Arrays.stream(nucleobasesMap.get(nucleobase))
-                    .forEach(value -> System.out.format(" %d", value));
-            System.out.println();
-        });
+        nucleobasesMap.forEach((k, v) ->
+            System.out.format("%c: %s\n", k, StringUtils.join(ArrayUtils.toObject(v), " ")));
     }
 }

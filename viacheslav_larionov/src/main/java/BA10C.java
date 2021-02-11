@@ -1,21 +1,25 @@
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class BA10C {
 
     private static String filename = "ba10c.txt";
 
     // Implement the Viterbi Algorithm
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, URISyntaxException {
         // Read HMM from file
-        List<Section> sections = new LinkedList<>() {
-            {
-                add(Section.OUTCOME_SEQUENCE);
-                add(Section.OUTCOME_ALPHABET);
-                add(Section.STATES);
-                add(Section.TRANSITION_MATRIX);
-                add(Section.EMISSION_MATRIX);
-            }
-        };
+        List<Section> sections = Arrays.asList(
+                Section.OUTCOME_SEQUENCE,
+                Section.OUTCOME_ALPHABET,
+                Section.STATES,
+                Section.TRANSITION_MATRIX,
+                Section.EMISSION_MATRIX
+        );
         HMM hmm = new HMM(filename);
         hmm.readData(sections);
 
@@ -41,42 +45,30 @@ public class BA10C {
         }
 
         // Count probabilities sequence
-        for (int j = 1; j < outcomeSequence.length(); ++j) {
+        IntStream.range(1, outcomeSequence.length()).forEach(j -> {
             char symbol = outcomeSequence.charAt(j);
-
             T1.add(new LinkedList<>());
             T2.add(new LinkedList<>());
 
-            for (int i = 0; i < states.length; ++i) {
-                double maxValue = -1;   // max probability value
-                int maxIdx = 0;         // state from which
-
-                for (int k = 0; k < states.length; ++k) {
-                    double tmp = T1.get(j - 1).get(k)
-                            * transitionMatrix.get(states[k].concat(states[i]))
-                            * emissionMatrix.get(states[i] + symbol);
-                    if (tmp > maxValue) {
-                        maxValue = tmp;
-                        maxIdx = k;
-                    }
-                }
-
-                T1.get(j).add(i, maxValue);
-                T2.get(j).add(i, maxIdx);
-            }
-        }
+            IntStream.range(0, states.length).forEach(i ->
+                    IntStream.range(0, states.length).boxed()
+                            .map(k-> ImmutablePair.of(k, T1.get(j - 1).get(k)
+                                    * transitionMatrix.get(states[k].concat(states[i]))
+                                    * emissionMatrix.get(states[i] + symbol)))
+                            .max(Comparator.comparingDouble(Pair::getValue))
+                            .ifPresent(pair -> {
+                                T1.get(j).add(pair.getValue());
+                                T2.get(j).add(pair.getKey());
+                            })
+            );
+        });
 
         // Backward: find Viterbi path using founded earlier
         // pointers to most probable states
-        int argMaxIdx = 0;
-        double maxValue = T1.get(outcomeSequence.length() - 1).get(0);
-        for (int i = 1; i < states.length; ++i) {
-            double tmp = T1.get(outcomeSequence.length() - 1).get(i);
-            if (tmp > maxValue) {
-                maxValue = tmp;
-                argMaxIdx = i;
-            }
-        }
+        int argMaxIdx =IntStream.range(0, states.length)
+                .boxed()
+                .max(Comparator.comparingDouble(i -> T1.get(outcomeSequence.length() - 1).get(i)))
+                .orElseThrow(NoSuchElementException::new);
 
         StringBuilder hiddenPath = new StringBuilder(states[argMaxIdx]);
 

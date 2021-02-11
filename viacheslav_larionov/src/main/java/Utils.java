@@ -1,110 +1,61 @@
-import java.io.*;
-import java.security.InvalidParameterException;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+
+import javax.naming.SizeLimitExceededException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Utils {
 
-    public static List<String> readDNAStringsFromFile(final String filename) {
-        ClassLoader classLoader = Utils.class.getClassLoader();
-        List<String> dnas = new LinkedList<>();
-
-        try (InputStream rd = classLoader.getResourceAsStream(filename);
-             InputStreamReader inp = new InputStreamReader(Objects.requireNonNull(rd));
-             BufferedReader reader = new BufferedReader(inp)) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                dnas.add(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    public static List<String> readLinesFromFile(final String filename)
+            throws URISyntaxException, IOException{
+        URL resource;
+        if ((resource = Utils.class.getResource(filename)) != null) {
+            return Files.lines(Paths.get(resource.toURI()))
+                    .collect(Collectors.toList());
+        } else {
+            throw new IllegalArgumentException("File '" + filename + "' not found");
         }
-
-        return dnas;
     }
 
-    public static LinkedHashMap<String, String> getFastaRecords(final String filename) {
-        ClassLoader classLoader = Utils.class.getClassLoader();
-        LinkedHashMap<String, String> fastaRecordsMap = new LinkedHashMap<>();
+    public static List<Pair<String, String>> getFastaRecords(final String filename)
+            throws URISyntaxException, IOException, SizeLimitExceededException {
+        List<String> lines = readLinesFromFile(filename);
 
-        try (InputStream rd = classLoader.getResourceAsStream(filename);
-             InputStreamReader inp = new InputStreamReader(Objects.requireNonNull(rd));
-             BufferedReader reader = new BufferedReader(inp)) {
-            String line;
-            boolean hasFASTAFormatRecord = false;
+        // Collect all record start indexes
+        List<Integer> recIdxs = IntStream.range(0, lines.size())
+                .filter(i -> lines.get(i).contains(">")).boxed()
+                .collect(Collectors.toCollection(LinkedList::new));
 
-            while ((line = reader.readLine()) != null) {
-                if (line.contains(">")) {
-                    hasFASTAFormatRecord = true;
-                    break;
-                }
-            }
+        if (recIdxs.isEmpty())
+            throw new SizeLimitExceededException("No FASTA format records in file");
 
-            if (hasFASTAFormatRecord) {
-                String oldKey = line;
-                StringBuilder builder = new StringBuilder();
+        // Add last string index (end index for last record) to future work
+        recIdxs.add(lines.size());
 
-                // Add records from first to pre last
-                while ((line = reader.readLine()) != null && !line.equals("")) {
-                    if (line.charAt(0) == '>') {
-                        if (!builder.toString().equals("")) {
-                            fastaRecordsMap.put(oldKey.replace(">", ""), builder.toString());
-                            builder.setLength(0);
-                        } else {
-                            throw new InvalidParameterException("No value for FASTA record");
-                        }
-
-                        oldKey = line;
-                    } else {
-                        builder.append(line);
-                    }
-                }
-
-                // Add last FASTA record
-                if (!builder.toString().equals("")) {
-                    fastaRecordsMap.put(oldKey.replace(">", ""), builder.toString());
-                } else {
-                    throw new InvalidParameterException("No value for FASTA record");
-                }
-            } else {
-                throw new Exception("No FASTA records in file");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return fastaRecordsMap;
+        // Form and return records written as pair
+        // of key (record name) and value (DNA)
+        return IntStream.range(0, recIdxs.size() - 1)
+                .mapToObj(i ->
+                        new ImmutablePair<>(
+                                lines.get(recIdxs.get(i)).replace(">", ""),
+                                StringUtils.join(lines
+                                        .subList(recIdxs.get(i) + 1, recIdxs.get(i + 1)), "")))
+                .collect(Collectors.toCollection(LinkedList::new));
     }
 
-    public static List<String> getLinesFromFile(final String filename) {
-        List<String> lines = new LinkedList<>();
-        ClassLoader classLoader = Utils.class.getClassLoader();
-
-        try (InputStream rd = classLoader.getResourceAsStream(filename);
-             InputStreamReader inp = new InputStreamReader(Objects.requireNonNull(rd));
-             BufferedReader reader = new BufferedReader(inp)) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                lines.add(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return lines;
-    }
-
-    public static Properties getProperties(final String filename) {
+    public static Properties getProperties(final String filename) throws IOException {
+        InputStream stream = Utils.class.getClassLoader().getResourceAsStream(filename);
         Properties prop = new Properties();
-        ClassLoader loader = Utils.class.getClassLoader();
-
-        try (InputStream stream =
-                     loader.getResourceAsStream(filename)) {
-            prop.load(stream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        prop.load(stream);
         return prop;
     }
 

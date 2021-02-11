@@ -1,18 +1,7 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 import java.util.*;
 import java.util.stream.IntStream;
-
-enum Section {
-    HIDDEN_PATH,
-    OUTCOME_SEQUENCE,
-    STATES,
-    OUTCOME_ALPHABET,
-    TRANSITION_MATRIX,
-    EMISSION_MATRIX;
-}
 
 public class HMM {
 
@@ -26,32 +15,41 @@ public class HMM {
 
     private String[] states;
 
-    private HashMap<String, Double> transitionMatrix;
+    private Map<String, Double> transitionMatrix;
 
-    private HashMap<String, Double> emissionMatrix;
+    private Map<String, Double> emissionMatrix;
 
     public HMM (final String filename) {
         this.filename = filename;
     }
 
-    public void readData(final List<Section> sections) {
-        ClassLoader classLoader = Utils.class.getClassLoader();
-        List<String> lines = new LinkedList<>();
+    private static Map<String, Double> readHMMMatrixFromLines(final List<String> lines,
+                                                              final String[] alphabetSymbols) {
+        Map<String, Double> matrix = new HashMap<>();
 
-        try (InputStream rd = classLoader.getResourceAsStream(filename);
-             InputStreamReader inp = new InputStreamReader(Objects.requireNonNull(rd));
-             BufferedReader reader = new BufferedReader(inp)) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                lines.add(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (String line : lines) {
+            String[] tokens = line.split("\\s+");
+            IntStream.range(1, tokens.length)
+                    .forEach(k -> matrix
+                            .put(tokens[0].concat(alphabetSymbols[k - 1]), Double.parseDouble(tokens[k])));
         }
 
+        return matrix;
+    }
+
+    public void readData(final List<Section> sections) throws IOException, URISyntaxException {
+        List<String> lines = Utils.readLinesFromFile(filename);
+
         int lineIdx = 0;
-        for (int i = 0; i < sections.size(); ++i) {
-            switch (sections.get(i)) {
+        for (Section section : sections) {
+            int lastMatrixLineIdx = 0;
+
+            if (section == Section.TRANSITION_MATRIX ||
+                    section == Section.EMISSION_MATRIX) {
+                lastMatrixLineIdx = lineIdx + 1 + states.length;
+            }
+
+            switch (section) {
                 case OUTCOME_SEQUENCE:
                     outcomeSequence = lines.get(lineIdx);
                     break;
@@ -69,48 +67,26 @@ public class HMM {
                     break;
 
                 case TRANSITION_MATRIX:
-                    if (transitionMatrix == null)
-                        transitionMatrix = new HashMap<>();
-                    else
-                        transitionMatrix.clear();
-
-                    // Skipping states
-                    lineIdx += 1;
-
-                    while (lineIdx != lines.size() &&
-                            !lines.get(lineIdx).contains("-")) {
-                        String[] tokens = lines.get(lineIdx++).split("\\s+");
-                        IntStream.range(1, tokens.length)
-                                .forEach(k -> transitionMatrix
-                                        .put(tokens[0].concat(states[k - 1]), Double.parseDouble(tokens[k])));
-                    }
+                    transitionMatrix = readHMMMatrixFromLines(
+                            lines.subList(lineIdx + 1, lastMatrixLineIdx),
+                            states
+                    );
                     break;
 
                 case EMISSION_MATRIX:
-                    if (emissionMatrix == null)
-                        emissionMatrix = new HashMap<>();
-                    else
-                        emissionMatrix.clear();
-
-                    // Skipping alphabet
-                    lineIdx += 1;
-
-                    while (lineIdx != lines.size() &&
-                            !lines.get(lineIdx).contains("-")) {
-                        String[] tokens = lines.get(lineIdx++).split("\\s+");
-                        IntStream.range(1, tokens.length)
-                                .forEach(k -> emissionMatrix
-                                        .put(tokens[0].concat(outcomeAlphabet[k - 1]), Double.parseDouble(tokens[k])));
-                    }
+                    emissionMatrix = readHMMMatrixFromLines(
+                            lines.subList(lineIdx + 1, lastMatrixLineIdx),
+                            outcomeAlphabet
+                    );
                     break;
             }
 
+            // Add matrix length to the last matrix line
+            if (section == Section.TRANSITION_MATRIX ||
+                    section == Section.EMISSION_MATRIX)
+                lineIdx = lastMatrixLineIdx - 1;
             // Skipping delimiter
-            if (sections.get(i) == Section.TRANSITION_MATRIX ||
-                    sections.get(i) == Section.EMISSION_MATRIX)
-                ++lineIdx;
-            else
-                lineIdx += 2;
+            lineIdx += 2;
         }
     }
 
@@ -130,11 +106,11 @@ public class HMM {
         return states;
     }
 
-    public HashMap<String, Double> getTransitionMatrix() {
+    public Map<String, Double> getTransitionMatrix() {
         return transitionMatrix;
     }
 
-    public HashMap<String, Double> getEmissionMatrix() {
+    public Map<String, Double> getEmissionMatrix() {
         return emissionMatrix;
     }
 }

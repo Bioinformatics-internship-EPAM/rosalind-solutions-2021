@@ -1,34 +1,42 @@
-import java.util.Arrays;
-import java.util.Map;
+import org.apache.commons.lang3.tuple.Pair;
+
+import javax.naming.SizeLimitExceededException;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.stream.IntStream;
 
 public class PDST {
 
     private static final String filename = "cons.txt";
 
     // Creating a Distance Matrix
-    public static void main(String[] args) {
-        Map<String, String> fastaRecords = Utils.getFastaRecords(filename);
+    public static void main(String[] args)
+            throws IOException, URISyntaxException, SizeLimitExceededException {
+        List<Pair<String, String>> fastaRecords = Utils.getFastaRecords(filename);
 
-        // Calculate length for each DNA string
-        int dnaLength = fastaRecords.values().toArray(String[]::new)[0].length();
+        // Collect DNA string and calculate length for each DNA string
+        // (we assumed that length of each DNA equals to others)
+        String[] dnaStrings = fastaRecords.stream().map(Pair::getValue).toArray(String[]::new);
+        int dnaLength = dnaStrings[0].length();
 
         // Create and form p-distance matrix
-        Double[][] distanceMatrix = new Double[fastaRecords.size()][fastaRecords.size()];
-        String[] dnas = fastaRecords.values().toArray(String[]::new);
+        double[][] distanceMatrix = new double[dnaStrings.length][dnaStrings.length];
 
-        for (int i = 0; i < dnas.length; ++i) {
+        for (int i = 0; i < dnaStrings.length; ++i) {
             distanceMatrix[i][i] = 0.;
 
-            for (int k = i + 1; k < dnas.length; ++k) {
+            for (int k = i + 1; k < dnaStrings.length; ++k) {
                 distanceMatrix[i][k] = distanceMatrix[k][i] =
-                            (double) Utils.hammingDistance(dnas[i], dnas[k]) / dnaLength;
+                            (double) Utils.hammingDistance(dnaStrings[i], dnaStrings[k]) / dnaLength;
             }
         }
 
         // Print matrix
-        for (Double[] row : distanceMatrix) {
-            Arrays.stream(row).forEach(value -> System.out.format("%.3f ", value));
-            System.out.println();
+        for (double[] row : distanceMatrix) {
+            IntStream.iterate(0, i -> i < row.length, i -> i + 1)
+                    .forEach(i -> System.out.format("%.3f"
+                            + ((i != row.length - 1) ? " " : "\n"), row[i]));
         }
     }
 }
