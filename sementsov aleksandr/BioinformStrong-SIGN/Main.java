@@ -52,6 +52,3 @@ public class Main {
     }
     MyWriter.quitRosalind();
 }
-
-//Total lines
-//46080

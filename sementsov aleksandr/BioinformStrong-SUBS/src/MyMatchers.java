@@ -58,8 +58,6 @@ public class MyMatchers {
         pos = -1;
         MyWriter.goSave();
         while (resultMatching < sizeSource) {
-
-            //Knuth–Morris–Pratt algorithm was selected for matching
             if (type_Matchers == typeMatchers.KnuthMorrisPratt) {
                 resultMatching = kmpMatcher(sourceString.substring(nextPosition), mathchingString);
             }
