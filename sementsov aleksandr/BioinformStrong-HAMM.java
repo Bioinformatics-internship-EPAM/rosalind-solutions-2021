@@ -5,22 +5,25 @@ import java.nio.charset.Charset;
 import java.util.Scanner;
 
 public class Main {
+    
+    static String[] getDataSet(String stringWay) throws IOException {
+        try (BufferedReader brReader = new BufferedReader(new FileReader(stringWay, Charset.forname("utf-8")))) {
+            Scanner scanner = new Scanner(brReader);
+            String[] s = new String[2];
+            s[0] = scanner.nextLine();
+            s[1] = scanner.nextLine();
+            return s;
+        }
+    }
 
     public static void main(String[] args) {
 
-        String s1 = "";
-        String s2 = "";
-
         //To load a dataset
+        String[] dataSet = null;
         try {
-            FileReader reader = new FileReader("rosalind-HAMM.txt", Charset.forName("utf-8"));
-            Scanner scanner = new Scanner(reader);
-            s1 = scanner.nextLine();
-            s2 = scanner.nextLine();
-            scanner.close();
-            reader.close();
+            dataSet = getDataSet("rosalind-HAMM.txt");
         }
-        catch (Exception e) {
+        catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -28,8 +31,8 @@ public class Main {
         int freq =0;
 
         //To realize the algorithm
-        for(int i = 0; i < s1.length(); i++) {
-            if (s1.charAt(i) != s2.charAt(i)) {
+        for(int i = 0; i < dataSet[0].length(); i++) {
+            if (dataSet[0].charAt(i) != dataSet[1].charAt(i)) {
                 freq++;
             }
         }

@@ -6,6 +6,14 @@ import java.lang.*;
 import java.io.*;
 
 public class Main {
+    
+    static String getDataSet(String stringWay) throws IOException {
+        try (BufferedReader brReader = new BufferedReader(new FileReader(stringWay, Charset.forname("utf-8")))) {
+            Scanner scanner = new Scanner(reader);
+            s = scanner.nextLine();
+        }
+        return s;
+    }
 
     public static void main(String[] args) {
 
@@ -57,13 +65,9 @@ public class Main {
 
         String loadedData = "";
         try {
-            FileReader reader = new Filereader("rosalind-PRTM.txt", Charset.forname("utf-8"));
-            Scanner scanner = new Scanner(reader);
-            loadedData = scanner.nextLine();
-            scanner.close();
-            reader.close();
+            loadedData = getDataSet("rosalind-PRTM.txt");
         }
-        catch (Exception e) {
+        catch (IOException e) {
             e.printStackTrace();
         }
         

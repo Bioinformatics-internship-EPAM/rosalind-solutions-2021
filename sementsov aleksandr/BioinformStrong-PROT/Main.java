@@ -6,6 +6,14 @@ import java.nio.charset.Charset;
 import java.util.Scanner;
 
 public class Main {
+    
+    static String getDataSet(String stringWay) throws IOException {
+        try (BufferedReader brReader = new BufferedReader(new FileReader(stringWay, Charset.forname("utf-8")))) {
+            Scanner scanner = new Scanner(reader);
+            s = scanner.nextLine();
+        }
+        return s;
+    }
 
     public static void main(String[] args) {
 
@@ -32,13 +40,9 @@ public class Main {
         FileWriter writer = null;
 
         try {
-            FileReader reader = new FileReader("rosalind-PROT.txt", Charset.forName("utf-8"));
-            Scanner scanner = new Scanner(reader);
-            s = scanner.nextLine();
-            scanner.close();
-            reader.close();
+            s = getDataSet("rosalind-PROT.txt");
         }
-        catch (Exception e) {
+        catch (IOException e) {
             e.printStackTrace();
         }
 

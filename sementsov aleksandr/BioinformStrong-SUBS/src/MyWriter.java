@@ -10,7 +10,7 @@ public class MyWriter extends SaverOutput {
         }
         catch(Exception ex) {
 
-            e.printStackTrace();
+            ex.printStackTrace();
         }
     }
 
@@ -20,7 +20,7 @@ public class MyWriter extends SaverOutput {
         }
         catch(Exception ex) {
 
-            e.printStackTrace();
+            ex.printStackTrace();
         }
     }
 }

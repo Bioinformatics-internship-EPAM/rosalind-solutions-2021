@@ -5,6 +5,7 @@ import java.nio.charset.Charset;
 public class SaverOutput {
     static FileWriter writer;
 
+    //здесь нет необходимости использовать try-with-resources statement
     static void goSave() {
         try {
             writer = new FileWriter("output.txt" ,Charset.forName("utf-8"));

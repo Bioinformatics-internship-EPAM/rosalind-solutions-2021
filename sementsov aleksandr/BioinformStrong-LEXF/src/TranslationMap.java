@@ -106,11 +106,11 @@ public class TranslationMap {
     }
 
     public void getMap(String alphabet) {
-        MyWriter.GoSave();
+        MyWriter.goSave();
         for (int i = 0; i < translationMap.length; i++) {
             for (int j = 0; j < translationMap[i].length; j++) {
                 System.out.print(alphabet.charAt(translationMap[i][j]));
-                MyWriter.WriteResult(alphabet.charAt(translationMap[i][j]));
+                MyWriter.writeResult(alphabet.charAt(translationMap[i][j]));
             }
             System.out.println();
             MyWriter.writeResult('\n');

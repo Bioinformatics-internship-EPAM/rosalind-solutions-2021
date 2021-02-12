@@ -1,43 +1,47 @@
 package com.company;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Scanner;
 
 public class ParserForSUBS {
-    static FileReader reader;
-    static Scanner scanner;
     static String parsedSource;
     static String parsedMatch;
 
-    static void parsedMatch() {
+    static void parsedMatch(Scanner scanner) {
         parsedMatch = scanner.nextLine();
     }
 
-    static void parseSource() {
+    static void parseSource(Scanner scanner) {
         parsedSource = scanner.nextLine();
-        parsedMatch();
+        parsedMatch(scanner);
     }
 
-    static void parse(String filename) {
-        try {
-            reader = new FileReader(filename, Charset.forName("utf-8"));
-            scanner = new Scanner(reader);
-            parseSource();
-            scanner.close();
-            reader.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+    static void parse(String filename) throws IOException {
+        try (BufferedReader brReader = new BufferedReader(new FileReader(filename, Charset.forName("utf-8")))) {
+            Scanner scanner = new Scanner(brReader);
+            parseSource(scanner);
         }
     }
 
     public static void LetsParse(String pathName) {
-        parse(pathName + ".txt");
+        try {
+            parse(pathName + ".txt");
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void LetsParse(String pathName, String typeFile) {
-        parse(pathName + typeFile);
+        try {
+            parse(pathName + typeFile);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static String getSource() {
@@ -45,7 +49,12 @@ public class ParserForSUBS {
             return parsedSource;
         }
         else {
-            parse("rosalind-SUBS");
+            try {
+                parse("rosalind-SUBS");
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
             System.out.println("dataset wasn't parsed");
             return "";
         }
@@ -56,7 +65,12 @@ public class ParserForSUBS {
             return parsedMatch;
         }
         else {
-            parse("rosalind-SUBS");
+            try {
+                parse("rosalind-SUBS");
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
             System.out.println("dataset wasn't parsed");
             return "";
         }

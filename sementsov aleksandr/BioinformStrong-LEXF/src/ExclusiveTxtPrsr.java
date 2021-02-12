@@ -30,26 +30,30 @@ public class ExclusiveTxtPrsr {
         return scanner.nextInt();
     }
 
-    public static void parse(String stringWay) {
-        try {
-            FileReader reader = new FileReader(stringWay, Charset.forName("utf-8"));
-            Scanner scanner = new Scanner(reader);
+    public static void parse(String stringWay) throws IOException {
+        try (BufferedReader buffForRead = new BufferedReader(new FileReader(stringWay))) {
+            Scanner scanner = new Scanner(buffForRead);
             parsedAlphabet = parseAlphabet(scanner);
             parsedNumber = parseWidth(scanner);
-            scanner.close();
-            reader.close();
-        }
-        catch(IOException ex) {
-            ex.printStackTrace();
         }
     }
 
     public static void goParse() {
-        Parse(findDataSet());
+        try {
+            parse(findDataSet());
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public static void goParse(String stringWay) {
-        Parse(stringWay);
+        try {
+            parse(stringWay);
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public static String getAlphabet() {
