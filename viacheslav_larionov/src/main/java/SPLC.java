@@ -1,4 +1,3 @@
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.naming.SizeLimitExceededException;
@@ -30,20 +29,23 @@ public class SPLC {
                 .map(Pair::getValue)
                 .toArray(String[]::new);
 
-        // Delete introns from DNA
-        String exonsString = dnaPair.getValue();
-        for (int i = 0; i < exonsString.length(); ++i) {
+        // Form exons string by skipping introns in DNA
+        StringBuilder exonsString = new StringBuilder();
+        String dnaString = fastaRecords.get(0).getValue();
+
+        int idx = 0;
+        while (idx < dnaString.length()) {
             for (String intron : introns) {
-                if (intron.length() <= exonsString.length() - i
-                        && exonsString.startsWith(intron, i)) {
-                    exonsString = StringUtils.replaceOnce(exonsString, intron, "");
+                if (dnaString.startsWith(intron, idx)) {
+                    idx += intron.length();
                     break;
                 }
             }
+            exonsString.append(dnaString.charAt(idx++));
         }
 
         // Form RNA and translate it to protein
-        final String RNA = exonsString.replace("T", "U");
+        final String RNA = exonsString.toString().replace("T", "U");
         StringBuilder proteinStringBuilder = new StringBuilder();
 
         IntStream.iterate(0, i -> i < RNA.length(), i -> i + 3)
