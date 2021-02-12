@@ -20,7 +20,7 @@ public class Main {
             reader.close();
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         char[] nucleotids = new char[]{'A', 'C', 'T', 'G'};
         int j = 0;
@@ -37,7 +37,7 @@ public class Main {
             writer.close();
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 }

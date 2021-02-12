@@ -28,7 +28,7 @@ public class ParserForSUBS {
             reader.close();
         }
         catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 

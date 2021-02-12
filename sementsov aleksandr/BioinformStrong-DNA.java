@@ -18,7 +18,7 @@ public class Main {
             reader.close();
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         char[] Nucleotids = {'A', 'C', 'G', 'T'};
         int freq = 0;

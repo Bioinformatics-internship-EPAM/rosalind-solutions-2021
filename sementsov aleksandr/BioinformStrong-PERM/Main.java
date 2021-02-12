@@ -24,7 +24,7 @@ public class Main {
             writer.write(lineToWrite + '\n');
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -34,7 +34,7 @@ public class Main {
             writer = new FileWriter("output.txt", Charset.forName("utf-8"));
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
         int n = 6;
@@ -69,7 +69,7 @@ public class Main {
             writer.close();
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 }

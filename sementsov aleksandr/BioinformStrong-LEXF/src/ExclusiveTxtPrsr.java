@@ -40,7 +40,7 @@ public class ExclusiveTxtPrsr {
             reader.close();
         }
         catch(IOException ex) {
-            System.out.println(ex.getMessage());
+            ex.printStackTrace();
         }
     }
 

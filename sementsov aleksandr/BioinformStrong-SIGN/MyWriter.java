@@ -9,9 +9,9 @@ public class MyWriter extends SaverOutput {
         {
             writer.append(c);
         }
-        catch(IOException ex){
+        catch(Exception ex){
 
-            System.out.println(ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
@@ -20,9 +20,9 @@ public class MyWriter extends SaverOutput {
         {
             writer.write(s);
         }
-        catch(IOException ex){
+        catch(Exception ex){
 
-            System.out.println(ex.getMessage());
+            ex.printStackTrace();
         }
     }
 }

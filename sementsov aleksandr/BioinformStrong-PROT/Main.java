@@ -39,7 +39,7 @@ public class Main {
             reader.close();
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
         //To convert to char array
@@ -78,7 +78,7 @@ public class Main {
             System.out.println("Dataset is loaded");
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
     }

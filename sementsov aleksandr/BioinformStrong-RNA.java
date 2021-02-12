@@ -20,7 +20,7 @@ public class Main {
             reader.close();
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
         FileWriter writer = null;
@@ -40,7 +40,7 @@ public class Main {
             System.out.println("Results are saved");
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 }

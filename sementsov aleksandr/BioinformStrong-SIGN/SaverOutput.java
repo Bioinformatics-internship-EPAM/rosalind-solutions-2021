@@ -10,7 +10,7 @@ public class SaverOutput {
             writer = new FileWriter("output.txt" ,Charset.forName("utf-8"));
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -19,7 +19,7 @@ public class SaverOutput {
             writer = new FileWriter("output." + fileType, Charset.forName("utf-8"));
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -27,6 +27,8 @@ public class SaverOutput {
         try {
             writer.close();
         }
-        catch (Exception e) {}
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

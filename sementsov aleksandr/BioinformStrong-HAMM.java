@@ -21,7 +21,7 @@ public class Main {
             reader.close();
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
         //To init frequency of differ
