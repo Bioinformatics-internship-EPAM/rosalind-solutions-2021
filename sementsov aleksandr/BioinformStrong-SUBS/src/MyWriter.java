@@ -5,22 +5,20 @@ import java.io.*;
 
 public class MyWriter extends SaverOutput {
     public static void writeResult(char c) {
-        try
-        {
+        try {
             writer.append(c);
         }
-        catch(Exception ex){
+        catch(Exception ex) {
 
             e.printStackTrace();
         }
     }
 
     public static void writeResult(String s) {
-        try
-        {
+        try {
             writer.write(s);
         }
-        catch(Exception ex){
+        catch(Exception ex) {
 
             e.printStackTrace();
         }
