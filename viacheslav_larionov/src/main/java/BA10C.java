@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 
 public class BA10C {
 
-    private static String filename = "ba10c.txt";
+    private static final String TASK_FILENAME = "ba10c.txt";
 
     // Implement the Viterbi Algorithm
     public static void main(String[] args) throws IOException, URISyntaxException {
@@ -20,7 +20,7 @@ public class BA10C {
                 Section.TRANSITION_MATRIX,
                 Section.EMISSION_MATRIX
         );
-        HMM hmm = new HMM(filename);
+        HMM hmm = new HMM(TASK_FILENAME);
         hmm.readData(sections);
 
         // Get HMM parameters

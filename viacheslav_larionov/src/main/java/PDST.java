@@ -8,12 +8,12 @@ import java.util.stream.IntStream;
 
 public class PDST {
 
-    private static final String filename = "cons.txt";
+    private static final String TASK_FILENAME = "cons.txt";
 
     // Creating a Distance Matrix
     public static void main(String[] args)
             throws IOException, URISyntaxException, SizeLimitExceededException {
-        List<Pair<String, String>> fastaRecords = Utils.getFastaRecords(filename);
+        List<Pair<String, String>> fastaRecords = Utils.getFastaRecords(TASK_FILENAME);
 
         // Collect DNA string and calculate length for each DNA string
         // (we assumed that length of each DNA equals to others)

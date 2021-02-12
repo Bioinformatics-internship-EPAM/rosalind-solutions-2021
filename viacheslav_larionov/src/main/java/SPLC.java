@@ -8,17 +8,19 @@ import java.util.stream.IntStream;
 
 public class SPLC {
 
-    private static final String fastaRecordsFilename = "splc.txt";
+    private static final String FASTA_RECORDS_FILENAME = "splc.txt";
 
-    private static final String codonsTableFilename = "codons_table.txt";
+    private static final String CODONS_TABLE_FILENAME = "codons_table.txt";
+
+    private static final String STOP_CODON = "Stop";
 
     // RNA Splicing
     public static void main(String[] args)
             throws IOException, URISyntaxException, SizeLimitExceededException {
         // Read FASTA format records from file
-        List<Pair<String, String>> fastaRecords = Utils.getFastaRecords(fastaRecordsFilename);
+        List<Pair<String, String>> fastaRecords = Utils.getFastaRecords(FASTA_RECORDS_FILENAME);
         // Read codons pairs table file to properties
-        Properties codonsPairs = Utils.getProperties(codonsTableFilename);
+        Properties codonsPairs = Utils.getProperties(CODONS_TABLE_FILENAME);
 
         // Get DNA fasta record
         Pair<String, String> dnaPair = fastaRecords.get(0);
@@ -50,7 +52,7 @@ public class SPLC {
 
         IntStream.iterate(0, i -> i < RNA.length(), i -> i + 3)
                 .mapToObj(i -> codonsPairs.get(RNA.substring(i, i + 3)))
-                .takeWhile(aminoAcid -> !aminoAcid.equals("Stop"))
+                .takeWhile(aminoAcid -> !aminoAcid.equals(STOP_CODON))
                 .forEach(proteinStringBuilder::append);
 
         System.out.println(proteinStringBuilder);

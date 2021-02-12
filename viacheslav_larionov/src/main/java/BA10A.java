@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class BA10A {
 
-    private static String filename = "ba10a.txt";
+    private static final String TASK_FILENAME = "ba10a.txt";
 
     // Probability of a Hidden Path Problem
     public static void main(String[] args) throws IOException, URISyntaxException {
@@ -16,7 +16,7 @@ public class BA10A {
                 Section.STATES,
                 Section.TRANSITION_MATRIX
         );
-        HMM hmm = new HMM(filename);
+        HMM hmm = new HMM(TASK_FILENAME);
         hmm.readData(sections);
 
         // Get HMM parameters

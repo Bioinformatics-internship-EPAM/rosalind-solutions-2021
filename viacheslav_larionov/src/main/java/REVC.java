@@ -7,11 +7,11 @@ import java.util.List;
 
 public class REVC {
 
-    private static final String filename = "revc.txt";
+    private static final String TASK_FILENAME = "revc.txt";
 
     // Complementing a Strand of DNA
     public static void main(String[] args) throws IOException, URISyntaxException, SizeLimitExceededException {
-        List<String> lines = Utils.readLinesFromFile(filename);
+        List<String> lines = Utils.readLinesFromFile(TASK_FILENAME);
 
         if (lines.size() == 1) {
             String dnaReversed = new StringBuilder(lines.get(0)).reverse().toString();

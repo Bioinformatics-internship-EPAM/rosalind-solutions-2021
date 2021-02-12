@@ -4,7 +4,7 @@ import java.util.*;
 
 public class BA10B {
 
-    private static String filename = "ba10b.txt";
+    private static final String TASK_FILENAME = "ba10b.txt";
 
     // Compute the Probability of an Outcome Given a Hidden Path
     public static void main(String[] args) throws IOException, URISyntaxException {
@@ -16,7 +16,7 @@ public class BA10B {
                 Section.STATES,
                 Section.EMISSION_MATRIX
         );
-        HMM hmm = new HMM(filename);
+        HMM hmm = new HMM(TASK_FILENAME);
         hmm.readData(sections);
 
         // Get HMM parameters

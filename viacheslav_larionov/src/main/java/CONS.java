@@ -11,12 +11,12 @@ import java.util.stream.IntStream;
 
 public class CONS {
 
-    private static String filename = "cons.txt";
+    private static final String TASK_FILENAME = "cons.txt";
 
     // Consensus and Profile
     public static void main(String[] args)
             throws SizeLimitExceededException, IOException, URISyntaxException {
-        List<Pair<String, String>> fastaRecords = Utils.getFastaRecords(filename);
+        List<Pair<String, String>> fastaRecords = Utils.getFastaRecords(TASK_FILENAME);
 
         // Assumed that all DNAs in file have equal length
         int dnaLength = fastaRecords.get(0).getValue().length();

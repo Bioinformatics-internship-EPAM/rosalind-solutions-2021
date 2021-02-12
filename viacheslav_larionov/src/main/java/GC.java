@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
 
 public class GC {
 
-    private static String filename = "gc.txt";
+    private static final String TASK_FILENAME = "gc.txt";
 
     public static double getPercentageOfGC(final String dna) {
         long countOfGC = dna.chars().filter(ch -> ch == 'C' || ch == 'G').count();
@@ -20,7 +20,7 @@ public class GC {
     // Computing GC Content
     public static void main(String[] args)
             throws IOException, URISyntaxException, SizeLimitExceededException {
-        List<Pair<String, String>> fastaRecords = Utils.getFastaRecords(filename);
+        List<Pair<String, String>> fastaRecords = Utils.getFastaRecords(TASK_FILENAME);
 
         // Find record which have max GC content and form pair of key / GC percentage value
         Pair<String, Double> recordWithMaxGC = fastaRecords.stream()

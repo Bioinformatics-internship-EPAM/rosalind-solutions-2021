@@ -7,7 +7,7 @@ import java.util.List;
 
 public class FIBD {
 
-    private static String filename = "fibd.txt";
+    private static final String TASK_FILENAME = "fibd.txt";
 
     public static int[] getMethodParameters(final String filename)
             throws IOException, URISyntaxException, SizeLimitExceededException {
@@ -32,7 +32,7 @@ public class FIBD {
     // Mortal Fibonacci Rabbits
     public static void main(String[] args)
             throws IOException, URISyntaxException, SizeLimitExceededException {
-        int[] params = getMethodParameters(filename);
+        int[] params = getMethodParameters(TASK_FILENAME);
         int monthsCount = params[0];
         int lifeMonthsCount = params[1];
 
