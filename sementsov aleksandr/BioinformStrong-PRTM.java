@@ -1,15 +1,20 @@
 package com.company;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.Map;
+import java.util.Scanner;
 
-import java.util.*;
-import java.lang.*;
-import java.io.*;
+import static java.util.Map.entry;
 
 public class Main {
-    
+
     static String getDataSet(String stringWay) throws IOException {
-        try (BufferedReader brReader = new BufferedReader(new FileReader(stringWay, Charset.forname("utf-8")))) {
-            Scanner scanner = new Scanner(reader);
+        String s = "";
+        try (BufferedReader brReader = new BufferedReader(new FileReader(stringWay, Charset.forName("utf-8")))) {
+            Scanner scanner = new Scanner(brReader);
             s = scanner.nextLine();
         }
         return s;
@@ -17,66 +22,43 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //the first column mass protein
-        String s = "A" +
-                "C" +
-                "D" +
-                "E" +
-                "F" +
-                "G" +
-                "H" +
-                "I" +
-                "K" +
-                "L" +
-                "M" +
-                "N" +
-                "P" +
-                "Q" +
-                "R" +
-                "S" +
-                "T" +
-                "V" +
-                "W" +
-                "Y";
-
-        //the second column mass protein
-        double[] z = {
-            71.03711,
-            103.00919,
-            115.02694,
-            129.04259,
-            147.06841,
-            57.02146,
-            137.05891,
-            113.08406,
-            128.09496,
-            113.08406,
-            131.04049,
-            114.04293,
-            97.05276,
-            128.05858,
-            156.10111,
-            87.03203,
-            101.04768,
-            99.06841,
-            186.07931,
-            163.06333
-        };
+        Map<Character, Double> proteinList = Map.ofEntries (
+                entry('A', 71.03711),
+                entry('C', 103.00919),
+                entry('D', 115.02694),
+                entry('E', 129.04259),
+                entry('F', 147.06841),
+                entry('G', 57.02146),
+                entry('H', 137.05891),
+                entry('I', 113.08406),
+                entry('K', 128.09496),
+                entry('L', 113.08406),
+                entry('M', 131.04049),
+                entry('N', 114.04293),
+                entry('P', 97.05276),
+                entry('Q', 128.05858),
+                entry('R', 156.10111),
+                entry('S', 87.03203),
+                entry('T', 101.04768),
+                entry('V', 99.06841),
+                entry('W', 186.07931),
+                entry('Y', 163.0633)
+        );
 
         String loadedData = "";
         try {
-            loadedData = getDataSet("rosalind-PRTM.txt");
+            loadedData = getDataSet("rosalind-prtm.txt");
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-        
+
         double summ = 0;
 
         for (int i = 0; i < loadedData.length(); i++) {
-            
+
             //each letter is assigned its own mass value
-            summ += z[s.indexOf(loadedData.charAt(i))];
+            summ += proteinList.get(loadedData.charAt(i));
         }
 
         System.out.println(String.format("%.3f", summ));
