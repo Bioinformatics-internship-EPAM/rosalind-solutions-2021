@@ -1,15 +1,18 @@
 package com.company;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.nio.charset.Charset;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class Main {
     
     static String getDataSet(String stringWay) throws IOException {
-        try (BufferedReader brReader = new BufferedReader(new FileReader(stringWay, Charset.forname("utf-8")))) {
-            Scanner scanner = new Scanner(reader);
+        String s = "";
+        try (BufferedReader brReader = new BufferedReader(new FileReader(stringWay, StandardCharsets.UTF_8))) {
+            Scanner scanner = new Scanner(brReader);
             s = scanner.nextLine();
         }
         return s;
@@ -17,8 +20,10 @@ public class Main {
 
     public static void main(String[] args) {
 
+        final char emptyCell = 'Ъ';
+
         //protein table interpriter in array. 'Stop' was swaped to special symbol
-        String s1 = "UUU F CUU L AUU I GUU V " +
+        String proteinTable = "UUU F CUU L AUU I GUU V " +
                 "UUC F CUC L AUC I GUC V " +
                 "UUA L CUA L AUA I GUA V " +
                 "UUG L CUG L AUG M GUG V " +
@@ -34,48 +39,46 @@ public class Main {
                 "UGC C CGC R AGC S GGC G " +
                 "UGA Ы CGA R AGA R GGA G " +
                 "UGG W CGG R AGG R GGG G ";
-        char[] c1 = s1.toCharArray();
 
-        String s = "";
+        StringBuilder currentData = null;
         FileWriter writer = null;
 
         try {
-            s = getDataSet("rosalind-PROT.txt");
+            currentData = new StringBuilder(getDataSet("rosalind_prot.txt"));
         }
         catch (IOException e) {
             e.printStackTrace();
         }
 
-        //To convert to char array
-        char[] c = s.toCharArray();
-
-        for (int i = 0; i < c.length;) {
-            for(int j = 0; j < c1.length;) {
-                if (c[i] == c1[j] && c[i+1] == c1[j+1] && c[i+2] == c1[j+2]) {
-                    if (c1[j+4] != 'Ы') {
-                        c[i] = c1[j+4];
-                        c[i+1] = 'Ъ';
-                        c[i+2] = 'Ъ';
+        for (int dataIndex = 0; dataIndex < currentData.length();) {
+            for(int tableIndex = 0; tableIndex < proteinTable.length();) {
+                if (currentData.charAt(dataIndex) == proteinTable.charAt(tableIndex)
+                        && currentData.charAt(dataIndex+1) == proteinTable.charAt(tableIndex+1)
+                        && currentData.charAt(dataIndex+2) == proteinTable.charAt(tableIndex+2)) {
+                    if (proteinTable.charAt(tableIndex+4) != 'Ы') {
+                        currentData.setCharAt(dataIndex, proteinTable.charAt(tableIndex+4));
+                        currentData.setCharAt(dataIndex+1, emptyCell);
+                        currentData.setCharAt(dataIndex+2, emptyCell);
                     }
                     else {
-                        c[i] = 'Ъ';
-                        c[i+1] = 'Ъ';
-                        c[i+2] = 'Ъ';
+                        currentData.setCharAt(dataIndex, emptyCell);
+                        currentData.setCharAt(dataIndex+1, emptyCell);
+                        currentData.setCharAt(dataIndex+2, emptyCell);
                     }
-                    i += 3;
-                    j = c1.length;
+                    dataIndex += 3;
+                    tableIndex = proteinTable.length();
                 }
                 else {
-                    j += 6;
+                    tableIndex += 6;
                 }
             }
         }
 
         try {
-            writer = new FileWriter("output.txt", Charset.forName("utf-8"));
-            for (int i = 0; i < c.length; i++) {
-                if (c[i] != 'Ъ') {
-                    writer.append(c[i]);
+            writer = new FileWriter("output.txt", StandardCharsets.UTF_8);
+            for (int i = 0; i < currentData.length(); i++) {
+                if (currentData.charAt(i) != emptyCell) {
+                    writer.append(currentData.charAt(i));
                 }
             }
             writer.close();
