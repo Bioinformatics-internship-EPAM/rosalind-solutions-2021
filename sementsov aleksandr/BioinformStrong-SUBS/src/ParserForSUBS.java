@@ -20,7 +20,7 @@ public class ParserForSUBS {
     }
 
     static void parse(String filename) throws IOException {
-        try (BufferedReader brReader = new BufferedReader(new FileReader(filename, Charset.forName("utf-8")))) {
+        try (BufferedReader brReader = new BufferedReader(new FileReader(filename, StandardCharsets.UTF_8))) {
             Scanner scanner = new Scanner(brReader);
             parseSource(scanner);
         }

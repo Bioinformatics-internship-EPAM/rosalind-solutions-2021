@@ -21,15 +21,16 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        int n = 6;
+        int n = 3;
         int[] indexes = new int[n];
         int[] elements = new int[n];
         TranslationMap translationMap = new TranslationMap(n);
-        //boolean boo = minusMap.GetMap();
         Arrays.fill(indexes, 0);
         for (int i = 0; i < elements.length; i++) {
             elements[i] = i + 1;
         }
+
+        MyWriter.goSave();
 
         //the first permutation
         int count = 0;
@@ -49,6 +50,6 @@ public class Main {
             }
         }
         System.out.println(count);
+        MyWriter.quitRosalind();
     }
-    MyWriter.quitRosalind();
 }

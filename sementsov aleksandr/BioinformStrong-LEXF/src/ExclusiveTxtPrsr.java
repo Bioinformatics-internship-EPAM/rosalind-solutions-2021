@@ -31,7 +31,7 @@ public class ExclusiveTxtPrsr {
     }
 
     public static void parse(String stringWay) throws IOException {
-        try (BufferedReader buffForRead = new BufferedReader(new FileReader(stringWay))) {
+        try (BufferedReader buffForRead = new BufferedReader(new FileReader(stringWay, StandardCharsets.UTF_8))) {
             Scanner scanner = new Scanner(buffForRead);
             parsedAlphabet = parseAlphabet(scanner);
             parsedNumber = parseWidth(scanner);

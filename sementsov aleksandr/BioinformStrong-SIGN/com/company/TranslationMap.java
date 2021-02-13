@@ -58,7 +58,7 @@ public class TranslationMap {
 
     int[][] translationMap;
 
-    void ConstructMap(int n, int numeration) {
+    void constructMap(int n, int numeration) {
         translationMap = new int[MyPower.pow(n,numeration)][n];
         for (int i = 0; i < MyPower.pow(n,numeration); i++) {
             Arrays.fill(translationMap[i], 0);
@@ -125,18 +125,17 @@ public class TranslationMap {
         }
     }
 
-    public int GetMap(int[] numberArray, int counter) {
-        MyWriter.GoSave();
+    public int getMap(int[] numberArray, int counter) {
         for (int i = 0; i < translationMap.length; i++) {
             for (int j = 0; j < translationMap[i].length; j++) {
                 if (translationMap[i][j] == 0) {
                     System.out.print(numberArray[j]*(-1));
                     MyWriter.writeResult('-');
-                    MyWriter.writeResult((char)numberArray[j]);
+                    MyWriter.writeResult(Integer.toString(numberArray[j]));
                 }
                 else {
                     System.out.print(numberArray[j]);
-                    MyWriter.writeResult((char)numberArray[j]);
+                    MyWriter.writeResult(Integer.toString(numberArray[j]));
                 }
                 System.out.print(" ");
                 MyWriter.writeResult(' ');
