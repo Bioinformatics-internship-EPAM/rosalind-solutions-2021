@@ -4,7 +4,7 @@ public class CountingDNANucleotides {
     private static final String FileName = "rosalind_dna.txt";
 
     public static void main(String[] args) throws Exception {
-        var input = FileUtils.readFromFile(FileName);
+        var input = FileUtils.readFromFile(FileName).get(0);
 
         var result = getResult(input);
 
