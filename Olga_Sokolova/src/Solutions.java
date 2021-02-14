@@ -1,14 +1,14 @@
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class Solutions {
 
     //1. Counting DNA Nucleotides http://rosalind.info/problems/dna/
     public static List<Long> getDNANucleotides(String str) {
-        Map<String, Long> map = Stream.of(str.split("")).collect(Collectors.groupingBy(s -> s, Collectors.counting()));
-        return List.of(map.get("A"), map.get("C"), map.get("G"), map.get("T"));
+        Map<Character, Long> map = str.chars().mapToObj(c -> (char) c).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        return List.of(map.get('A'), map.get('C'), map.get('G'), map.get('T'));
     }
 
     //2. Transcribing DNA into RNA http://rosalind.info/problems/rna/
@@ -48,16 +48,16 @@ public class Solutions {
         return positions;
     }
 
-    static final int AMINO_ACID_LENGTH = 3;
-    static final String STOP_AMINO_ACID = "Stop";
+    static final int CODON_LENGTH = 3;
+    static final String STOP_CODON = "Stop";
 
     //6. Translating RNA into Protein http://rosalind.info/problems/prot/
     public static ArrayList<String> translatingRNAIntoProtein(String rna) {
         ArrayList<String> protein = new ArrayList<>();
         String aminoAcid = "";
-        for (int i = 0; i < rna.length(); i = i + AMINO_ACID_LENGTH) {
-            aminoAcid = getCodon(rna.substring(i, i + AMINO_ACID_LENGTH));
-            if (!(aminoAcid.equals(STOP_AMINO_ACID))) {
+        for (int i = 0; i < rna.length(); i = i + CODON_LENGTH) {
+            aminoAcid = getCodon(rna.substring(i, i + CODON_LENGTH));
+            if (!(aminoAcid.equals(STOP_CODON))) {
                 protein.add(aminoAcid);
             } else {
                 break;
@@ -71,12 +71,12 @@ public class Solutions {
     }
 
     //7. Rabbits and Recurrence Relations http://rosalind.info/problems/fib/
-    public static long getRabbitsPopulationsSize(Integer month, Integer childs) {
+    public static long getRabbitsPopulationsSize(Integer month, Integer children) {
         long ancestor = 1L;
         long current = 1L;
         long descendant = 0L;
         for (int i = 2; i < month; i++) {
-            descendant = (ancestor * childs) + current;
+            descendant = (ancestor * children) + current;
             ancestor = current;
             current = descendant;
         }
@@ -94,16 +94,16 @@ public class Solutions {
     }
 
     //9. Calculating Expected Offspring http://rosalind.info/problems/iev/
-    public static double getCountOfDominantChildes(ArrayList<Integer> countOfCouples) {
-        List<Integer> countOfChildesWithDominantOfEachGenotype = List.of(4, 4, 4, 3, 2, 0);
-        int allChildes = 0;
-        int childesWithDominant = 0;
+    public static double getCountOfDominantChildren(ArrayList<Integer> countOfCouples) {
+        List<Integer> countOfChildrenWithDominantOfEachGenotype = List.of(4, 4, 4, 3, 2, 0);
+        int allChildren = 0;
+        int childrenWithDominant = 0;
         for (int i = 0; i < countOfCouples.size(); i++) {
-            childesWithDominant += countOfCouples.get(i) * countOfChildesWithDominantOfEachGenotype.get(i);
-            allChildes += countOfCouples.get(i) * 2;
+            childrenWithDominant += countOfCouples.get(i) * countOfChildrenWithDominantOfEachGenotype.get(i);
+            allChildren += countOfCouples.get(i) * 2;
         }
-        double dominantProbability = (double) childesWithDominant / (2 * allChildes);
-        return dominantProbability * allChildes;
+        double dominantProbability = (double) childrenWithDominant / (2 * allChildren);
+        return dominantProbability * allChildren;
     }
 
     //10. Calculating Protein Mass http://rosalind.info/problems/prtm/

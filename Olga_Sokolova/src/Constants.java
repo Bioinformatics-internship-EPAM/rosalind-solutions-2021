@@ -91,11 +91,6 @@ public class Constants {
         put("GGG", "G");
     }};
 
-    public static Map<Character, Character> complementary = new HashMap<Character, Character>() {{
-        put('A', 'T');
-        put('C', 'G');
-        put('G', 'C');
-        put('T', 'A');
-        }};
+    public static Map<Character, Character> complementary = Map.of('A', 'T', 'C', 'G', 'G', 'C','T', 'A');
 
 }

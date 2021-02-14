@@ -65,7 +65,7 @@ public class Main {
                 for (String param : params) {
                     countOfCouples.add(Integer.parseInt(param));
                 }
-                System.out.printf("%f%n", Solutions.getCountOfDominantChildes(countOfCouples));
+                System.out.printf("%f%n", Solutions.getCountOfDominantChildren(countOfCouples));
                 break;
             case 10:
                 //10. Calculating Protein Mass http://rosalind.info/problems/prtm/
@@ -76,7 +76,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        String task1_path = "datasets/rosalind_dna.txt";
+        String task1_path = "dataset/rosalind_dna.txt";
         String task2_path = "datasets/rosalind_rna.txt";
         String task3_path = "datasets/rosalind_revc.txt";
         String task4_path = "datasets/rosalind_hamm.txt";
@@ -89,12 +89,22 @@ public class Main {
 
         List<String> fileLines = null;
         try {
-            fileLines = readFile(task9_path);
+            fileLines = readFile(task1_path);
         } catch (IOException e) {
-            System.err.println("Can't open file" + task9_path);
+            System.err.println("Can't open file " + task1_path);
+            System.err.println(e.getMessage());
         }
         if (fileLines != null) {
-            runTask(9, fileLines);
+            runTask(1, fileLines);
+        }
+
+        try {
+            fileLines = readFile(task2_path);
+        } catch (IOException e) {
+            System.err.println("Can't open file " + task2_path);
+        }
+        if (fileLines != null) {
+            runTask(2, fileLines);
         }
     }
 }
