@@ -13,8 +13,7 @@ public class MotifFinder {
         String dna;
         String motif;
 
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(filename));
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             dna = reader.readLine();
             motif = reader.readLine();
             if (dna == null || motif == null) {

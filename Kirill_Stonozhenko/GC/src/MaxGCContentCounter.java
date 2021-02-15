@@ -14,8 +14,7 @@ public class MaxGCContentCounter {
         double maxGC = 0;
         String maxGCdnaLabel = "";
 
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(filename));
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String str = reader.readLine();
             StringBuilder content = new StringBuilder();
             String label = "";
@@ -46,7 +45,6 @@ public class MaxGCContentCounter {
             } else {
                 System.err.println("Empty file");
             }
-            reader.close();
         } catch (IOException e) {
             System.err.println("Problems with file reading:");
             e.printStackTrace();

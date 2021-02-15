@@ -4,16 +4,19 @@ import java.util.Properties;
 public class ProteinTranslator {
 
     private static final String TRANSLATION_TABLE_FILENAME = "resources/rna_codon_table.dsv";
-    private static final Properties TRANSLATION_TABLE;
-    static {
-        TRANSLATION_TABLE = new Properties();
+    private static final Properties TRANSLATION_TABLE = readTranslationTable();
+
+    private static final int CODON_LENGTH = 3;
+
+    private static Properties readTranslationTable() {
+        Properties table = new Properties();
         try (InputStream input = new FileInputStream(TRANSLATION_TABLE_FILENAME)) {
-            TRANSLATION_TABLE.load(input);
+            table.load(input);
         } catch (IOException e) {
             System.err.println("Problems with " + TRANSLATION_TABLE_FILENAME + " reading:");
             e.printStackTrace();
         }
-
+        return table;
     }
 
     public static void main(String[] args) {
@@ -28,7 +31,7 @@ public class ProteinTranslator {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filename));
             dna = reader.readLine();
-            if (dna.length() % 3 != 0) {
+            if (dna.length() % CODON_LENGTH != 0) {
                 System.err.println("Chains of nucleic triplets expected");
                 return;
             }
@@ -40,15 +43,15 @@ public class ProteinTranslator {
 
         StringBuilder protein = new StringBuilder();
 
-        for (int i = 0; i < dna.length(); i+=3) {
-            String aminoacid = (String) TRANSLATION_TABLE.get(dna.substring(i, i+3));
+        for (int i = 0; i < dna.length(); i += CODON_LENGTH) {
+            String aminoacid = (String) TRANSLATION_TABLE.get(dna.substring(i, i + CODON_LENGTH));
             if (aminoacid != null) {
                 if (aminoacid.equals("Stop")) {
                     break;
                 }
                 protein.append(aminoacid);
             } else {
-                System.err.println("Unacceptable nucleic triplet: " + TRANSLATION_TABLE.get(dna.substring(i, i+3)));
+                System.err.println("Unacceptable nucleic triplet: " + TRANSLATION_TABLE.get(dna.substring(i, i + CODON_LENGTH)));
             }
         }
 

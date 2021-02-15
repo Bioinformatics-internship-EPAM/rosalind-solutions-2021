@@ -1,4 +1,5 @@
 import java.math.BigInteger;
+import java.util.Deque;
 import java.util.LinkedList;
 
 public class NotImmortalRabbitCounter {
@@ -7,7 +8,7 @@ public class NotImmortalRabbitCounter {
     private static int month;
     private static int lifeLength;
 
-    private static LinkedList<BigInteger> youthHistory;
+    private static Deque<BigInteger> youthHistory;
     private static BigInteger youngPairsNum = BigInteger.ONE;
     private static BigInteger maturePairsNum = BigInteger.ZERO;
 

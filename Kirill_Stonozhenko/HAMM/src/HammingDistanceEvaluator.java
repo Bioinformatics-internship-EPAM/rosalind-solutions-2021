@@ -13,8 +13,7 @@ public class HammingDistanceEvaluator {
         String dna1;
         String dna2;
 
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(filename));
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))){
             dna1 = reader.readLine().replaceAll("\\s","");
             dna2 = reader.readLine().replaceAll("\\s","");
             if (dna1.length() == 0) {
@@ -23,7 +22,6 @@ public class HammingDistanceEvaluator {
             if (dna1.length() != dna2.length()) {
                 throw new IOException("DNA strings of one length expected");
             }
-            reader.close();
         } catch (IOException e) {
             System.err.println("Problems with file reading:");
             e.printStackTrace();

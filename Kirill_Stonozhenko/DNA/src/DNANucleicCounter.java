@@ -24,13 +24,15 @@ public class DNANucleicCounter {
             return;
         }
 
-        Map<Character, Integer> counter = new HashMap<>();
-        counter.put('A', 0);
-        counter.put('C', 0);
-        counter.put('G', 0);
-        counter.put('T', 0);
+        Map<Character, Integer> counter = new HashMap<>(Map.of(
+                'A', 0,
+                'C', 0,
+                'G', 0,
+                'T', 0
+        ));
 
-        for (char c: content.toCharArray()) {
+        for (int i = 0; i < content.length(); i++) {
+            char c = content.charAt(i);
             if (!Character.isWhitespace(c)) {
                 Integer currentNumber = counter.get(c);
                 if (currentNumber == null) {
