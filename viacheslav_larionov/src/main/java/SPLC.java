@@ -14,6 +14,8 @@ public class SPLC {
 
     private static final String STOP_CODON = "Stop";
 
+    private static final int CODON_LENGTH = 3;
+
     // RNA Splicing
     public static void main(String[] args)
             throws IOException, URISyntaxException, SizeLimitExceededException {
@@ -50,8 +52,8 @@ public class SPLC {
         final String RNA = exonsString.toString().replace("T", "U");
         StringBuilder proteinStringBuilder = new StringBuilder();
 
-        IntStream.iterate(0, i -> i < RNA.length(), i -> i + 3)
-                .mapToObj(i -> codonsPairs.get(RNA.substring(i, i + 3)))
+        IntStream.iterate(0, i -> i < RNA.length(), i -> i + CODON_LENGTH)
+                .mapToObj(i -> codonsPairs.get(RNA.substring(i, i + CODON_LENGTH)))
                 .takeWhile(aminoAcid -> !aminoAcid.equals(STOP_CODON))
                 .forEach(proteinStringBuilder::append);
 

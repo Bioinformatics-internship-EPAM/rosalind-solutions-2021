@@ -22,14 +22,12 @@ public class CONS {
         int dnaLength = fastaRecords.get(0).getValue().length();
 
         // Initialize profile matrix
-        Map<Character, int[]> nucleobasesMap = new LinkedHashMap<>() {
-            {
-                put('A', new int[dnaLength]);
-                put('C', new int[dnaLength]);
-                put('G', new int[dnaLength]);
-                put('T', new int[dnaLength]);
-            }
-        };
+        Map<Character, int[]> nucleobasesMap = Map.of(
+                'A', new int[dnaLength],
+                'C', new int[dnaLength],
+                'G', new int[dnaLength],
+                'T', new int[dnaLength]
+        );
 
         // Form profile matrix
         for (Pair<String, String> record : fastaRecords) {

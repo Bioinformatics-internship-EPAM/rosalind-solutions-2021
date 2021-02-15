@@ -5,8 +5,6 @@ import java.util.stream.IntStream;
 
 public class HMM {
 
-    private String filename;
-
     private String outcomeSequence;
 
     private String[] outcomeAlphabet;
@@ -18,10 +16,6 @@ public class HMM {
     private Map<String, Double> transitionMatrix;
 
     private Map<String, Double> emissionMatrix;
-
-    public HMM (final String filename) {
-        this.filename = filename;
-    }
 
     private static Map<String, Double> readHMMMatrixFromLines(final List<String> lines,
                                                               final String[] alphabetSymbols) {
@@ -37,7 +31,8 @@ public class HMM {
         return matrix;
     }
 
-    public void readData(final List<Section> sections) throws IOException, URISyntaxException {
+    public void readDataFromFile(final String filename, final List<Section> sections)
+            throws IOException, URISyntaxException {
         List<String> lines = Utils.readLinesFromFile(filename);
 
         int lineIdx = 0;
@@ -46,6 +41,9 @@ public class HMM {
 
             if (section == Section.TRANSITION_MATRIX ||
                     section == Section.EMISSION_MATRIX) {
+                if (states.length == 0)
+                    throw new IllegalArgumentException("States section must be placed before matrices");
+
                 lastMatrixLineIdx = lineIdx + 1 + states.length;
             }
 

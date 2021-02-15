@@ -9,15 +9,15 @@ public class BA10B {
     // Compute the Probability of an Outcome Given a Hidden Path
     public static void main(String[] args) throws IOException, URISyntaxException {
         // Read HMM from file
-        List<Section> sections = Arrays.asList(
+        List<Section> sections = List.of(
                 Section.OUTCOME_SEQUENCE,
                 Section.OUTCOME_ALPHABET,
                 Section.HIDDEN_PATH,
                 Section.STATES,
                 Section.EMISSION_MATRIX
         );
-        HMM hmm = new HMM(TASK_FILENAME);
-        hmm.readData(sections);
+        HMM hmm = new HMM();
+        hmm.readDataFromFile(TASK_FILENAME, sections);
 
         // Get HMM parameters
         String outcomeSequence = hmm.getOutcomeSequence();

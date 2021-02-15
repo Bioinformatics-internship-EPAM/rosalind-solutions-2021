@@ -48,7 +48,9 @@ public class Utils {
                         new ImmutablePair<>(
                                 lines.get(recIdxs.get(i)).replace(">", ""),
                                 StringUtils.join(lines
-                                        .subList(recIdxs.get(i) + 1, recIdxs.get(i + 1)), "")))
+                                        .subList(recIdxs.get(i) + 1, recIdxs.get(i + 1)), "")
+                        )
+                )
                 .collect(Collectors.toCollection(LinkedList::new));
     }
 
@@ -60,8 +62,12 @@ public class Utils {
     }
 
     public static long hammingDistance(final String DNA1, final String DNA2) {
-        return IntStream.range(0, DNA1.length())
-                .filter(i -> DNA1.charAt(i) != DNA2.charAt(i))
-                .count();
+        if (DNA1.length() != DNA2.length()) {
+            throw new IllegalArgumentException("DNA lengths are not equal");
+        } else {
+            return IntStream.range(0, DNA1.length())
+                    .filter(i -> DNA1.charAt(i) != DNA2.charAt(i))
+                    .count();
+        }
     }
 }

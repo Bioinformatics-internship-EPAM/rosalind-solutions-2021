@@ -18,11 +18,11 @@ public class PDST {
         // Collect DNA string and calculate length for each DNA string
         // (we assumed that length of each DNA equals to others)
         String[] dnaStrings = fastaRecords.stream().map(Pair::getValue).toArray(String[]::new);
-        int dnaLength = dnaStrings[0].length();
 
         // Create and form p-distance matrix
         double[][] distanceMatrix = new double[dnaStrings.length][dnaStrings.length];
 
+        int dnaLength = dnaStrings[0].length();
         for (int i = 0; i < dnaStrings.length; ++i) {
             distanceMatrix[i][i] = 0.;
 

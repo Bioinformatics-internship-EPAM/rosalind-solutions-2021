@@ -12,11 +12,7 @@ public class HAMM {
         List<String> dnaStrings = Utils.readLinesFromFile(TASK_FILENAME);
 
         if (dnaStrings.size() == 2) {
-            if (dnaStrings.get(0).length() == dnaStrings.get(1).length()) {
-                System.out.println(Utils.hammingDistance(dnaStrings.get(0), dnaStrings.get(1)));
-            } else {
-                throw new IllegalArgumentException("DNAs lengths must be equal");
-            }
+            System.out.println(Utils.hammingDistance(dnaStrings.get(0), dnaStrings.get(1)));
         } else {
             throw new SizeLimitExceededException("Must be 2 DNA sequences in file");
         }

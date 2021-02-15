@@ -13,15 +13,15 @@ public class BA10C {
     // Implement the Viterbi Algorithm
     public static void main(String[] args) throws IOException, URISyntaxException {
         // Read HMM from file
-        List<Section> sections = Arrays.asList(
+        List<Section> sections = List.of(
                 Section.OUTCOME_SEQUENCE,
                 Section.OUTCOME_ALPHABET,
                 Section.STATES,
                 Section.TRANSITION_MATRIX,
                 Section.EMISSION_MATRIX
         );
-        HMM hmm = new HMM(TASK_FILENAME);
-        hmm.readData(sections);
+        HMM hmm = new HMM();
+        hmm.readDataFromFile(TASK_FILENAME, sections);
 
         // Get HMM parameters
         String outcomeSequence = hmm.getOutcomeSequence();
@@ -32,7 +32,6 @@ public class BA10C {
         // Implementation of the Viterbi algorithm
         List<List<Double>> T1 = new LinkedList<>();   // probabilities
         List<List<Integer>> T2 = new LinkedList<>();  // states numbers: A-0, B-1, ...
-
         T1.add(new LinkedList<>());
         T2.add(new LinkedList<>());
 
@@ -50,17 +49,17 @@ public class BA10C {
             T1.add(new LinkedList<>());
             T2.add(new LinkedList<>());
 
-            IntStream.range(0, states.length).forEach(i ->
-                    IntStream.range(0, states.length).boxed()
-                            .map(k-> ImmutablePair.of(k, T1.get(j - 1).get(k)
-                                    * transitionMatrix.get(states[k].concat(states[i]))
-                                    * emissionMatrix.get(states[i] + symbol)))
-                            .max(Comparator.comparingDouble(Pair::getValue))
-                            .ifPresent(pair -> {
-                                T1.get(j).add(pair.getValue());
-                                T2.get(j).add(pair.getKey());
-                            })
-            );
+            IntStream.range(0, states.length).forEach(i -> {
+                Pair<Integer, Double> newStep = IntStream.range(0, states.length).boxed()
+                        .map(k -> ImmutablePair.of(k, T1.get(j - 1).get(k)
+                                * transitionMatrix.get(states[k].concat(states[i]))
+                                * emissionMatrix.get(states[i] + symbol)))
+                        .max(Comparator.comparingDouble(Pair::getValue))
+                        .orElseThrow(NoSuchElementException::new);
+
+                T1.get(j).add(newStep.getValue());
+                T2.get(j).add(newStep.getKey());
+            });
         });
 
         // Backward: find Viterbi path using founded earlier

@@ -11,13 +11,13 @@ public class BA10A {
     // Probability of a Hidden Path Problem
     public static void main(String[] args) throws IOException, URISyntaxException {
         // Read HMM from file
-        List<Section> sections = Arrays.asList(
+        List<Section> sections = List.of(
                 Section.HIDDEN_PATH,
                 Section.STATES,
                 Section.TRANSITION_MATRIX
         );
-        HMM hmm = new HMM(TASK_FILENAME);
-        hmm.readData(sections);
+        HMM hmm = new HMM();
+        hmm.readDataFromFile(TASK_FILENAME, sections);
 
         // Get HMM parameters
         String hiddenPath = hmm.getHiddenPath();
