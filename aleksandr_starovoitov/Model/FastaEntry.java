@@ -24,6 +24,6 @@ public class FastaEntry {
     private Double computeGcContent(String description) {
         var cCount = description.length() - description.replace("C", "").length();
         var gCount = description.length() - description.replace("G", "").length();
-        return (double)Math.round((double)(cCount + gCount) / description.length() * 100000000) / 1000000;
+        return (double)(cCount + gCount) / description.length();
     }
 }

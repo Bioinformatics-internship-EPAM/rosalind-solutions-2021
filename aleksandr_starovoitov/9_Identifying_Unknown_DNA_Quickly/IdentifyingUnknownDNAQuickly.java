@@ -10,7 +10,8 @@ public class IdentifyingUnknownDNAQuickly {
         var result = getResult(entries);
 
         System.out.println(result.getId());
-        System.out.println(result.getGcContent());
+        var roundedGcContent = (double)Math.round(result.getGcContent() * 100000000) / 1000000;
+        System.out.println(roundedGcContent);
     }
 
     private static FastaEntry getResult(List<FastaEntry> entries) {
