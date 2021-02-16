@@ -5,7 +5,7 @@ import com.marsofandrew.bioinformatic.common.Helpers;
 public class DnaToRnaConverter {
 
     public static void main(String[] args) {
-        Helpers.executeStringInput(DnaToRnaConverter::convert, Helpers::checkDnaFast);
+        Helpers.executeStringInput(DnaToRnaConverter::convert);
     }
 
     public static String convert(final String dna) {

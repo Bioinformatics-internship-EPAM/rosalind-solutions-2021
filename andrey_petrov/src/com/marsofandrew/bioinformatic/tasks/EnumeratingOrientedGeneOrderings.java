@@ -2,7 +2,6 @@ package com.marsofandrew.bioinformatic.tasks;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class EnumeratingOrientedGeneOrderings {
     public static void main(String[] args) {
@@ -14,7 +13,7 @@ public class EnumeratingOrientedGeneOrderings {
                         result.addAll(countAllVariants(list));
                     });
             System.out.println(result.size());
-            result.forEach(var -> System.out.println(var.stream()
+            result.forEach(variant -> System.out.println(variant.stream()
                                                              .map(Objects::toString)
                                                              .collect(Collectors.joining(" "))));
         }
@@ -33,7 +32,7 @@ public class EnumeratingOrientedGeneOrderings {
         subList.remove(0);
         Set<List<Integer>> result = new HashSet<>();
         countAllVariants(subList).forEach(list -> {
-            for (int i = -1; i <= 1; i += 2) {
+            for (int i: List.of(-1, 1)) {
                 List<Integer> v = new ArrayList<>();
                 v.add(variant.get(0) * i);
                 v.addAll(list);

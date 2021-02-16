@@ -46,7 +46,7 @@ public class EnumeratingGeneOrders {
 
         final Set<List<Integer>> permutations = count(n);
         System.out.println(permutations.size());
-        permutations.forEach(var -> System.out.println(var.stream()
+        permutations.forEach(variant -> System.out.println(variant.stream()
                                                                .map(Objects::toString)
                                                                .collect(Collectors.joining(" "))));
     }

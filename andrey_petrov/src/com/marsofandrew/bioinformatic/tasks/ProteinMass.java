@@ -5,7 +5,6 @@ import com.marsofandrew.bioinformatic.common.Helpers;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Function;
 
 public class ProteinMass {
     private static final Map<Character, Double> MASS_TABLE = new HashMap<>() {
@@ -41,6 +40,6 @@ public class ProteinMass {
     }
 
     public static void main(String[] args) {
-        Helpers.executeStringInput(ProteinMass::count, str -> { }, Objects::toString);
+        Helpers.executeStringInput(ProteinMass::count, Objects::toString);
     }
 }

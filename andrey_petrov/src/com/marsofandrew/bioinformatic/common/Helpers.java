@@ -3,8 +3,8 @@ package com.marsofandrew.bioinformatic.common;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
 import java.util.Scanner;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public final class Helpers {
@@ -20,27 +20,16 @@ public final class Helpers {
         return builder.toString();
     }
 
-    public static void executeStringInput(Function<String, String> executor, Consumer<String> validator) {
-        executeStringInput(executor, validator, str -> str);
+    public static void executeStringInput(Function<String, String> inputProcessor) {
+        executeStringInput(inputProcessor, Objects::toString);
     }
 
     public static <T> void executeStringInput(
-            Function<String, T> executor, Consumer<String> validator, Function<T, String> converter) {
+            Function<String, T> inputProcessor, Function<T, String> outputConverter) {
         try (Scanner scanner = new Scanner(System.in)) {
             String dataSet = scanner.nextLine();
-            validator.accept(dataSet);
-            var result = executor.apply(dataSet);
-            System.out.println(converter.apply(result));
-        }
-    }
-
-    public static void checkDnaFast(final String dna) {
-        if (dna == null) {
-            throw new IllegalArgumentException("Argument couldn't be null");
-        }
-
-        if (dna.length() > 1000) {
-            throw new IllegalArgumentException("Maximum data length is 1000");
+            var result = inputProcessor.apply(dataSet);
+            System.out.println(outputConverter.apply(result));
         }
     }
 }

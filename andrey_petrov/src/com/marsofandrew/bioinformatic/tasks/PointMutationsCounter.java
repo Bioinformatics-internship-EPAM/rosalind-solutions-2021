@@ -1,7 +1,5 @@
 package com.marsofandrew.bioinformatic.tasks;
 
-import com.marsofandrew.bioinformatic.common.Helpers;
-
 import java.util.Scanner;
 
 public class PointMutationsCounter {
@@ -26,8 +24,6 @@ public class PointMutationsCounter {
         try (Scanner scanner = new Scanner(System.in)) {
             final String dna1 = scanner.nextLine();
             final String dna2 = scanner.nextLine();
-            Helpers.checkDnaFast(dna1);
-            Helpers.checkDnaFast(dna2);
             System.out.println(count(dna1, dna2));
         }
     }

@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class RnaToProteinTranslator {
 
-    private final static Character STOP_SYMBOL = 'Z'; // In accordance to theory there is no protein Z
-    private final static Map<CharSequence, Character> RNA_CODON_TABLE = new HashMap<>() {{
+    private static final Character STOP_SYMBOL = 'Z'; // In accordance to theory there is no protein Z
+    private static final Map<CharSequence, Character> RNA_CODON_TABLE = new HashMap<>() {{
         put("UUU", 'F');
         put("UUC", 'F');
         put("UUA", 'L');
@@ -74,6 +74,7 @@ public class RnaToProteinTranslator {
         put("UAG", STOP_SYMBOL);
         put("UGA", STOP_SYMBOL);
     }};
+    private static final int CODON_LENGTH = 3;
 
     public static String convert(final String rna) {
         if (rna == null) {
@@ -83,7 +84,7 @@ public class RnaToProteinTranslator {
         StringBuilder proteins = new StringBuilder();
         String rnaUpper = rna.toUpperCase();
         while (!rnaUpper.isEmpty()) {
-            String group = rnaUpper.substring(0, 3);
+            String group = rnaUpper.substring(0, CODON_LENGTH);
             Character protein = RNA_CODON_TABLE.get(group);
             if (protein.equals(STOP_SYMBOL)) {
                 break;
@@ -95,10 +96,6 @@ public class RnaToProteinTranslator {
     }
 
     public static void main(String[] args) {
-        Helpers.executeStringInput(RnaToProteinTranslator::convert, rna -> {
-            if (rna.length() > 10_000) {
-                throw new IllegalArgumentException("Max size of RNA is 10_000");
-            }
-        });
+        Helpers.executeStringInput(RnaToProteinTranslator::convert);
     }
 }
