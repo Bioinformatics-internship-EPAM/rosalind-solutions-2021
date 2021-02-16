@@ -11,10 +11,10 @@ public class EnumeratingKmersLexicographically {
         var str = first.replace(" ", "");
         int count = Integer.parseInt(second);
 
-        combination(str, count, new StringBuffer());
+        combination(str, count, new StringBuilder());
     }
 
-    private static void combination(String input, int depth, StringBuffer output) {
+    private static void combination(String input, int depth, StringBuilder output) {
         if (depth == 0) {
             System.out.println(output);
         } else {
