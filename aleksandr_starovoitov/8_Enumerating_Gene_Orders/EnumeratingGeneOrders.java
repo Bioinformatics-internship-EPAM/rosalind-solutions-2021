@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 public class EnumeratingGeneOrders {
     private static final String FileName = "rosalind_perm.txt";
-    private static int count = 0;
+    private static int totalCount = 0;
     private static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws Exception {
@@ -14,7 +14,7 @@ public class EnumeratingGeneOrders {
 
         getResult(input.get(0));
 
-        System.out.print(count);
+        System.out.print(totalCount);
         System.out.println(sb.toString());
     }
 
@@ -34,7 +34,7 @@ public class EnumeratingGeneOrders {
             Collections.swap(arr, k, i);
         }
         if (k == arr.size() - 1) {
-            count++;
+            totalCount++;
             sb.append("\n");
             sb.append(arr.stream().map(Objects::toString).collect(Collectors.joining(" ")));
         }
