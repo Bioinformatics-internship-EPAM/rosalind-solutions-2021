@@ -13,12 +13,11 @@ public class FileUtils {
         var lines = readFromFile(fileName);
         var list = new ArrayList<FastaEntry>();
 
-        FastaEntry fastaEntry = null;
         int i = 0;
+        String id = "";
         while (i < lines.size()) {
             if (lines.get(i).charAt(0) == '>') {
-                fastaEntry = new FastaEntry();
-                fastaEntry.setId(lines.get(i).substring(1));
+                id = lines.get(i).substring(1);
                 i++;
             } else {
                 var sb = new StringBuilder();
@@ -27,7 +26,7 @@ public class FileUtils {
                     i++;
                 }
 
-                fastaEntry.setDescription(sb.toString());
+                var fastaEntry = new FastaEntry(id, sb.toString());
                 list.add(fastaEntry);
             }
         }
