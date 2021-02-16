@@ -2,6 +2,7 @@ import java.util.HashMap;
 
 public class TranslatingRNAintoProtein {
     private static final String FileName = "rosalind_prot.txt";
+    private static final int CODON_LENGTH = 3;
 
     public static void main(String[] args) throws Exception {
         var input = FileUtils.readFromFile(FileName).get(0);
@@ -15,8 +16,8 @@ public class TranslatingRNAintoProtein {
         var table = getTable();
 
         var sb = new StringBuilder();
-        for (int i = 0; i < input.length() - 3; i = i + 3) {
-            var codon = input.substring(i, i + 3);
+        for (int i = 0; i < input.length() - CODON_LENGTH; i = i + CODON_LENGTH) {
+            var codon = input.substring(i, i + CODON_LENGTH);
             var amino = table.get(codon);
             sb.append(amino);
         }
