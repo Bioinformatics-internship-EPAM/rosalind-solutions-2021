@@ -3,6 +3,7 @@ import java.util.HashMap;
 public class TranslatingRNAintoProtein {
     private static final String FileName = "rosalind_prot.txt";
     private static final int CODON_LENGTH = 3;
+    private static final char STOP_CODON = '1';
 
     public static void main(String[] args) throws Exception {
         var input = FileUtils.readFromFile(FileName).get(0);
@@ -19,6 +20,9 @@ public class TranslatingRNAintoProtein {
         for (int i = 0; i < input.length() - CODON_LENGTH; i = i + CODON_LENGTH) {
             var codon = input.substring(i, i + CODON_LENGTH);
             var amino = table.get(codon);
+            if (amino == STOP_CODON) {
+                break;
+            }
             sb.append(amino);
         }
 
@@ -88,9 +92,9 @@ public class TranslatingRNAintoProtein {
         table.put("GGA", 'G');
         table.put("GGG", 'G');
         table.put("UGG", 'W');
-        table.put("UAA", '1');
-        table.put("UAG", '1');
-        table.put("UGA", '1');
+        table.put("UAA", STOP_CODON);
+        table.put("UAG", STOP_CODON);
+        table.put("UGA", STOP_CODON);
 
         return table;
     }
