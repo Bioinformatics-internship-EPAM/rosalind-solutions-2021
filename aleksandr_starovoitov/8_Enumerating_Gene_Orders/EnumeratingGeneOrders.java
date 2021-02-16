@@ -2,7 +2,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.stream.IntStream;
 
 public class EnumeratingGeneOrders {
     private static final String FileName = "rosalind_perm.txt";
@@ -20,9 +20,7 @@ public class EnumeratingGeneOrders {
 
     private static void getResult(String input) {
         var count = Integer.valueOf(input);
-        var numbers = Stream.iterate(1, n -> n + 1)
-                .limit(count)
-                .collect(Collectors.toList());
+        var numbers = IntStream.range(1, count).boxed().collect(Collectors.toList());
 
         permute(numbers, 0);
     }
