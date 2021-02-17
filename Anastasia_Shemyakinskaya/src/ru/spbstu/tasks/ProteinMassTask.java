@@ -15,11 +15,7 @@ public class ProteinMassTask {
     }
 
     public Double countWeight() throws IOException {
-        try {
-            weights = FileUtils.readTableAndReturnMap("monoisotopic_mass_table.txt");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        weights = FileUtils.readTableAndReturnMap("monoisotopic_mass_table.txt");
         return proteinString.chars()
                 .mapToDouble(c -> Double.parseDouble(weights.get(String.valueOf((char) c))))
                 .sum();

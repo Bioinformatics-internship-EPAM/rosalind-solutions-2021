@@ -17,7 +17,6 @@ public class FileUtils {
             List<String> chunkLines = new ArrayList<>();
             Collections.addAll(chunkLines, string.split(" "));
             String id = chunkLines.remove(0);
-            ;
             String dna = String.join("", chunkLines);
             dnaMap.put(id, dna);
         }
