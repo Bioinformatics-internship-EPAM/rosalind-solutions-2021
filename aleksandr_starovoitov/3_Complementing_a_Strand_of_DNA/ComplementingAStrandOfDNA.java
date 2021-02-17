@@ -14,10 +14,10 @@ public class ComplementingAStrandOfDNA {
 
     private static String getResult(String input) {
         var complements = new HashMap<>(Map.of(
-        'A', 'T',
-        'T', 'A',
-        'C', 'G',
-        'G', 'C'
+            'A', 'T',
+            'T', 'A',
+            'C', 'G',
+            'G', 'C'
         ));
 
         var sb = new StringBuilder();

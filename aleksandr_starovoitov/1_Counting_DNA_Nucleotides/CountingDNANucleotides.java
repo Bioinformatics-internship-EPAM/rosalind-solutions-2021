@@ -14,10 +14,10 @@ public class CountingDNANucleotides {
 
     private static String getResult(String input) {
         var charCount = new HashMap<>(Map.of(
-        'A', 0,
-        'C', 0,
-        'G', 0,
-        'T', 0
+            'A', 0,
+            'C', 0,
+            'G', 0,
+            'T', 0
         ));
 
         for (int i = 0; i < input.length(); i++) {
