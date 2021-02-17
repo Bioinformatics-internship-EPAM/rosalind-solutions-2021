@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Map;
 
 public class ComplementingAStrandOfDNA {
     private static final String FileName = "rosalind_revc.txt";
@@ -12,11 +13,12 @@ public class ComplementingAStrandOfDNA {
     }
 
     private static String getResult(String input) {
-        var complements = new HashMap<Character, Character>();
-        complements.put('A', 'T');
-        complements.put('T', 'A');
-        complements.put('C', 'G');
-        complements.put('G', 'C');
+        var complements = new HashMap<>(Map.of(
+        'A', 'T',
+        'T', 'A',
+        'C', 'G',
+        'G', 'C'
+        ));
 
         var sb = new StringBuilder();
 
