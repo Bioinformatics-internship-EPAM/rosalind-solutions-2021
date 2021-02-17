@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Map;
 
 public class CountingDNANucleotides {
     private static final String FileName = "rosalind_dna.txt";
@@ -12,11 +13,12 @@ public class CountingDNANucleotides {
     }
 
     private static String getResult(String input) {
-        var charCount = new HashMap<Character, Integer>();
-        charCount.put('A', 0);
-        charCount.put('C', 0);
-        charCount.put('G', 0);
-        charCount.put('T', 0);
+        var charCount = new HashMap<>(Map.of(
+        'A', 0,
+        'C', 0,
+        'G', 0,
+        'T', 0
+        ));
 
         for (int i = 0; i < input.length(); i++) {
             char c = input.charAt(i);
