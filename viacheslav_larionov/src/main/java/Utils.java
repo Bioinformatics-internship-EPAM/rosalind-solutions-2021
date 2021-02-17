@@ -55,10 +55,11 @@ public class Utils {
     }
 
     public static Properties getProperties(final String filename) throws IOException {
-        InputStream stream = Utils.class.getClassLoader().getResourceAsStream(filename);
-        Properties prop = new Properties();
-        prop.load(stream);
-        return prop;
+        try (InputStream stream = Utils.class.getClassLoader().getResourceAsStream(filename)) {
+            Properties prop = new Properties();
+            prop.load(stream);
+            return prop;
+        }
     }
 
     public static long hammingDistance(final String DNA1, final String DNA2) {

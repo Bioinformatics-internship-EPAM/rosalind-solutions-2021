@@ -1,35 +1,46 @@
+import com.google.common.collect.Table;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.IntStream;
 
 public class BA10A {
 
     private static final String TASK_FILENAME = "ba10a.txt";
 
-    // Probability of a Hidden Path Problem
-    public static void main(String[] args) throws IOException, URISyntaxException {
-        // Read HMM from file
-        List<Section> sections = List.of(
-                Section.HIDDEN_PATH,
-                Section.STATES,
-                Section.TRANSITION_MATRIX
-        );
-        HMM hmm = new HMM();
-        hmm.readDataFromFile(TASK_FILENAME, sections);
+    private static String hiddenPath;
+
+    private static char[] states;
+    
+    private static Table<Character, Character, Double> transitionMatrix;
+
+    private static void readParametersOfHMMFromFile()
+            throws IOException, URISyntaxException {
+        List<String> lines = Utils.readLinesFromFile(TASK_FILENAME);
 
         // Get HMM parameters
-        String hiddenPath = hmm.getHiddenPath();
-        String[] states = hmm.getStates();
-        Map<String, Double> transitionMatrix = hmm.getTransitionMatrix();
+        int lineIdx = 0;
+        hiddenPath = lines.get(lineIdx);
+
+        lineIdx += 2;
+        states = HMM.getCharactersFromLine(lines.get(lineIdx));
+
+        lineIdx += 3;
+        transitionMatrix = HMM.readMatrixFromLines(lines.subList(lineIdx, lineIdx + states.length), states);
+    }
+
+    // Probability of a Hidden Path Problem
+    public static void main(String[] args) throws IOException, URISyntaxException {
+        // Read HMM parameters from file
+        readParametersOfHMMFromFile();
 
         // Initial probabilities for each state are equal
         double prob = 1. / states.length;
         // Calculate probability of the hidden path
-        for (int i = 0; i < hiddenPath.length() - 1; ++i) {
-            prob *= transitionMatrix.get(hiddenPath.substring(i, i + 2));
-        }
+        prob *= IntStream.range(0, hiddenPath.length() - 1)
+                .mapToDouble(i -> transitionMatrix.get(hiddenPath.charAt(i), hiddenPath.charAt(i + 1)))
+                .reduce(1, (a, b) -> a * b);
 
         System.out.println(prob);
     }
