@@ -6,10 +6,10 @@ import kotlin.math.max
 fun main() {
     val fileName = readLine()!!
 
-    val (s1, s2) = File(fileName).readText()
-        .replace(Regex("\\s"), "")
-        .split(Regex(">Rosalind_\\d+"))
-        .drop(1)
+    val input = File(fileName).readText()
+    val oneLineInput = input.replace(Regex("\\s"), "")
+    val seqArrayInput = oneLineInput.split(Regex(">Rosalind_\\d+")).drop(1)
+    val (s1, s2) = seqArrayInput
 
     println(findSplicedMotif(s1, s2))
 }

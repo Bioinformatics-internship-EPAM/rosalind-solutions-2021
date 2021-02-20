@@ -6,11 +6,9 @@ fun main() {
     val fileName = readLine()!!
 
     val input = File(fileName).readText()
-        .replace(Regex("\\s"), "")
-        .split(Regex(">Rosalind_\\d+"))
-        .drop(1)
-        .toMutableList()
-    val (dna, subsequence) = input
+    val oneLineInput = input.replace(Regex("\\s"), "")
+    val seqArrayInput = oneLineInput.split(Regex(">Rosalind_\\d+")).drop(1)
+    val (dna, subsequence) = seqArrayInput
 
     val res = ArrayList<Int>()
     subsequence.forEach({

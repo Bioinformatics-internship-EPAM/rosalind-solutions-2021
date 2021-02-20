@@ -6,19 +6,18 @@ fun main() {
     val fileName = readLine()!!
     var motifs = HashSet<String>()
 
-    File(fileName).readText()
-        .replace(Regex("\\s"), "")
-        .split(Regex(">Rosalind_\\d+"))
-        .drop(1)
-        .forEach({ inputString ->
-            if (motifs.isEmpty()) {
-                motifs.add(inputString)
-            } else {
-                val newMotifs = HashSet<String>()
-                motifs.forEach({ motif -> newMotifs.addAll(collectMotifs(motif, inputString)) })
-                motifs = newMotifs
-            }
-        })
+    val input = File(fileName).readText()
+    val oneLineInput = input.replace(Regex("\\s"), "")
+    val seqArrayInput = oneLineInput.split(Regex(">Rosalind_\\d+")).drop(1)
+    seqArrayInput.forEach({ inputString ->
+        if (motifs.isEmpty()) {
+            motifs.add(inputString)
+        } else {
+            val newMotifs = HashSet<String>()
+            motifs.forEach({ motif -> newMotifs.addAll(collectMotifs(motif, inputString)) })
+            motifs = newMotifs
+        }
+    })
 
     val res = motifs.maxByOrNull({ it.length })
     println(res)
