@@ -1,7 +1,9 @@
 package MergeSort;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class MergeSort {
@@ -30,11 +32,15 @@ public class MergeSort {
             }
             k++;
         }
-        if (j > r)
-            for (; i <= q; i++, k++)
+        if (j > r) {
+            for (; i <= q; i++, k++) {
                 arrTemp[k] = A[i];
-        else for (; j <= r; j++, k++)
-            arrTemp[k] = A[j];
+            }
+        } else {
+            for (; j <= r; j++, k++) {
+                arrTemp[k] = A[j];
+            }
+        }
         i = 0;
         for (int l = p; l <= r; l++) {
             A[l] = arrTemp[i];
@@ -42,24 +48,24 @@ public class MergeSort {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         String pathIn = "src/MergeSort/rosalind_ms.txt";
         String pathOut = "src/MergeSort/result_ms.txt";
-        try (FileReader fileReader = new FileReader(pathIn);
-             FileWriter fileWriter = new FileWriter(pathOut)) {
-            Scanner scanner = new Scanner(fileReader);
-            int n = scanner.nextInt();
-            int[] arr = new int[n];
-            int i = 0;
-            while (i < n) {
-                arr[i] = scanner.nextInt();
-                i++;
-            }
-            mergeSort(arr, 0, n - 1);
-            for (i = 0; i < n; i++)
-                fileWriter.write(arr[i] + " ");
-        } catch (Exception e) {
-            e.printStackTrace();
+        FileReader fileReader = new FileReader(pathIn);
+        FileWriter fileWriter = new FileWriter(pathOut);
+        Scanner scanner = new Scanner(fileReader);
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+        int i = 0;
+        while (i < n) {
+            arr[i] = scanner.nextInt();
+            i++;
         }
+        mergeSort(arr, 0, n - 1);
+        for (i = 0; i < n; i++) {
+            fileWriter.write(arr[i] + " ");
+        }
+        fileReader.close();
+        fileWriter.close();
     }
 }

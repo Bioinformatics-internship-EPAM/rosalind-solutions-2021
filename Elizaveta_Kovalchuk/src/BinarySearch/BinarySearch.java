@@ -2,11 +2,12 @@ package BinarySearch;
 
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class BinarySearch {
 
-    public static Integer binSearch(int[] array, int key, int left, int right) {
+    public static int binSearch(int[] array, int key, int left, int right) {
         int i = (left + right) / 2;
         if (left > right)
             return -1;
@@ -17,28 +18,29 @@ public class BinarySearch {
         return i + 1;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         String pathIn = "src/BinarySearch/rosalind_bins.txt";
         String pathOut = "src/BinarySearch/result_bins.txt";
-        try (FileReader fileReader = new FileReader(pathIn);
-             FileWriter fileWriter = new FileWriter(pathOut)) {
-            Scanner scanner = new Scanner(fileReader);
-            int n = scanner.nextInt();
-            int m = scanner.nextInt();
-            int i = 0;
-            int[] arr = new int[n];
-            while (i < n) {
-                arr[i] = scanner.nextInt();
-                i++;
-            }
-            i = 0;
-            while (i < m) {
-                int key = scanner.nextInt();
-                fileWriter.write(binSearch(arr, key, 0, n - 1).toString() + " ");
-                i++;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        FileReader fileReader = new FileReader(pathIn);
+        FileWriter fileWriter = new FileWriter(pathOut);
+        Scanner scanner = new Scanner(fileReader);
+        int n = scanner.nextInt();
+        int m = scanner.nextInt();
+        int i = 0;
+        int[] arr = new int[n];
+        while (i < n) {
+            arr[i] = scanner.nextInt();
+            i++;
         }
+        i = 0;
+        while (i < m) {
+            int key = scanner.nextInt();
+            int res = binSearch(arr, key, 0, n - 1);
+            fileWriter.write(res + " ");
+            i++;
+        }
+        fileReader.close();
+        fileWriter.close();
     }
 }
+

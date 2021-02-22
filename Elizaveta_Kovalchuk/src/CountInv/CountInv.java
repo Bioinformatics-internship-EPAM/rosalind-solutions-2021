@@ -2,6 +2,7 @@ package CountInv;
 
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class CountInv {
@@ -20,22 +21,21 @@ public class CountInv {
         return count;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         String pathIn = "src/CountInv/rosalind_inv.txt";
         String pathOut = "src/CountInv/result_inv.txt";
-        try (FileReader fileReader = new FileReader(pathIn);
-             FileWriter fileWriter = new FileWriter(pathOut)) {
-            Scanner scanner = new Scanner(fileReader);
-            int n = scanner.nextInt();
-            int[] arr = new int[n];
-            int i = 0;
-            while (i < n) {
-                arr[i] = scanner.nextInt();
-                i++;
-            }
-            fileWriter.write(String.valueOf(countInv(n, arr)));
-        } catch (Exception e) {
-            e.printStackTrace();
+        FileReader fileReader = new FileReader(pathIn);
+        FileWriter fileWriter = new FileWriter(pathOut);
+        Scanner scanner = new Scanner(fileReader);
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+        int i = 0;
+        while (i < n) {
+            arr[i] = scanner.nextInt();
+            i++;
         }
+        fileWriter.write(String.valueOf(countInv(n, arr)));
+        fileReader.close();
+        fileWriter.close();
     }
 }
