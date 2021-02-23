@@ -6,6 +6,7 @@ import java.util.List;
 
 public class RabbitsRecurrenceRelationsTask {
 
+
     private static long getRabbitPairs(int months, int rabbits) {
         if (months == 1 || months == 2) {
             return 1;

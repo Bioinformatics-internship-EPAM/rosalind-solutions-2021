@@ -16,6 +16,8 @@ public final class Utils {
     public static final String TRANSCRIBE_DNA_RNA = "TranscribingDNAintoRNA.txt";
     public static final String COMPLEMENT_STRAND_DNA = "ComplementingStrandOfDNA.txt";
     public static final String RABBITS_RECCURENCE_RELATIONS = "RabbitsRecurrenceRelations.txt";
+    public static final String COUNTING_POINT_MUTATIONS = "CountingPointMutations.txt";
+    public static final String FINDING_MOTIF_IN_DNA = "FindingMotifInDNA.txt";
 
     public static final Map<Character, Character> COMPLEMENT_DNA = Map.of(
             'A', 'T',
