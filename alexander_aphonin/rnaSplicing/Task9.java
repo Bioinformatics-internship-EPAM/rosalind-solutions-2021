@@ -81,7 +81,7 @@ public class Task9 {
         proteinAbbreviations.put("GGG", "G");
     }
     public static List<String> readFastaFile(final String fastaFilename) {
-        List<String> dnaStrings = new LinkedList<>(); // we only save data as the id is unnecessary
+        List<String> dnaStrings = new ArrayList<>(); // we only save data as the id is unnecessary
         try (BufferedReader br
                      = new BufferedReader(new InputStreamReader(new FileInputStream(fastaFilename)))) {
             String line;
