@@ -1,7 +1,6 @@
 public class Task2 {
 
-    public static int evalHammingDistance(final String dnaSeq1, final String dnaSeq2)
-            throws IllegalArgumentException {
+    public static int evalHammingDistance(final String dnaSeq1, final String dnaSeq2) {
         // Didn't find a nice solutions through streams. If review has a concept, would be nice to know
         final int firstStringLength = dnaSeq1.length();
         final int secondStringLength = dnaSeq2.length();

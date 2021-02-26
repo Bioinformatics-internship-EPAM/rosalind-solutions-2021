@@ -5,6 +5,7 @@ import java.util.stream.IntStream;
 
 public class Task5 {
     public static Map<String, String> proteinAbbreviations;
+    public static final int CODON_LENGTH = 3;
     static {
         proteinAbbreviations = new HashMap<>();
         proteinAbbreviations.put("UUU", "F");
@@ -77,9 +78,9 @@ public class Task5 {
         // in prod we should check that it's AUCG string and that the length is divisible by 3.
         // we can also use stop sequences here, but it's not asked.
         return IntStream
-                .iterate(0, i -> i + 3)
-                .limit((int) Math.ceil(rnaString.length() / 3.0))
-                .mapToObj(i -> rnaString.substring(i, i+3))
+                .iterate(0, i -> i + CODON_LENGTH)
+                .limit((int) Math.ceil((double) rnaString.length() / CODON_LENGTH))
+                .mapToObj(i -> rnaString.substring(i, i + CODON_LENGTH))
                 .map(nuclTriplet -> proteinAbbreviations.get(nuclTriplet))
                 .collect(Collectors.joining());
     }

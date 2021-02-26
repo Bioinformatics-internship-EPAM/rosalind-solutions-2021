@@ -20,7 +20,6 @@ public class Task10 {
             }
             System.out.println(stringBuilder.toString());
         }
-
     }
 
     private void permutation(final String str) {

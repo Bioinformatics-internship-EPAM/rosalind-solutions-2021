@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Task8 {
+
     public static Map<String, String> readFastaFile(final String fastaFilename) {
         Map<String, String> dnaStrings = new HashMap<>(); // <id, data>
         try (BufferedReader br

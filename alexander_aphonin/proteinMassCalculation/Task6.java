@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 
 public class Task6 {
     public static Map<String, Double> monoisotopicMasses;
-
+    //Map.of(); doesn't work for 20 pairs.
     static {
         monoisotopicMasses = new HashMap<>();
         monoisotopicMasses.put("A", 71.03711);
@@ -31,11 +31,9 @@ public class Task6 {
     }
 
     public static Double calculateProteinMass(final String proteinString) {
-        // in prod we should check that it's AUCG string and that the length is divisible by 3.
         // we can also use stop sequences here, but it's not asked.
         return Stream.of(proteinString.split(""))
-                .map(protein -> monoisotopicMasses.get(protein))
-                .mapToDouble(Double::doubleValue)
+                .mapToDouble(monoisotopicMasses::get)
                 .sum();
     }
 }

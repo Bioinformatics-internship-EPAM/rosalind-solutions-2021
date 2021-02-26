@@ -4,6 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -11,30 +15,25 @@ import java.util.stream.Stream;
 
 public class Task1 {
 
-    private static String readInputStreamIntoString(final InputStream inputStream)
-            throws IOException {
+    private static String readInputFileIntoString(final String inputFileName) {
         final StringBuilder resultStringBuilder = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                resultStringBuilder.append((line));
-            }
+        // with throws in method's signature looks better, but there is no proper handling anyway
+        List<String> fileLines = new ArrayList<>();
+        try {
+            fileLines = Files.readAllLines(Path.of(inputFileName));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return resultStringBuilder.toString();
+        return String.join("", fileLines);
+
     }
 
     public static void countDNANucleotides(final String inputFileName) {
-        try (InputStream inputFileStream = new FileInputStream(inputFileName)) {
-            final String nucleotidesString = readInputStreamIntoString(inputFileStream); // A C G T
+            final String nucleotidesString = readInputFileIntoString(inputFileName); // A C G T
             // there are other more efficient ways of making an array from a string, but for shown datasets it'll do
             final Map<String, Long> l = Stream.of(nucleotidesString.split(""))
                     .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
             System.out.println(l.toString());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO: some thoughtful handling
-            e.printStackTrace();
-        }
+
     }
 }

@@ -2,16 +2,17 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class Task9 {
 
-    public static Map<String, String> proteinAbbreviations;
+    public static final Map<String, String> proteinAbbreviations;
+    //Map.of(); doesn't work for 64 pairs.
     static {
         proteinAbbreviations = new HashMap<>();
         proteinAbbreviations.put("UUU", "F");
@@ -79,65 +80,42 @@ public class Task9 {
         proteinAbbreviations.put("GGA", "G");
         proteinAbbreviations.put("GGG", "G");
     }
-    public static Map<String, String> readFastaFile(final String fastaFilename) {
-        //unlike earlier task we do need the ordering guarantees, hence the linkedHashMap
-        Map<String, String> dnaStrings = new LinkedHashMap<>(); // <id, data>
+    public static List<String> readFastaFile(final String fastaFilename) {
+        List<String> dnaStrings = new LinkedList<>(); // we only save data as the id is unnecessary
         try (BufferedReader br
                      = new BufferedReader(new InputStreamReader(new FileInputStream(fastaFilename)))) {
             String line;
             boolean first = true;
-            String dnaStringId = null;
             StringBuilder stringBuilder = new StringBuilder();
             while ((line = br.readLine()) != null) {
-                //need to store this until all data for id is read
                 if (line.charAt(0) == '>') {
-                    String[] lineMetadata = line.split(" ");
-                    // we can either compare stringBuilder with "" each time or introduce a flag.
                     if (first) {
                         first = false;
-                        dnaStringId = lineMetadata[0].substring(1);
                         continue;
                     }
-                    dnaStrings.put(dnaStringId, stringBuilder.toString());
+                    dnaStrings.add(stringBuilder.toString());
                     stringBuilder.setLength(0);
-                    // the first element looks like ">abc", so we only need a substring
-                    dnaStringId = lineMetadata[0].substring(1);
                 } else {
                     stringBuilder.append(line);
                 }
             }
-            dnaStrings.put(dnaStringId, stringBuilder.toString());
+            dnaStrings.add(stringBuilder.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
         return dnaStrings;
     }
     public static String createProteinString(final String filename) {
-        Map<String, String> fileData = readFastaFile(filename);
-        final Map.Entry<String, String> dnaSequenceEntry = fileData.entrySet().iterator().next();
-        fileData.remove(dnaSequenceEntry.getKey());
+        List<String> fileData = readFastaFile(filename);
+        String dnaSequence = fileData.get(0);
+        fileData.remove(0);
 
         // we exclude the dna string itself. to only erase introns.
-        fileData.entrySet().stream()
-                .forEach(intron -> dnaSequenceEntry.setValue(dnaSequenceEntry.getValue().replaceAll(intron.getValue(),"")));
+        dnaSequence = fileData.stream().reduce(dnaSequence, (str,intron) -> str.replaceAll(intron, ""));
+                //.forEach(val -> dnaSequenceEntry.setValue())
 
-        final String rnaSequence = getTranscribedRna(dnaSequenceEntry.getValue());
-        return IntStream
-                .iterate(0, i -> i + 3)
-                .limit((int) Math.ceil(rnaSequence.length() / 3.0))
-                .mapToObj(i -> rnaSequence.substring(i, i+3))
-                .map(nuclTriplet -> proteinAbbreviations.get(nuclTriplet))
-                .collect(Collectors.joining());
+        final String rnaSequence = Task4.getTranscribedRna(dnaSequence);
+        return Task5.getProteinString(rnaSequence);
     }
 
-    public static String getTranscribedRna(final String dnaString) {
-        return Stream.of(dnaString.split(""))
-                .map(nucl -> {
-                    if (nucl.equals("T")) {
-                        return "U";
-                    }
-                    return nucl;
-                })
-                .collect(Collectors.joining());
-    }
 }
