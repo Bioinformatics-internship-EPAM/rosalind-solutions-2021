@@ -7,7 +7,7 @@ import java.util.List;
 public class CountingPointMutationsTask {
 
     public static void main(String[] args) throws Exception {
-        List<String> lines = Utils.readDataset(Utils.COUNTING_POINT_MUTATIONS);
+        List<String> lines = Utils.readFile(Utils.COUNTING_POINT_MUTATIONS);
         String line1 = lines.get(0);
         String line2 = lines.get(1);
         int countMutations = 0;

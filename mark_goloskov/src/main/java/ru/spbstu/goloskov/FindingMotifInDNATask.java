@@ -7,7 +7,7 @@ import java.util.List;
 public class FindingMotifInDNATask {
 
     public static void main(String[] args) throws Exception {
-        List<String> lines = Utils.readDataset(Utils.FINDING_MOTIF_IN_DNA);
+        List<String> lines = Utils.readFile(Utils.FINDING_MOTIF_IN_DNA);
         String line = lines.get(0);
         String subLine = lines.get(1);
         int cycleLength = line.length() - subLine.length();

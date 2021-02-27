@@ -15,7 +15,7 @@ public class RabbitsRecurrenceRelationsTask {
     }
 
     public static void main(String[] args) throws Exception {
-        List<String> lines = Utils.readDataset(Utils.RABBITS_RECCURENCE_RELATIONS);
+        List<String> lines = Utils.readFile(Utils.RABBITS_RECCURENCE_RELATIONS);
         String[] data = lines.get(0).split(" ");
         int months = Integer.parseInt(data[0]);
         int rabbits = Integer.parseInt(data[1]);

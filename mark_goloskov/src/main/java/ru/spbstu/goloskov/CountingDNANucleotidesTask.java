@@ -6,7 +6,7 @@ import java.util.List;
 
 public class CountingDNANucleotidesTask {
     public static void main(String[] args) throws Exception {
-        List<String> lines = Utils.readDataset(Utils.COUNTING_DNA_NUCL_FILE);
+        List<String> lines = Utils.readFile(Utils.COUNTING_DNA_NUCL_FILE);
         int countA = 0;
         int countC = 0;
         int countG = 0;

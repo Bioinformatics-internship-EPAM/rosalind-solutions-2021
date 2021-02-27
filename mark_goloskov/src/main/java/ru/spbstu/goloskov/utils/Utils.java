@@ -18,6 +18,10 @@ public final class Utils {
     public static final String RABBITS_RECCURENCE_RELATIONS = "RabbitsRecurrenceRelations.txt";
     public static final String COUNTING_POINT_MUTATIONS = "CountingPointMutations.txt";
     public static final String FINDING_MOTIF_IN_DNA = "FindingMotifInDNA.txt";
+    public static final String COMPUTING_GC_CONTENT = "ComputingGCContent.txt";
+    public static final String TRANSLATING_RNA_PROTEIN = "TranslatingRNAProtein.txt";
+    public static final String CALCULATING_PROTEIN_MASS = "CalculatingProteinMass.txt";
+    public static final String LOCATING_RESTRICTION_SITES = "LocatingRestrictionSites.txt";
 
     public static final Map<Character, Character> COMPLEMENT_DNA = Map.of(
             'A', 'T',
@@ -29,9 +33,17 @@ public final class Utils {
 
     }
 
-    public static List<String> readDataset(String fileName) throws URISyntaxException, IOException {
+    public static List<String> readFile(String fileName) throws URISyntaxException, IOException {
         URI uri = Objects.requireNonNull(Utils.class.getClassLoader().getResource(fileName)).toURI();
         return Files.readAllLines(Paths.get(uri));
+    }
+
+    public static String reverseComplement(String dna) {
+        StringBuilder complementDNA = new StringBuilder();
+        for (char symbol : dna.toCharArray()) {
+            complementDNA.append(Utils.COMPLEMENT_DNA.get(symbol));
+        }
+        return complementDNA.reverse().toString();
     }
 
 }
