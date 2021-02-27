@@ -10,35 +10,32 @@ public class Tasks {
         3 - G
         4 - T
          */
-        int A_count = 0;
-        int C_count = 0;
-        int G_count = 0;
-        int T_count = 0;
-
+        Map<Character, Integer> count = new HashMap<>() {{
+            put('A', 0);
+            put('C', 0);
+            put('G', 0);
+            put('T', 0);
+        }};
         for (char ch : dataset.toCharArray()) {
             switch (ch) {
-                case 'A': {
-                    A_count++;
+                case 'A':
+                    count.replace('A', (count.get('A') + 1));
                     continue;
-                }
-                case 'C': {
-                    C_count++;
+                case 'C':
+                    count.replace('C', (count.get('C') + 1));
                     continue;
-                }
-                case 'G': {
-                    G_count++;
+                case 'G':
+                    count.replace('G', (count.get('G') + 1));
                     continue;
-                }
-                case 'T': {
-                    T_count++;
+                case 'T':
+                    count.replace('T', (count.get('T') + 1));
                     continue;
-                }
-                default: {
+                default:
                     return "Wrong input line.";
-                }
+
             }
         }
-        return A_count + " " + C_count + " " + G_count + " " + T_count;
+        return count.get('A') + " " + count.get('C') + " " + count.get('G') + " " + count.get('T');
     }
 
     // 1 - RNA
@@ -50,7 +47,8 @@ public class Tasks {
     public static String complementingAStrandOfDNA(String dataset) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < dataset.length(); i++) {
-            switch (dataset.charAt(dataset.length() - i - 1)) {
+            char ch = dataset.charAt(dataset.length() - i - 1);
+            switch (ch) {
                 case 'A': {
                     result.append('T');
                     continue;
@@ -78,8 +76,11 @@ public class Tasks {
         int k = Integer.parseInt(data[1]);
         List<Long> result = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            if (i < 2) result.add(1L);
-            else result.add(result.get(i - 1) + result.get(i - 2) * k);
+            if (i < 2) {
+                result.add(1L);
+            } else {
+                result.add(result.get(i - 1) + result.get(i - 2) * k);
+            }
         }
         return result.get(result.size() - 1);
     }
@@ -91,15 +92,22 @@ public class Tasks {
         int m = Integer.parseInt(data[1]);
         List<Long> result = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            if (i < 2) result.add(1L);
-            else if (i < m) result.add(result.get(i - 1) + result.get(i - 2));
-            else if (i == m) result.add(result.get(i - 1) + result.get(i - 2) - 1);
-            else result.add(result.get(i - 1) + result.get(i - 2) - result.get(i - m - 1));
+            if (i < 2) {
+                result.add(1L);
+            } else if (i < m) {
+                result.add(result.get(i - 1) + result.get(i - 2));
+            } else if (i == m) {
+                result.add(result.get(i - 1) + result.get(i - 2) - 1);
+            } else {
+                result.add(result.get(i - 1) + result.get(i - 2) - result.get(i - m - 1));
+            }
         }
         return result.get(result.size() - 1);
     }
 
     // 5 - GC
+    private static final int NAME_LENGTH = 14;
+
     public static String computingGCContent(List<String> dataset) {
         double bestContent = 0.0;
         String bestContentName = "";
@@ -107,7 +115,7 @@ public class Tasks {
             double content = getContent(str);
             if (content > bestContent) {
                 bestContent = content;
-                bestContentName = str.substring(1, 14);
+                bestContentName = str.substring(1, NAME_LENGTH);
             }
         }
         return bestContentName + "\n" + String.format(Locale.US, "%.6f", bestContent);
@@ -115,9 +123,12 @@ public class Tasks {
 
     private static double getContent(String string) {
         double numberOfOccurrences = 0.0;
-        for (char ch : string.toCharArray())
-            if ((ch == 'C') || (ch == 'G')) numberOfOccurrences += 1.0;
-        return numberOfOccurrences / (string.length() - 14) * 100.0;
+        for (int i = 0; i < string.length(); i++) {
+            if (string.charAt(i) == 'C' || string.charAt(i) == 'G') {
+                numberOfOccurrences += 1.0;
+            }
+        }
+        return numberOfOccurrences / (string.length() - NAME_LENGTH) * 100.0;
     }
 
     // 6 - PROT
@@ -188,10 +199,13 @@ public class Tasks {
         put("GGG", "G");
     }};
 
+    private static final int CODON_LENGTH = 3;
+
     public static String translatingRNAIntoProtein(String dataset) {
         StringBuilder result = new StringBuilder();
-        for (int i = 0; i < dataset.length(); i += 3) {
-            String str = Tasks.codonTable.get(dataset.substring(i, i + 3));
+        for (int i = 0; i < dataset.length(); i += CODON_LENGTH) {
+            String key = dataset.substring(i, i + CODON_LENGTH);
+            String str = Tasks.codonTable.get(key);
             if (str.equals("Stop")) break;
             result.append(str);
         }
@@ -221,18 +235,22 @@ public class Tasks {
     }
 
     // 9 - REVP
+
+    private static final int MIN_PALINDROME_LENGTH = 4;
+    private static final int MAX_PALINDROME_LENGTH = 12;
+
     public static String locatingRestrictionSites(String dataset) {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         int datasetLength = dataset.length();
         for (int i = 0; i < datasetLength - 3; i++) {
-            int endIndex = (i < datasetLength - 12) ? 13 : (datasetLength - i + 1);
-            for (int j = 4; j < endIndex; j++) {
+            int endIndex = (i < datasetLength - MAX_PALINDROME_LENGTH) ? (MAX_PALINDROME_LENGTH + 1) : (datasetLength - i + 1);
+            for (int j = MIN_PALINDROME_LENGTH; j < endIndex; j++) {
                 String temp = dataset.substring(i, i + j);
                 if (temp.equals(Tasks.complementingAStrandOfDNA(temp))) {
-                    result += (i + 1) + " " + j + "\n";
+                    result.append(i + 1).append(" ").append(j).append("\n");
                 }
             }
         }
-        return result;
+        return result.toString();
     }
 }
