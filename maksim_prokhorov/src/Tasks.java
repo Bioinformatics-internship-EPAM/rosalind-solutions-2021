@@ -16,24 +16,12 @@ public class Tasks {
             put('G', 0);
             put('T', 0);
         }};
-        for (char ch : dataset.toCharArray()) {
-            switch (ch) {
-                case 'A':
-                    count.replace('A', (count.get('A') + 1));
-                    continue;
-                case 'C':
-                    count.replace('C', (count.get('C') + 1));
-                    continue;
-                case 'G':
-                    count.replace('G', (count.get('G') + 1));
-                    continue;
-                case 'T':
-                    count.replace('T', (count.get('T') + 1));
-                    continue;
-                default:
-                    return "Wrong input line.";
-
+        for (int i = 0; i < dataset.length(); i++) {
+            char ch = dataset.charAt(i);
+            if (!count.containsKey(ch)) {
+                return "Wrong input line.";
             }
+            count.merge(ch, 1, Integer::sum);
         }
         return count.get('A') + " " + count.get('C') + " " + count.get('G') + " " + count.get('T');
     }
@@ -217,7 +205,8 @@ public class Tasks {
         int seqLength = seq.length();
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < string.length() - seqLength; i++) {
-            if (string.substring(i, i + seqLength).equals(seq)) result.append(i + 1).append(" ");
+            String substring = string.substring(i, i + seqLength);
+            if (substring.equals(seq)) result.append(i + 1).append(" ");
         }
         return result.substring(0, result.length() - 1);
     }
