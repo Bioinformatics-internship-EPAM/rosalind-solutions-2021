@@ -1,8 +1,8 @@
 package my.rosalind.models;
 
 public class ResponseGC {
-    private String id;
-    private double gc;
+    private final String id;
+    private final double gc;
 
     public ResponseGC(String id, double gc) {
         this.id = id;

@@ -24,21 +24,21 @@ public class TranslatingRNAIntoProtein {
 
     private Map<String, Character> getRNACodonTable() {
         var table = "UUU F      CUU L      AUU I      GUU V\n" +
-                    "UUC F      CUC L      AUC I      GUC V\n" +
-                    "UUA L      CUA L      AUA I      GUA V\n" +
-                    "UUG L      CUG L      AUG M      GUG V\n" +
-                    "UCU S      CCU P      ACU T      GCU A\n" +
-                    "UCC S      CCC P      ACC T      GCC A\n" +
-                    "UCA S      CCA P      ACA T      GCA A\n" +
-                    "UCG S      CCG P      ACG T      GCG A\n" +
-                    "UAU Y      CAU H      AAU N      GAU D\n" +
-                    "UAC Y      CAC H      AAC N      GAC D\n" +
-                    "UAA Stop   CAA Q      AAA K      GAA E\n" +
-                    "UAG Stop   CAG Q      AAG K      GAG E\n" +
-                    "UGU C      CGU R      AGU S      GGU G\n" +
-                    "UGC C      CGC R      AGC S      GGC G\n" +
-                    "UGA Stop   CGA R      AGA R      GGA G\n" +
-                    "UGG W      CGG R      AGG R      GGG G ";
+                "UUC F      CUC L      AUC I      GUC V\n" +
+                "UUA L      CUA L      AUA I      GUA V\n" +
+                "UUG L      CUG L      AUG M      GUG V\n" +
+                "UCU S      CCU P      ACU T      GCU A\n" +
+                "UCC S      CCC P      ACC T      GCC A\n" +
+                "UCA S      CCA P      ACA T      GCA A\n" +
+                "UCG S      CCG P      ACG T      GCG A\n" +
+                "UAU Y      CAU H      AAU N      GAU D\n" +
+                "UAC Y      CAC H      AAC N      GAC D\n" +
+                "UAA Stop   CAA Q      AAA K      GAA E\n" +
+                "UAG Stop   CAG Q      AAG K      GAG E\n" +
+                "UGU C      CGU R      AGU S      GGU G\n" +
+                "UGC C      CGC R      AGC S      GGC G\n" +
+                "UGA Stop   CGA R      AGA R      GGA G\n" +
+                "UGG W      CGG R      AGG R      GGG G ";
 
         table = table.replace("\n", " ");
 

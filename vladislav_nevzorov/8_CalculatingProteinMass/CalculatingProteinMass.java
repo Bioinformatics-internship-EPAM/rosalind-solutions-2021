@@ -1,14 +1,14 @@
 package my.rosalind;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class CalculatingProteinMass {
     public double exec(String protein) {
         var massTable = getMassTable();
 
         double mass = 0;
-        for (var symbol : protein.toCharArray()) {
+        for (int i = 0; i < protein.length(); i++) {
+            var symbol = protein.charAt(i);
             var symbolMass = massTable.get(symbol);
             mass += symbolMass;
         }
@@ -42,23 +42,11 @@ public class CalculatingProteinMass {
 
         var rows = table.split("\n");
         for (var row : rows) {
-            var tokens = row.split(" ");
-            var waitSymbol = true;
+            var tokens = new ArrayList<String>(Arrays.asList(row.split(" ")));
+            tokens.removeAll(Arrays.asList(""));
 
-            String symbol = null;
-            Double mass = null;
-            for (var token : tokens) {
-                if (token.isEmpty()) {
-                    continue;
-                }
-
-                if (waitSymbol) {
-                    symbol = token;
-                    waitSymbol = false;
-                } else {
-                    mass = Double.parseDouble(token);
-                }
-            }
+            String symbol = tokens.get(0);
+            Double mass = Double.parseDouble(tokens.get(1));
 
             if (symbol != null) {
                 map.put(symbol.charAt(0), mass);

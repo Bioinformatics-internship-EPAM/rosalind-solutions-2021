@@ -5,13 +5,12 @@ import java.util.Map;
 
 public class ComplementingAStrandOfDNA {
     private Map getPairsMap() {
-        var pairs = new HashMap<>();
-        pairs.put('A', 'T');
-        pairs.put('T', 'A');
-        pairs.put('C', 'G');
-        pairs.put('G', 'C');
-
-        return pairs;
+        return new HashMap<>(Map.of(
+                'A', 'T',
+                'T', 'A',
+                'C', 'G',
+                'G', 'C'
+        ));
     }
 
     public String exec(String dna) {

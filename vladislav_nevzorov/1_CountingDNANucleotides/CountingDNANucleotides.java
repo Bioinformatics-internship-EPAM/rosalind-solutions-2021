@@ -1,9 +1,10 @@
 package my.rosalind;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class CountingDNANucleotides {
-    private char[] getAlhpabet() { return new char[] {'A', 'C', 'G', 'T'}; }
+    private Character[] getAlhpabet() { return new Character[] {'A', 'C', 'G', 'T'}; }
 
     public int[] exec(String dataset) {
         var alphabet = getAlhpabet();
@@ -13,20 +14,11 @@ public class CountingDNANucleotides {
             map.put(symbol, 0);
         }
 
-        for (var symbol : dataset.toCharArray()) {
-            var value = map.get(symbol);
-            if (value == null) {
-                continue;
-            }
-            map.replace(symbol, ++value);
+        for (int i = 0; i < dataset.length(); i++) {
+            var symbol = dataset.charAt(i);
+            map.compute(symbol, (k, v) -> v != null ? ++v : v);
         }
 
-        var result = new int[alphabet.length];
-        for (int i = 0; i < alphabet.length; i++) {
-            var symbol = alphabet[i];
-            result[i] = map.get(symbol);
-        }
-
-        return result;
+        return Arrays.stream(alphabet).mapToInt(map::get).toArray();
     }
 }
