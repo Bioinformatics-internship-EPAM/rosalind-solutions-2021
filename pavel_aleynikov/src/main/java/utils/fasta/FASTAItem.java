@@ -47,4 +47,5 @@ public class FASTAItem {
     public int hashCode() {
         return Objects.hash(label, sequence);
     }
+
 }

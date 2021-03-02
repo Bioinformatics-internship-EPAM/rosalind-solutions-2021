@@ -18,16 +18,13 @@ public class CountPointMutationsCalculator {
         if (dnaFirst.length() != dnaSecond.length()) {
             throw new IllegalArgumentException("Sequences must be the same length");
         }
-        final char [] dnaFirstArray = dnaFirst.toCharArray();
-        final char [] dnaSecondArray = dnaSecond.toCharArray();
         int result = 0;
         for (int i = 0; i < dnaFirst.length(); i++) {
-            if (dnaFirstArray[i] != dnaSecondArray[i]) {
+            if (dnaFirst.charAt(i) != dnaSecond.charAt(i)) {
                 result++;
             }
         }
         return result;
     }
-
 
 }

@@ -21,7 +21,8 @@ public class OverlapGraphBuilder {
     public static List<List<String>> build(List<FASTAItem> dnaSequences, int suffixLength) {
         List<List<String>> result = new ArrayList<>();
         for (int i = 0; i < dnaSequences.size(); i++) {
-            String suffix = dnaSequences.get(i).getSequence().substring(dnaSequences.get(i).getSequence().length() - suffixLength);
+            String suffix = dnaSequences.get(i).getSequence()
+                    .substring(dnaSequences.get(i).getSequence().length() - suffixLength);
             for (int j = 0; j < dnaSequences.size(); j++) {
                 if (i != j) {
                     if (dnaSequences.get(j).getSequence().startsWith(suffix)) {

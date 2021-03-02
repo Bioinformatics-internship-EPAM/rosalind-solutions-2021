@@ -31,4 +31,5 @@ public class MotifInDNAFinder {
             result.add(++index);
         }
     }
+
 }

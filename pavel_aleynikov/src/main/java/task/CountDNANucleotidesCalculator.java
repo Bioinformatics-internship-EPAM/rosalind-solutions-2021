@@ -15,10 +15,13 @@ public class CountDNANucleotidesCalculator {
      * @param dna - DNA string contains chars: {'A', 'C', 'G', 'T'}
      * @return - Map with key: {'A', 'C', 'G', 'T'} and their count as value
      */
-    public static Map<Character, Long> calculate(final String dna) {
-        long a = 0, c = 0, g = 0, t = 0;
-        for (char ch : dna.toCharArray()) {
-            switch (ch) {
+    public static Map<Character, Integer> calculate(final String dna) {
+        int a = 0;
+        int c = 0;
+        int g = 0;
+        int t = 0;
+        for (int i = 0; i < dna.length(); i++) {
+            switch (dna.charAt(i)) {
                 case 'A' -> a++;
                 case 'C' -> c++;
                 case 'G' -> g++;
