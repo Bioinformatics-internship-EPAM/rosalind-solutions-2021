@@ -1,4 +1,4 @@
-package com.company;
+package ru.spbstu.coursework;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,19 +7,21 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
+	public static final int CODON_LENGTH = 3;
 
 	public static void main(String[] args) throws IOException {
-		Reader inputStreamReader = new InputStreamReader(System.in);
-		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-		String s = bufferedReader.readLine();
+		String s = "";
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
+			s = br.readLine();
+		}
 
 		StringBuilder b = new StringBuilder();
-		HashMap<String, String> table = getCodonTable();
-		for (int i = 0; i < s.length(); i += 3) {
-			String substring = s.substring(i, i + 3);
+		Map<String, String> table = getCodonTable();
+		for (int i = 0; i < s.length(); i += CODON_LENGTH) {
+			String substring = s.substring(i, i + CODON_LENGTH);
 			String value = table.get(substring);
 			if (value == "Stop") {
 				break;

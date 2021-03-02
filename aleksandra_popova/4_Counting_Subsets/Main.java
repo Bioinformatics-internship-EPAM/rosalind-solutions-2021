@@ -1,9 +1,8 @@
-package com.company;
+package ru.spbstu.coursework;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Reader;
 
 public class Main {
 
@@ -18,11 +17,11 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
+        String c = "";
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
+            c = br.readLine();
+        }
 
-        Reader inputStreamReader = new InputStreamReader(System.in);
-        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-        String c = bufferedReader.readLine();
         int number = Integer.parseInt(c);
 
         int count = 0;

@@ -1,4 +1,4 @@
-package com.company;
+package ru.spbstu.coursework;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,11 +9,12 @@ import java.util.Locale;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        Reader inputStreamReader = new InputStreamReader(System.in);
-        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-        String c = bufferedReader.readLine();
-        String t = bufferedReader.readLine();
+        String c = "";
+        String t = "";
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
+            c = br.readLine();
+            t = br.readLine();
+        }
 
         int number = Integer.parseInt(c);
         String[] values = t.split(" ");

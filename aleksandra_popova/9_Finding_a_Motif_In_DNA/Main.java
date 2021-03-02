@@ -1,4 +1,4 @@
-package com.company;
+package ru.spbstu.coursework;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,11 +10,12 @@ import java.util.List;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		Reader inputStreamReader = new InputStreamReader(System.in);
-		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-		String s = bufferedReader.readLine();
-		String t = bufferedReader.readLine();
+		String s = "";
+		String t = "";
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
+			s = br.readLine();
+			t = br.readLine();
+		}
 
 		List<Integer> positions = new ArrayList<Integer>();
 
@@ -22,7 +23,8 @@ public class Main {
 		while (index != -1) {
 			index = s.indexOf(t, index);
 			if (index != -1) {
-				positions.add(++index);
+				index++;
+				positions.add(index);
 			}
 		}
 

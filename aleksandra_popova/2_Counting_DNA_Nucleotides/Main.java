@@ -1,41 +1,37 @@
-package com.company;
+package ru.spbstu.coursework;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Reader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        Reader inputStreamReader = new InputStreamReader(System.in);
-        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-        String c = bufferedReader.readLine();
-        char[] DNAstring = c.toCharArray();
-
-        int countA = 0;
-        int countC = 0;
-        int countG = 0;
-        int countT = 0;
-
-        for (int i = 0; i < DNAstring.length; i++){
-            if (DNAstring[i] == 'A'){
-                countA ++;
-            }
-            else if (DNAstring[i] == 'C'){
-                countC ++;
-            }
-            else if (DNAstring[i] == 'G'){
-                countG ++;
-            }
-            else{
-                countT ++;
-            }
+        String c = "";
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
+            c = br.readLine();
         }
 
+        char[] dna = c.toCharArray();
 
-        System.out.print(countA + " " + countC + " "+ countG + " " + countT);
+        Map<Character, Integer> counters = new HashMap<Character, Integer>(Map.of(
+                'A', 0,
+                'C', 0,
+                'G', 0,
+                'T', 0
+        ));
 
+        for (int i = 0; i < dna.length; i++){
+            char key = dna[i];
+            if (!counters.containsKey(key)) {
+                continue;
+            }
+
+            counters.compute(key, (k, value) -> ++value);
+        }
+
+        System.out.print(counters.get('A') + " " + counters.get('C') + " "+ counters.get('G') + " " + counters.get('T'));
     }
 }

@@ -1,4 +1,4 @@
-package com.company;
+package ru.spbstu.coursework;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,10 +18,10 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        Reader inputStreamReader = new InputStreamReader(System.in);
-        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-        String c = bufferedReader.readLine();
+        String c = "";
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
+            c = br.readLine();
+        }
         String[] values = c.split(" ");
 
         int n = Integer.parseInt(values[0]);
