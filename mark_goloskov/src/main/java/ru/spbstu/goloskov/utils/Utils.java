@@ -40,7 +40,9 @@ public final class Utils {
 
     public static String reverseComplement(String dna) {
         StringBuilder complementDNA = new StringBuilder();
-        for (char symbol : dna.toCharArray()) {
+        char symbol;
+        for (int i = 0; i < dna.length(); i++) {
+            symbol = dna.charAt(i);
             complementDNA.append(Utils.COMPLEMENT_DNA.get(symbol));
         }
         return complementDNA.reverse().toString();

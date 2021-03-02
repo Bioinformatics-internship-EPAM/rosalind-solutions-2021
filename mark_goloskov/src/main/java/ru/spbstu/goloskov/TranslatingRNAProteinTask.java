@@ -18,7 +18,9 @@ public class TranslatingRNAProteinTask {
     public static void main(String[] args) throws Exception {
         List<String> lines = Utils.readFile(Utils.TRANSLATING_RNA_PROTEIN);
         Map<String, String> codonToAminoAcid = getRNACodonTable();
-        for(String codon : Splitter.fixedLength(CODON_LENGTH).split(lines.get(0))) {
+
+        Iterable<String> split = Splitter.fixedLength(CODON_LENGTH).split(lines.get(0));
+        for (String codon : split) {
             String aminoAcid = codonToAminoAcid.get(codon);
             if (STOP.equals(aminoAcid)) {
                 break;
@@ -27,7 +29,7 @@ public class TranslatingRNAProteinTask {
         }
     }
 
-    private static Map<String, String> getRNACodonTable() throws URISyntaxException, IOException {
+    private static Map<String, String> getRNACodonTable() throws Exception {
         Map<String, String> codonToAminoAcid = new HashMap<>();
         List<String> lines = Utils.readFile(RNA_CODON_TABLE);
         for (String line : lines) {
