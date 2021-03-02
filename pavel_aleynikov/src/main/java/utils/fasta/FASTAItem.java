@@ -4,10 +4,10 @@ import java.util.Objects;
 
 /**
  * Item read from FASTA file
- *
+ * <p>
  * Item contain:
- *   label - without `>` char
- *   sequence - label related string
+ * label - without `>` char
+ * sequence - label related string
  */
 public class FASTAItem {
 

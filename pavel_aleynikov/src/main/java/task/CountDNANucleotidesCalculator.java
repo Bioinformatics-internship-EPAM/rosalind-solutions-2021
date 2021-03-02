@@ -15,7 +15,7 @@ public class CountDNANucleotidesCalculator {
      * @param dna - DNA string contains chars: {'A', 'C', 'G', 'T'}
      * @return - Map with key: {'A', 'C', 'G', 'T'} and their count as value
      */
-    public static Map<Character, Integer> calculate(final String dna) {
+    public static Map<Character, Integer> calculate(String dna) {
         int a = 0;
         int c = 0;
         int g = 0;

@@ -3,7 +3,7 @@ package task;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import utils.fasta.FASTAItem;
-import utils.fasta.FASTARead;
+import utils.fasta.FASTAReader;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -17,7 +17,7 @@ public class ConsensusAndProfileCalculatorTest {
 
     @Test
     void testCalculateProfileMatrixOnNormalDataset() throws URISyntaxException, IOException {
-        List<String> dataset = FASTARead.readAllFromFile(
+        List<String> dataset = FASTAReader.readAllFromFile(
                 Paths.get(ClassLoader.getSystemResource("CountPointMutationsSample.fasta").toURI()))
                 .stream().map(FASTAItem::getSequence).collect(Collectors.toList());
         List<Map<Character, Integer>> profileMatrix = ConsensusAndProfileCalculator.calculateProfileMatrix(dataset);

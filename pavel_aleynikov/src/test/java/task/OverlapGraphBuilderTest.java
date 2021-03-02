@@ -3,7 +3,7 @@ package task;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import utils.fasta.FASTAItem;
-import utils.fasta.FASTARead;
+import utils.fasta.FASTAReader;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -14,7 +14,7 @@ public class OverlapGraphBuilderTest {
 
     @Test
     void testOnNormalDataset() throws URISyntaxException, IOException {
-        List<FASTAItem> dataset = FASTARead.readAllFromFile(
+        List<FASTAItem> dataset = FASTAReader.readAllFromFile(
                 Paths.get(ClassLoader.getSystemResource("OverlapGraphBuilderSample.fasta").toURI()));
         List<List<String>> result = OverlapGraphBuilder.build(dataset, 3);
         Assertions.assertEquals(List.of(

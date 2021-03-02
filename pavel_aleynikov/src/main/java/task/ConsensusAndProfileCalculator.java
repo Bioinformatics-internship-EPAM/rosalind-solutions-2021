@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 /**
  * Consensus and Profile
- *
+ * <p>
  * http://rosalind.info/problems/cons/
  */
 public class ConsensusAndProfileCalculator {
@@ -44,8 +44,9 @@ public class ConsensusAndProfileCalculator {
 
     /**
      * Calculate consensus string from Profile Matrix
-     *
+     * <p>
      * Method can receive a matrix from: {@link ConsensusAndProfileCalculator#calculateProfileMatrix}
+     *
      * @param profileMatrix - list of Profile Matrix column. Column present as Map with key: {'A', 'C', 'G', 'T'}
      * @return - string contains chars: {'A', 'C', 'G', 'T'}
      */

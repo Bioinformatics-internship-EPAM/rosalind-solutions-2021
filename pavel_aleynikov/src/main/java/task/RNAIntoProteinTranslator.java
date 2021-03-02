@@ -4,7 +4,7 @@ import utils.Constants;
 
 /**
  * Translating RNA into Protein
- *
+ * <p>
  * http://rosalind.info/problems/prot/
  */
 public class RNAIntoProteinTranslator {

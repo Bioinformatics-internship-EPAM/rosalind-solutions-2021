@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Class for reading data from FASTA file
  */
-public class FASTARead {
+public class FASTAReader {
 
     /**
      * Read data from FASTA file
@@ -21,22 +21,22 @@ public class FASTARead {
         List<FASTAItem> result = new ArrayList<>();
         try (BufferedReader reader = Files.newBufferedReader(path)) {
             String label = null;
-            StringBuilder dna = new StringBuilder();
+            StringBuilder sequence = new StringBuilder();
             String line = reader.readLine();
             while (line != null) {
                 if (line.startsWith(">")) {
                     if (label != null) {
-                        result.add(new FASTAItem(label, dna.toString()));
+                        result.add(new FASTAItem(label, sequence.toString()));
                     }
                     label = line.substring(1);
-                    dna = new StringBuilder();
+                    sequence = new StringBuilder();
                 } else {
-                    dna.append(line);
+                    sequence.append(line);
                 }
                 line = reader.readLine();
             }
             if (label != null) {
-                result.add(new FASTAItem(label, dna.toString()));
+                result.add(new FASTAItem(label, sequence.toString()));
             }
         }
         return result;

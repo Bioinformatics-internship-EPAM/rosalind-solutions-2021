@@ -1,12 +1,13 @@
 package task;
 
 import utils.fasta.FASTAItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Overlap Graphs
- *
+ * <p>
  * http://rosalind.info/problems/grph/
  */
 public class OverlapGraphBuilder {
