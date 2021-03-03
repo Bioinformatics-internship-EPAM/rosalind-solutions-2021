@@ -3,6 +3,7 @@ package tasks;
 import java.util.Map;
 import java.util.Optional;
 
+//Link: http://rosalind.info/problems/gc/
 public class ComputingGcContent {
     public static String findHighestGcContent(Map<String, String> dna) {
         Optional<Map.Entry<String, String>> max = dna.entrySet().stream().max((o1, o2) -> {

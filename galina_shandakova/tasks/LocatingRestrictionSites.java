@@ -3,6 +3,7 @@ package tasks;
 import java.util.ArrayList;
 import java.util.List;
 
+//Link: http://rosalind.info/problems/revp/
 public class LocatingRestrictionSites {
     public static List<String> findReversePalindrome(String dna) {
         List<String> palindromes = new ArrayList<>();

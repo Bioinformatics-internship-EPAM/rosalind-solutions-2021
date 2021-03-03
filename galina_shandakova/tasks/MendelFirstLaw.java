@@ -1,5 +1,6 @@
 package tasks;
 
+//Link: http://rosalind.info/problems/iprb/
 public class MendelFirstLaw {
     public static double getProbability(int homozygousDominant, int heterozygous, int homozygousRecessive) {
         double homoRecessive2Num = calculateNumberPairCombinations(homozygousRecessive);
