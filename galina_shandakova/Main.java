@@ -1,11 +1,8 @@
-
-
 import tasks.*;
 
 import java.util.List;
 
 import static utils.FileUtils.*;
-
 
 public class Main {
     public static void main(String[] args) {
