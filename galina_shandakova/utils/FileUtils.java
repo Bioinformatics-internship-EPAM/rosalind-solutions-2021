@@ -29,7 +29,9 @@ public class FileUtils {
             while ((line = reader.readLine()) != null) {
                 line = line.trim();
                 if (line.startsWith(">")) {
-                    if (name != null) dnaWithNames.put(name, dna.toString());
+                    if (name != null) {
+                        dnaWithNames.put(name, dna.toString());
+                    }
                     name = line.substring(1);
                     dna = new StringBuilder();
                 } else {
@@ -51,7 +53,9 @@ public class FileUtils {
             while ((line = reader.readLine()) != null) {
                 lines.set(counter, line);
                 counter++;
-                if (counter == expectedNumOfLines) break;
+                if (counter == expectedNumOfLines) {
+                    break;
+                }
             }
         } catch (IOException e) {
             System.err.println("Аn error occurred while reading the Fasta file.");

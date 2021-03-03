@@ -6,7 +6,9 @@ import java.util.Arrays;
 //Link: http://rosalind.info/problems/fibd/
 public class MortalFibonacciRabbits {
     public static BigInteger countBySimulation(int monthsNum, int dieMonths) {
-        if (monthsNum <= 0 || dieMonths <= 0) return BigInteger.valueOf(-1);
+        if (monthsNum <= 0 || dieMonths <= 0) {
+            return BigInteger.valueOf(-1);
+        }
         BigInteger[] rabbits = new BigInteger[dieMonths];
         Arrays.fill(rabbits, BigInteger.ZERO);
         rabbits[0] = BigInteger.valueOf(1);
