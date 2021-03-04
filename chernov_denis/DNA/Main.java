@@ -1,11 +1,11 @@
-package Lab1;
+package DNA;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        FileInputStream fileInputStream = new FileInputStream("src/Lab1/rosalind_dna(1).txt");
+        FileInputStream fileInputStream = new FileInputStream("src/DNA/rosalind_dna(1).txt");
         int i;
         long A = 0;
         long G = 0;

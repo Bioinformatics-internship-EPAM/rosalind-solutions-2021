@@ -1,4 +1,4 @@
-package Lab5;
+package HAMM;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        List<String> lines = Files.readAllLines(Paths.get("src/Lab5/rosalind_hamm.txt"), StandardCharsets.UTF_8);
+        List<String> lines = Files.readAllLines(Paths.get("src/HAMM/rosalind_hamm.txt"), StandardCharsets.UTF_8);
         String dna1 = lines.get(0);
         String dna2 = lines.get(1);
         int N = Math.min(dna1.length(), dna2.length());
