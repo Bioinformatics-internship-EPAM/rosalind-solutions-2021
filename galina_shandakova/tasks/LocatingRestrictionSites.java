@@ -7,7 +7,8 @@ import java.util.List;
 public class LocatingRestrictionSites {
     public static List<String> findReversePalindrome(String dna) {
         List<String> palindromes = new ArrayList<>();
-        String reverseDna = new StringBuilder(ComplementingStrandOfDna.compute(dna)).reverse().toString();
+        String complement = ComplementingStrandOfDna.compute(dna);
+        String reverseDna = new StringBuilder(complement).reverse().toString();
         for (int i = 2; i <= 6; i++) {
             for (int j = 0; j <= dna.length() - i * 2; j++) {
                 StringBuilder temp = new StringBuilder(reverseDna.substring(j + i, j + i * 2));
