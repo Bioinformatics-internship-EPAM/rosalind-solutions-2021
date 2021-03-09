@@ -1,8 +1,7 @@
 package tasks;
 
 import java.util.Map;
-
-import static java.util.stream.Collectors.toMap;
+import java.util.stream.Collectors;
 
 //Link : http://rosalind.info/problems/dna/
 public class CountingDnaNucleotides {
@@ -10,13 +9,12 @@ public class CountingDnaNucleotides {
         if (dna.isEmpty()) {
             return;
         }
-        Map<Character, Integer> frequencies = dna.chars().boxed()
-                .collect(toMap(
-                        key -> (char) key.intValue(),
-                        value -> 1,
-                        Integer::sum));
+        Map<Character, Long> frequencies = dna.chars().boxed().collect(Collectors.groupingBy(
+                c -> (char) c.intValue(),
+                Collectors.counting()
+        ));
         for (char c : new char[]{'A', 'C', 'G', 'T'}) {
-            System.out.print(frequencies.getOrDefault(c, 0) + " ");
+            System.out.print(frequencies.getOrDefault(c, 0L) + " ");
         }
         System.out.println();
     }
