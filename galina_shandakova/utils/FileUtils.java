@@ -3,24 +3,30 @@ package utils;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FileUtils {
     private FileUtils() {
     }
 
-    public static String readStringFromFile(String fileName) {
-        String line = "";
+    public static String readStringFromFile(String fileName) throws RuntimeException {
+        String line;
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             line = reader.readLine();
         } catch (IOException e) {
-            System.err.println("Аn error occurred while reading the file.");
+            throw new RuntimeException("Аn error occurred while reading the file.", e);
         }
         return line;
     }
 
-    public static Map<String, String> readDnaAndNamesFromFastaFormatFile(String fileName) {
+    public static Map<String, String> readDnaAndNamesFromFastaFormatFile(String fileName) throws RuntimeException {
         Map<String, String> dnaWithNames = new LinkedHashMap<>();
         String name = null;
         StringBuilder dna = new StringBuilder();
@@ -40,43 +46,36 @@ public class FileUtils {
             }
             dnaWithNames.put(name, dna.toString());
         } catch (IOException e) {
-            System.err.println("Аn error occurred while reading the Fasta file.");
+            throw new RuntimeException("An error occurred while reading the Fasta file.", e);
         }
         return dnaWithNames;
     }
 
-    public static List<String> readLinesFromFile(String fileName, int expectedNumOfLines) {
-        List<String> lines = new ArrayList<>(Collections.nCopies(expectedNumOfLines, ""));
-        int counter = 0;
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                lines.set(counter, line);
-                counter++;
-                if (counter == expectedNumOfLines) {
-                    break;
-                }
-            }
+    public static List<String> readLinesFromFile(String fileName, int expectedNumOfLines) throws RuntimeException {
+        List<String> lines;
+        try (Stream<String> linesStream = Files.lines(Paths.get(fileName))) {
+            lines = linesStream.limit(expectedNumOfLines).collect(Collectors.toList());
         } catch (IOException e) {
-            System.err.println("Аn error occurred while reading the Fasta file.");
+            throw new RuntimeException("An error occurred while reading the Fasta file.", e);
         }
-        if (counter != expectedNumOfLines) {
-            System.err.println("The requested number of lines does not match the found.");
+        if (lines.size() != expectedNumOfLines) {
+            throw new RuntimeException("The requested number of lines does not match the found.");
         }
         return lines;
     }
 
-    public static List<Integer> readIntegersInOneLine(String fileName, int expectedNumberOfInt) {
+    public static List<Integer> readIntegersInOneLine(String fileName, int expectedNumberOfInt)
+            throws RuntimeException {
         String[] numbers = readStringFromFile(fileName).split(" ");
-        List<Integer> collect = null;
+        List<Integer> collect;
         try {
             collect = Arrays.stream(numbers).map(Integer::parseInt).collect(Collectors.toList());
-            if (collect.size() != expectedNumberOfInt) {
-                System.err.println("The file does not contain " + expectedNumberOfInt + " integers ");
-            }
         } catch (NumberFormatException e) {
-            System.err.println("The presented values are not integers.");
+            throw new RuntimeException("The presented values are not integers.", e);
         }
-        return collect == null ? Collections.nCopies(expectedNumberOfInt, 0) : collect;
+        if (collect.size() != expectedNumberOfInt) {
+            throw new RuntimeException("The file does not contain " + expectedNumberOfInt + " integers ");
+        }
+        return collect;
     }
 }
