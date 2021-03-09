@@ -1,16 +1,15 @@
 package tasks;
 
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Optional;
 
 //Link: http://rosalind.info/problems/gc/
 public class ComputingGcContent {
     public static String findHighestGcContent(Map<String, String> dna) {
-        Optional<Map.Entry<String, String>> max = dna.entrySet().stream().max((o1, o2) -> {
-            double GcContent1 = computeGCContent(o1.getValue());
-            double GcContent2 = computeGCContent(o2.getValue());
-            return Double.compare(GcContent1, GcContent2);
-        });
+        Optional<Map.Entry<String, String>> max = dna.entrySet().stream().max(
+                Comparator.comparingDouble(entry -> computeGCContent(entry.getValue()))
+        );
         return max.map(stringStringEntry -> stringStringEntry.getKey() +
                 "\n" + computeGCContent(stringStringEntry.getValue()) * 100)
                 .orElse("");
