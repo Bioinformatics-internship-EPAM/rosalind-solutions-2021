@@ -1,28 +1,25 @@
 package tasks;
 
+import java.util.Map;
+
 //Link: http://rosalind.info/problems/revc/
 public class ComplementingStrandOfDna {
-    public static String compute(String dna) {
+    private static final Map<Character, Character> complement = Map.of(
+            'A', 'T',
+            'T', 'A',
+            'G', 'C',
+            'C', 'G'
+    );
+
+    public static String compute(String dna) throws RuntimeException {
         StringBuilder sb = new StringBuilder();
-        for (int i = dna.length() - 1; i >= 0; i--) {
-            sb.append(getComplement(dna.charAt(i)));
+        try {
+            for (int i = dna.length() - 1; i >= 0; i--) {
+                sb.append(complement.get(dna.charAt(i)));
+            }
+        } catch (RuntimeException e) {
+            throw new RuntimeException("DNA contains an erroneous symbol.", e);
         }
         return sb.toString();
-    }
-
-    private static char getComplement(char symbol) {
-        switch (symbol) {
-            case 'A':
-                return 'T';
-            case 'T':
-                return 'A';
-            case 'C':
-                return 'G';
-            case 'G':
-                return 'C';
-            default:
-                return symbol;
-        }
-
     }
 }
