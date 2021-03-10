@@ -8,14 +8,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Main {
-    public static double CalculateCGcontent(List<String> sequence){
-        double cgCount = 0;
-        double squenceLength = 0;
+    public static double calculateCGcontent(List<String> sequence){
+        int cgCount = 0;
+        int sequenceLength = 0;
         for (String line: sequence){
-            squenceLength += line.length();
+            sequenceLength += line.length();
             cgCount += line.chars().filter(i -> i == 'C' || i == 'G').count();
         }
-        return (cgCount / squenceLength) * 100;
+        return ((double) cgCount / sequenceLength) * 100;
     }
     public static void main(String[] args) throws IOException {
         List<String> lines = Files.readAllLines(Paths.get("src/GC/rosalind_gc.txt"), StandardCharsets.UTF_8);
@@ -26,7 +26,7 @@ public class Main {
         double cgContent;
         for (String line: lines){
             if (line.charAt(0)  == '>') {
-                cgContent = CalculateCGcontent(oneSequence);
+                cgContent = calculateCGcontent(oneSequence);
                 if (cgContent > maxCGcontent) {
                     maxCGcontent = cgContent;
                     maxLabel = label;
@@ -38,7 +38,7 @@ public class Main {
             }
         }
         if (!oneSequence.isEmpty()) {
-            cgContent = CalculateCGcontent(oneSequence);
+            cgContent = calculateCGcontent(oneSequence);
             if (cgContent > maxCGcontent) {
                 maxCGcontent = cgContent;
                 maxLabel = label;

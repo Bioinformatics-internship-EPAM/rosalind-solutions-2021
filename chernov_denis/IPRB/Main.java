@@ -9,8 +9,7 @@ public class Main {
             dominant = Integer.parseInt(args[0]);
             heterozygous = Integer.parseInt(args[1]);
             recessive = Integer.parseInt(args[2]);
-        }
-        catch (Exception e){
+        } catch (Exception e){
             System.err.println("in args must be 3 integers");
             return;
         }
@@ -20,7 +19,6 @@ public class Main {
                               heterozygous*recessive +
                               dominant*(dominant-1) +
                               3*heterozygous*(heterozygous-1)/4) / (s*(s-1));
-
         System.out.println(probability);
     }
 }
