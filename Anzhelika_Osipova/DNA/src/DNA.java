@@ -1,5 +1,7 @@
 import java.io.*;
 import java.nio.file.*;
+import java.util.HashMap;
+import java.util.stream.IntStream;
 
 public class DNA 
 {
@@ -23,24 +25,12 @@ public class DNA
 	public static int[] countNucleotides(String data)
 	{
 		int[] countNuc = {0, 0, 0, 0};
-		for(int i = 0; i < data.length(); i++)
-		{
-			switch(data.charAt(i))
-			{
-				case ('A'):
-					countNuc[0]++;
-					break;
-				case ('C'):
-					countNuc[1]++;
-					break;
-				case ('G'):
-					countNuc[2]++;
-					break;
-				case ('T'):
-					countNuc[3]++;
-					break;					
-			}
-		}
+		HashMap<String, Integer> NuclsMapComp = new HashMap<>();
+		NuclsMapComp.put("A", 0);
+		NuclsMapComp.put("C", 1);
+		NuclsMapComp.put("G", 2);
+		NuclsMapComp.put("T", 3);
+		IntStream.range(0, data.length()).forEach(i->countNuc[NuclsMapComp.get(String.valueOf(data.charAt(i)))]++);
 		return countNuc;
 	}
 	
@@ -50,7 +40,8 @@ public class DNA
 		Path fout = Path.of(fileName);
 		try 
 		{
-			Files.writeString(fout, countNuc[0] + " " + countNuc[1] + " " + countNuc[2] + " " + countNuc[3]);
+			Files.writeString(fout, String.join(" ", Integer.toString(countNuc[0]), Integer.toString(countNuc[1]), 
+					Integer.toString(countNuc[2]), Integer.toString(countNuc[3])));
 		} 
 		catch (IOException e) 
 		{
