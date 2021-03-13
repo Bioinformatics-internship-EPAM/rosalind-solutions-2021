@@ -13,44 +13,49 @@ public class LCSM {
 
         System.out.println("(If multiple solutions exist, you may return any single solution.)");
 
-        System.out.println(LCSM.identifyCommonSubStrOfNStr(strs));
+        System.out.println(LCSM.identifyCommonSubstr(strs));
     }
 
-    public static String identifyCommonSubStrOfNStr(List<String> strArr){
-
-        String commonStr="";
-        String smallStr ="";
-
-        //identify smallest String
-        for (String s :strArr) {
-            if(smallStr.length()< s.length()){
-                smallStr=s;
+    static String smallestStr(List<String> strArr) {
+        String result = "";
+        for (String s : strArr) {
+            if (result.length() < s.length()) {
+                result = s;
             }
         }
+        return result;
+    }
 
-        String tempCom="";
-        char [] smallStrChars = smallStr.toCharArray();
-        for (char c: smallStrChars) {
+    static boolean occurs(String tempCom, List<String> strArr) {
+        for (String string : strArr) {
+            if (!string.contains(tempCom)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static String identifyCommonSubstr(List<String> strArr) {
+        String result = "";
+        String smallest = smallestStr(strArr);
+
+        String tempCom = "";
+        char[] smallStrChars = smallest.toCharArray();
+        for (char c : smallStrChars) {
             tempCom += c;
 
-            for (String s :strArr) {
-                if(!s.contains(tempCom)) {
-                    tempCom = String.valueOf(c);
-                    for (String string :strArr) {
-                        if(!string.contains(tempCom)) {
-                            tempCom="";
-                            break;
-                        }
-                    }
-                    break;
+            if (!occurs(tempCom, strArr)) {
+                tempCom = String.valueOf(c);
+                if (!occurs(tempCom, strArr)) {
+                    tempCom = "";
                 }
             }
 
-            if(tempCom != "" && tempCom.length()>commonStr.length()){
-                commonStr=tempCom;
+            if (tempCom != "" && tempCom.length() > result.length()) {
+                result = tempCom;
             }
         }
 
-        return commonStr;
+        return result;
     }
 }

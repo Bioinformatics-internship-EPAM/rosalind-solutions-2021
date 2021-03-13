@@ -9,10 +9,10 @@ public class RNA {
     public static void main(String[] args) throws Exception {
         String s2 = Utils.readFromFile(FILE_PATH).get(0);
 
-        System.out.println(RNA.transcrib(s2));
+        System.out.println(RNA.transcribe(s2));
     }
 
-    public static String transcrib(String s) {
+    public static String transcribe(String s) {
         return s.replace('T', 'U');
     }
 }

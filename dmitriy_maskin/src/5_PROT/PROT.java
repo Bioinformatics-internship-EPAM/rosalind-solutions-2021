@@ -7,8 +7,9 @@ import java.util.HashMap;
 public class PROT {
     private static final String FILE_NAME = "prot_input.txt";
     private static final String FILE_PATH = "src/PROT/" + FILE_NAME;
+    private static final byte CODON_LENGTH = 3;
 
-    static HashMap<String,String> rnaCodonTable;
+    static HashMap<String, String> rnaCodonTable;
 
     public static void main(String[] args) throws Exception {
         String s = Utils.readFromFile(FILE_PATH).get(0);
@@ -16,21 +17,19 @@ public class PROT {
         System.out.println(PROT.encodeProteinString(s));
     }
 
-    static public String encodeProteinString (String s) {
+    static public String encodeProteinString(String s) {
         createTable();
-        String aminoSeqence = "";
-        for (int i = 0; i < s.length() - 3; i += 3) {
-            String codon = s.substring(i, i + 3);
 
-            for (HashMap.Entry<String, String> entry : rnaCodonTable.entrySet() ) {
-                if (entry.getKey().equals(codon)) {
-                    if (entry.getValue().equals("Stop"))
-                        return aminoSeqence;
-                    aminoSeqence += entry.getValue();
-                }
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < s.length() - CODON_LENGTH; i = i + CODON_LENGTH) {
+            String codon = s.substring(i, i + CODON_LENGTH);
+            String aminoSequence = rnaCodonTable.get(codon);
+            if (aminoSequence == "Stop") {
+                break;
             }
+            result.append(aminoSequence);
         }
-        return aminoSeqence;
+        return result.toString();
     }
 
     static void createTable() {

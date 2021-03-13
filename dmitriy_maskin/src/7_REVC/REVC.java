@@ -12,27 +12,27 @@ public class REVC {
         System.out.println(REVC.complete(s3));
     }
 
-    public static String complete(String s) {
-        StringBuilder sReverse = new StringBuilder(s).reverse();
-        String res = "";
-        for (int i = 0; i < sReverse.length(); i++) {
-            if (sReverse.charAt(i) == 'A') {
-                res += 'T';
+    public static StringBuilder complete(String s) {
+        StringBuilder result = new StringBuilder();
+        for (int i = s.length() - 1; i >= 0; i-- ) {
+            if (s.charAt(i) == 'A') {
+                result.append('T');
                 continue;
             }
-            if (sReverse.charAt(i) == 'C') {
-                res += 'G';
+            else if (s.charAt(i) == 'C') {
+                result.append('G');
                 continue;
             }
-            if (sReverse.charAt(i) == 'T') {
-                res += 'A';
+            else if (s.charAt(i) == 'T') {
+                result.append('A');
                 continue;
             }
-            if (sReverse.charAt(i) == 'G') {
-                res += 'C';
+            else if (s.charAt(i) == 'G') {
+                result.append('C');
                 continue;
             }
         }
-        return res;
+
+        return result;
     }
 }
