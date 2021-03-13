@@ -17,17 +17,16 @@ public class DNA {
     }
 
     public static int[] countNucleotides(String s) {
-        int[] res = new int[] {0, 0, 0, 0};
+        char[] nucleotides = new char[] {'A', 'C', 'G', 'T'};
+        int[] counts = new int[nucleotides.length];
+
         for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == 'A')
-                res[0]++;
-            if (s.charAt(i) == 'C')
-                res[1]++;
-            if (s.charAt(i) == 'G')
-                res[2]++;
-            if (s.charAt(i) == 'T')
-                res[3]++;
+            for (int j = 0; j < nucleotides.length; j++) {
+                if (s.charAt(i) == nucleotides[j]) {
+                    counts[j]++;
+                }
+            }
         }
-        return res;
+        return counts;
     }
 }
