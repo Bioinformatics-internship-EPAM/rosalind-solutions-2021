@@ -1,3 +1,5 @@
+import java.io.File
+
 fun main(args: Array<String>) {
 //    lab1()
 //    lab2()
@@ -6,7 +8,9 @@ fun main(args: Array<String>) {
 //    lab5()
 //    lab6()
 //    lab7()
-    lab8()
+//    lab8()
+//    lab9()
+    lab10()
 }
 
 fun lab1() {
@@ -381,6 +385,52 @@ fun lab8() {
     println(res)
 }
 
-fun lab9() {
 
+fun lab9(): String {
+//    http://rosalind.info/problems/lcsm/
+    val input = {}.javaClass.getResource("lab9.txt").readText()
+//    println(text)
+
+    val stringsWithIds = input.split(">");
+    val strings = arrayListOf<String>()
+    for (si in stringsWithIds) {
+        val splitted = si.split("\n");
+        if (splitted[0].isNotEmpty()) {
+            strings.add(splitted.drop(1).joinToString(""))
+        }
+
+    }
+
+    var sortedStrings = strings.sortedBy { it.length }
+    val shortStr = sortedStrings[0]
+    sortedStrings = sortedStrings.drop(1)
+    fun getsubStrings(str: String): ArrayList<String> {
+        val substrings = arrayListOf<String>()
+        val n = str.length;
+        for (i in 0 until n) {
+            for (j in i+1 until n) {
+                substrings.add(str.substring(i, j))
+            }
+        }
+        return substrings
+    }
+
+    val substrings = getsubStrings(shortStr).sortedByDescending { it.length }
+//    println(substrings)
+    for (substr in substrings) {
+        if (sortedStrings.all { it.contains(substr) }) {
+            println(substr)
+            return substr
+        }
+    }
+    return ""
+}
+
+fun lab10() {
+    val k = 29.0
+    val m = 24.0
+    val n = 23.0
+    val p = k + m + n
+    val prob = (4*k*(k-1)+3*m*(m-1)+4*(2*k*m + 2*k*n + m*n))/(4*p*(p-1))
+    println(prob)
 }
