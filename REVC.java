@@ -1,28 +1,23 @@
 package RosalindTasks;
 
 import java.io.IOException;
+import java.util.Properties;
 
 
 public class REVC {
-	
+
 	public static String solveREVCTask () throws IOException {
 		var dataSet = Utils.readDataFromFile("resources/rosalind_revc.txt").get(0);
-		String complimentDNAString = new String();
-		String reversedString = new StringBuffer(dataSet).reverse().toString();
-		for (int i=0; i < dataSet.length(); i++)
-		{
-			if (reversedString.charAt(i) == 'A') {
-				complimentDNAString += 'T';
-			}
-			else if (reversedString.charAt(i) == 'G') {
-				complimentDNAString += 'C';
-			}
-			else if (reversedString.charAt(i) == 'T') {
-				complimentDNAString += 'A';
-			}
-			else {
-				complimentDNAString += 'G';
-			}
+		StringBuilder complimentDNAString = new StringBuilder();
+		String reversedString = new StringBuilder(dataSet).reverse().toString();
+		var complements = Map.of(
+			    'A', 'T',
+			    'T', 'A',
+			    'G', 'C',
+			    'C', 'G'
+		);
+		for (int i=0; i < dataSet.length(); i++) {
+			complimentDNAString.append(complements::get(charAt(i)))
 		}
 		return complimentDNAString;
 	}

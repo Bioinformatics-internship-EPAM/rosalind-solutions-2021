@@ -7,6 +7,8 @@ import java.util.List;
 
 public class Utils {
 	public static List<String> readDataFromFile(String fileName) throws IOException {
-        return Files.readAllLines(Paths.get(Utils.class.getResource(fileName).getPath().substring(1)));
+		return Files.readAllLines(Paths.get(Utils.class
+				.getResource(fileName)
+				.getPath().substring(1)));
 	}
 }

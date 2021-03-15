@@ -8,8 +8,7 @@ public class HAMM {
 		var firstDataSet = Utils.readDataFromFile("resources/rosalind_hamm.txt").get(0);
 		var secondDataSet = Utils.readDataFromFile("resources/rosalind_hamm.txt").get(1);
 		int hamDistance = 0;
-		for (int i=0; i < firstDataSet.length(); i++)
-		{
+		for (int i=0; i < firstDataSet.length(); i++) {
 			if (firstDataSet.charAt(i) != secondDataSet.charAt(i)) {
 				hamDistance += 1;
 			}
