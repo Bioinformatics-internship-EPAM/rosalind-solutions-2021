@@ -8,6 +8,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class Main {
+
+    final static String pathRNATask = "rosalind_rna.txt";
+    final static String outputPath = "submission.txt";
     
     static String getDataSet(String stringWay) throws IOException {
         String s;
@@ -24,7 +27,7 @@ public class Main {
         String s = "";
 
         try {
-            s = getDataSet("rosalind-RNA.txt");
+            s = getDataSet(pathRNATask);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -34,7 +37,7 @@ public class Main {
 
         //To realize the algorithm
         try {
-            writer = new FileWriter("output.txt", StandardCharsets.UTF_8);
+            writer = new FileWriter(outputPath, StandardCharsets.UTF_8);
             for (int i = 0; i < s.length(); i++) {
                 if (s.charAt(i) == 'T') {
                     writer.append('U');

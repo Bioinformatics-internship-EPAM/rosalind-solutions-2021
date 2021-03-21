@@ -8,10 +8,10 @@ import java.util.Scanner;
 
 public class Main {
 
-    //public static final String prefff = System.getProperty("user.dir") + "/src/BioinformStrong/HAMM/";  он всё-равно не работает
-    
-    static String[] getDataSet(String stringWay) throws IOException {
-        try (BufferedReader brReader = new BufferedReader(new FileReader(stringWay, StandardCharsets.UTF_8))) {
+    final static String pathHAMMTask = "rosalind_HAMM.txt";
+
+    static String[] getDataSet() throws IOException {
+        try (BufferedReader brReader = new BufferedReader(new FileReader(Main.pathHAMMTask.toLowerCase(), StandardCharsets.UTF_8))) {
             Scanner scanner = new Scanner(brReader);
             String[] s = new String[2];
             s[0] = scanner.nextLine();
@@ -25,7 +25,7 @@ public class Main {
         //To load a dataset
         String[] dataSet = null;
         try {
-            dataSet = getDataSet("rosalind-HAMM.txt");
+            dataSet = getDataSet();
         }
         catch (IOException e) {
             e.printStackTrace();

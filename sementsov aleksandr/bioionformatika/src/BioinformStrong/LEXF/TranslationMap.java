@@ -1,47 +1,17 @@
 package BioinformStrong.LEXF;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 //карта, являющаяся фундаментом по предсавлению различных комбинаций данных
 public class TranslationMap {
 
-
-    //-------------------------------
-    //Nested classes
-    public static class ReWriter {
-        static int[] buffer;
-        static int sizeOfBuffer;
-
-        static void bufferInitializator(int[] sourceData) {
-            sizeOfBuffer = sourceData.length;
-            buffer = new int[sizeOfBuffer];
-        }
-
-        public static int[] toReWrite(int[] sourceData) {
-            bufferInitializator(sourceData);
-            for (int k = 0; k < sizeOfBuffer; k++) {
-                buffer[k] = sourceData[k];
-            }
-            return buffer;
-        }
-
-        public static int[] reverseWrite(int[] sourceData) {
-            bufferInitializator(sourceData);
-            for (int k = sizeOfBuffer-1; k > -1; k--) {
-                buffer[k] = sourceData[k];
-            }
-            return buffer;
-        }
-    }
-    //-------------------------------
-
-
     int[][] translationMap;
 
     void constructMap(int n, int numeration) {
         translationMap = new int[MyPower.pow(n,numeration)][n];
-        for (int i = 0; i < MyPower.pow(n,numeration); i++) {
-            Arrays.fill(translationMap[i], 0);
+        for (int[] mapLine: translationMap) {
+            Arrays.fill(mapLine, 0);
         }
 
         //для того, чтобы первая строка была нулевая, начнём с i=1
@@ -58,80 +28,38 @@ public class TranslationMap {
                 }
             }
             if (i+1 <  MyPower.pow(n, numeration)) {
-                translationMap[i+1] = ReWriter.reverseWrite(translationMap[i]);
+                System.arraycopy(translationMap[i], 0, translationMap[i+1], 0, translationMap[i].length);
             }
             else { System.out.println("TranslationMap is ready!"); }
         }
-    }
-
-    TranslationMap(int width) {
-        constructMap(width, 2);
     }
 
     TranslationMap(int width, int numeration) {
         constructMap(width, numeration);
     }
 
-    //каждый из этих визуализаторов, getMap, различными способами визуализирует получившуюся карту перевода и разными способами сопоставляет её с исходными данными
-    //поэтому нет необходимости реализовывать на данный момент метод, общий для всех этих перегрузок
-    public boolean getMap() {
+    public void getMap(String alphabet) {
         try {
-            for (int i = 0; i < translationMap.length; i++) {
-                for (int j = 0; j < translationMap[i].length; j++) {
-                    System.out.print(translationMap[i][j]);
-                    System.out.print(" ");
+            MyWriter myWriter = new MyWriter();
+            for (int[] ints : translationMap) {
+                for (int anInt : ints) {
+                    System.out.print(alphabet.charAt(anInt));
+                    myWriter.writeResult(alphabet.charAt(anInt));
                 }
                 System.out.println();
+                myWriter.writeResult('\n');
             }
-            return true;
+            myWriter.Close();
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            return false;
+        catch (IOException ex) {
+            ex.printStackTrace();
+            System.out.println("\n\n\t->\tне удалось записать результаты (см. выше)");
         }
     }
 
-    public void getMap(int[] combination) {
-        for (int i = 0; i < translationMap.length; i++) {
-            for (int j = 0; j < translationMap[i].length; j++) {
-                if (translationMap[i][j] == 0) {
-                    System.out.print(combination[j]*(-1));
-                }
-                else {
-                    System.out.print(combination[j]);
-                }
-                System.out.print(" ");
-            }
-            System.out.println();
-        }
-    }
-
-    public void getMap(String alphabet) {
-        MyWriter.goSave();
-        for (int i = 0; i < translationMap.length; i++) {
-            for (int j = 0; j < translationMap[i].length; j++) {
-                System.out.print(alphabet.charAt(translationMap[i][j]));
-                MyWriter.writeResult(alphabet.charAt(translationMap[i][j]));
-            }
-            System.out.println();
-            MyWriter.writeResult('\n');
-        }
-    }
-
-    public int getMap(int[] numberArray, int counter) {
-        for (int i = 0; i < translationMap.length; i++) {
-            for (int j = 0; j < translationMap[i].length; j++) {
-                if (translationMap[i][j] == 0) {
-                    System.out.print(numberArray[j]*(-1));
-                }
-                else {
-                    System.out.print(numberArray[j]);
-                }
-                System.out.print(" ");
-            }
-            counter++;
-            System.out.println();
-        }
-        return counter;
-    }
+    /*Во время отладки так и не вызвался
+    protected void finalize() {
+        System.arraycopy(translationMap, 0, new Object[translationMap.length], 0, translationMap.length);
+        translationMap = null;
+    }*/
 }

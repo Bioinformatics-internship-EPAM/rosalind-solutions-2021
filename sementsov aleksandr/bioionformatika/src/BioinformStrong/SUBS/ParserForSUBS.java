@@ -35,15 +35,6 @@ public class ParserForSUBS {
         }
     }
 
-    public static void LetsParse(String pathName, String typeFile) {
-        try {
-            parse(pathName + typeFile);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public static String getSource() {
         if (parsedSource != null && !parsedSource.equals("")) {
             return parsedSource;

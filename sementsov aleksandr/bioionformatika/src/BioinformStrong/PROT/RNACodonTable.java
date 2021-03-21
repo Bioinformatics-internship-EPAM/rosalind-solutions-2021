@@ -5,77 +5,46 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.TreeMap;
 
 public class RNACodonTable {
 
+    final String codonTableFile = "RNA-codon-table.txt";
+
     public Map<String, String> codonList;
 
-    BufferedReader runToRead() throws IOException {
-        try (BufferedReader brReadr = new BufferedReader(new FileReader("RNA-codon-table.txt", StandardCharsets.UTF_8))) {
-            return brReadr;
-        }
-    }
-
-    RNACodonTable() {
-        try {
+    RNACodonTable() throws IOException {
+        try (BufferedReader brReader = new BufferedReader(new FileReader(codonTableFile, StandardCharsets.UTF_8))) {
             codonList = new TreeMap<>();
-            FileReader reader = new FileReader("RNA-codon-table.txt", StandardCharsets.UTF_8);
-            Scanner scanner = new Scanner(reader);
-            char currentCharacter = ' ';
-            String[] elements;
-            StringBuilder[] currentSequence = new StringBuilder[2];
+            Scanner scanner = new Scanner(brReader);
+            String readString;
+            String[] elementsInString;
+            String[] currentSequence = new String[2];
+            int elementIndex = 0;
 
             //работа с файлом
             while (true) {
+                try {
+                    readString = scanner.nextLine(); //если строка будет присутствовать, то программа продолжит работу
+                    elementsInString = readString.split("\s+"); //учесть пробел (\s), имеющий длину не меньше одного символа (+)
 
-                //будущая задумка
-                //elements = scanner.nextLine().split("\s+"); //учесть пробел (\s), имеющий длину не меньше одного символа (+)
+                    //рассмотрим пары, имеющиеся в извлечённой строке
+                    for (String s : elementsInString) {
+                        currentSequence[elementIndex % 2] = s;
 
-                //ОЧИСТКА ПРОБЕЛОВ перед записью ключа последовательности
-                while (currentCharacter == ' ' || currentCharacter == '\n') {
-                    currentCharacter = (char) reader.read();
+                        //если пара целиком записана, то можно добавить добавить в словарь
+                        if (elementIndex % 2 == 1) {
+                            codonList.put(currentSequence[0], currentSequence[1]);
+                        }
+                        elementIndex++;
+                    }
                 }
-                if (currentCharacter == (char) (-1)) {
+                catch (NoSuchElementException e) {
                     break;
                 }
-                else {
-
-                    //ЗАПИСЬ КЛЮЧА данной последовательности
-                    do  {
-                        currentSequence[0].append(currentCharacter);
-                    } while ((currentCharacter = (char) reader.read()) != ' ' && currentCharacter != '\n' && currentCharacter != (char) (-1));
-                    if (currentCharacter == (char) (-1)) {
-                        break;
-                    }
-                    else {
-
-                        //ОЧИСТКА ПРОБЕЛОВ перед записью значения последовательности
-                        while (currentCharacter == ' ' || currentCharacter == '\n') {
-                            currentCharacter = (char) reader.read();
-                        }
-                        if (currentCharacter == (char) (-1)) {
-                            break;
-                        }
-                        else {
-
-                            //ЗАПИСЬ ЗНАЧЕНИЯ данной последовательности
-                            do  {
-                                currentSequence[1].append(currentCharacter);
-                            } while ((currentCharacter = (char) reader.read()) != ' ' && currentCharacter != '\n' && currentCharacter != (char) (-1));
-
-                            //после того, как запишем значение данной последовательности, внесём получившееся данные в дерево данных
-                            codonList.put(currentSequence[0].toString(), currentSequence[1].toString());
-                            currentSequence[0] = new StringBuilder();
-                            currentSequence[1] = new StringBuilder();
-                        }
-                    }
-                }
             }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }

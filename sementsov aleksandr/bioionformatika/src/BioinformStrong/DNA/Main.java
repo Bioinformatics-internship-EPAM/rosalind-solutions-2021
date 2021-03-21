@@ -7,8 +7,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 public class Main {
 
-    static String getDataSet(String stringWay) throws IOException {
-        try (BufferedReader brReader = new BufferedReader(new FileReader(stringWay, StandardCharsets.UTF_8))) {
+    final static String pathDNATask = "rosalind_DNA.txt";
+
+    static String getDataSet() throws IOException {
+        try (BufferedReader brReader = new BufferedReader(new FileReader(Main.pathDNATask.toLowerCase(), StandardCharsets.UTF_8))) {
             Scanner scanner = new Scanner(brReader);
             return scanner.nextLine();
         }
@@ -19,7 +21,7 @@ public class Main {
         //To load a dataset
         String s = "";
         try {
-            s = getDataSet("rosalind-DNA.txt");
+            s = getDataSet();
         }
         catch (IOException e) {
             e.printStackTrace();

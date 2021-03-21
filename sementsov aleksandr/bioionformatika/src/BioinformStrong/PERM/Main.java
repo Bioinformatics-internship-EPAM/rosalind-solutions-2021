@@ -8,6 +8,8 @@ import java.util.Arrays;
 
 public class Main {
 
+    final static String outputPath = "submission.txt";
+
     public static void swap(int[] input, int a, int b) {
         int buffer = input[a];
         input[a] = input[b];
@@ -31,7 +33,7 @@ public class Main {
     public static void main(String[] args) {
         FileWriter writer = null;
         try {
-            writer = new FileWriter("output.txt", StandardCharsets.UTF_8);
+            writer = new FileWriter(outputPath, StandardCharsets.UTF_8);
         }
         catch (Exception e) {
             e.printStackTrace();

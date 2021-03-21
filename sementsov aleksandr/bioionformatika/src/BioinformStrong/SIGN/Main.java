@@ -2,6 +2,7 @@
 //6
 package BioinformStrong.SIGN;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 public class Main {
@@ -13,35 +14,46 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        int n = 3;
+
+        // ДАТАСЕТ ДЛЯ ТЕКУЩЕГО ЗАДАНИЯ
+        int n = 4;
+
         int[] indexes = new int[n];
         int[] elements = new int[n];
         TranslationMap translationMap = new TranslationMap(n);
-        Arrays.fill(indexes, 0);
-        for (int i = 0; i < elements.length; i++) {
-            elements[i] = i + 1;
-        }
 
-        MyWriter.goSave();
+        // посчитаем количество перестановок
+        try {
+            int counter = translationMap.getNumberPermutations(n);
 
-        //the first permutation
-        int count = 0;
-        count = translationMap.getMap(elements, count);
-
-        int i = 0;
-        while (i < n) {
-            if (indexes[i] < i) {
-                swap(elements, i % 2 == 0 ?  0: indexes[i], i);
-                count = translationMap.getMap(elements, count);
-                indexes[i]++;
-                i = 0;
+            // посчитаем сами перестановки
+            Arrays.fill(indexes, 0);
+            for (int i = 0; i < elements.length; i++) {
+                elements[i] = i + 1;
             }
-            else {
-                indexes[i] = 0;
-                i++;
+
+            //the first permutation
+            int count = 0;
+            count = translationMap.getMap(elements, count);
+
+            int i = 0;
+            while (i < n) {
+                if (indexes[i] < i) {
+                    swap(elements, i % 2 == 0 ?  0: indexes[i], i);
+                    count = translationMap.getMap(elements, count);
+                    indexes[i]++;
+                    i = 0;
+                }
+                else {
+                    indexes[i] = 0;
+                    i++;
+                }
             }
+            System.out.println(counter);
         }
-        System.out.println(count);
-        MyWriter.quitRosalind();
+        catch (IOException ex) {
+            ex.printStackTrace();
+            System.out.println("\n\n\t->\tне удалось посчитать количество перестановок (см. выше)");
+        }
     }
 }

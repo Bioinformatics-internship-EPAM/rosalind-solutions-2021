@@ -5,17 +5,18 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class ExclusiveTxtPrsr {
+public class ExclusiveTxtParser {
 
     static String parsedAlphabet;
     static int parsedNumber;
+    final static String keyWordDatasetPath = "LEXF";
 
-    static String findDataSet() {
+    static String findDataSet() throws FileNotFoundException {
         String directory = System.getProperty("user.dir");
         String[] files = new File(directory).list();
         String res = "";
         for (String file : Objects.requireNonNull(files)) {
-            if (file.contains("LEXF")) {
+            if (file.contains(ExclusiveTxtParser.keyWordDatasetPath.toLowerCase())) {
                 res = file;
                 break;
             }
@@ -24,7 +25,8 @@ public class ExclusiveTxtPrsr {
     }
 
     static String parseAlphabet(Scanner scanner) {
-        return scanner.nextLine().replaceAll("\s", "");
+        String ejectedAlphabet = scanner.nextLine();
+        return ejectedAlphabet.replaceAll("\s", "");
     }
 
     static int parseWidth(Scanner scanner) {
@@ -41,19 +43,16 @@ public class ExclusiveTxtPrsr {
 
     public static void goParse() {
         try {
-            parse(findDataSet());
+            String pathDataset = findDataSet();
+            try {
+                parse(pathDataset);
+            }
+            catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
-        catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public static void goParse(String stringWay) {
-        try {
-            parse(stringWay);
-        }
-        catch (IOException ex) {
-            ex.printStackTrace();
+        catch (FileNotFoundException fNull) {
+            fNull.printStackTrace();
         }
     }
 

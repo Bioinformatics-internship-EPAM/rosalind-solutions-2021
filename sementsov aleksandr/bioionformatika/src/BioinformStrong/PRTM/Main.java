@@ -11,9 +11,11 @@ import static java.util.Map.entry;
 
 public class Main {
 
-    static String getDataSet(String stringWay) throws IOException {
+    final static String pathPRTMTask = "rosalind_prtm.txt";
+
+    static String getDataSet() throws IOException {
         String s;
-        try (BufferedReader brReader = new BufferedReader(new FileReader(stringWay, StandardCharsets.UTF_8))) {
+        try (BufferedReader brReader = new BufferedReader(new FileReader(Main.pathPRTMTask, StandardCharsets.UTF_8))) {
             Scanner scanner = new Scanner(brReader);
             s = scanner.nextLine();
         }
@@ -47,20 +49,21 @@ public class Main {
 
         String loadedData = "";
         try {
-            loadedData = getDataSet("rosalind-PRTM.txt");
+            loadedData = getDataSet();
         }
         catch (IOException e) {
             e.printStackTrace();
         }
 
-        double summ = 0;
+        double sum = 0;
 
         for (int i = 0; i < loadedData.length(); i++) {
 
             //each letter is assigned its own mass value
-            summ += proteinList.get(loadedData.charAt(i));
+            sum += proteinList.get(loadedData.charAt(i));
         }
 
-        System.out.println(String.format("%.3f", summ));
+        System.out.printf("%.3f%n", sum);
     }
 }
+//95962,416
