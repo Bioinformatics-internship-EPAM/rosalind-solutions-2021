@@ -281,7 +281,6 @@ AAATGGGACTAGATACTGTTGTACACCTCCAAACGAGTATAAGGCGACCCGACGTCCTGC
 CAGAAGGGACGCAAACCCACCCTATAGAATGAGCGGTC
     """
     val stringsWithIds = inputStrings.split(">");
-//    println(stringsWithIds)
     val strings = arrayListOf<String>()
     val ids = arrayListOf<String>()
     for (si in stringsWithIds) {
@@ -387,9 +386,7 @@ fun lab8() {
 
 
 fun lab9(): String {
-//    http://rosalind.info/problems/lcsm/
     val input = {}.javaClass.getResource("lab9.txt").readText()
-//    println(text)
 
     val stringsWithIds = input.split(">");
     val strings = arrayListOf<String>()
@@ -416,7 +413,6 @@ fun lab9(): String {
     }
 
     val substrings = getsubStrings(shortStr).sortedByDescending { it.length }
-//    println(substrings)
     for (substr in substrings) {
         if (sortedStrings.all { it.contains(substr) }) {
             println(substr)
@@ -427,6 +423,7 @@ fun lab9(): String {
 }
 
 fun lab10() {
+//     http://rosalind.info/problems/iprb/
     val k = 29.0
     val m = 24.0
     val n = 23.0
