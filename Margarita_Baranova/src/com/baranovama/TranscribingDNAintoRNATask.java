@@ -3,7 +3,7 @@ package com.baranovama;
 import utils.Utils;
 
 public class TranscribingDNAintoRNATask {
-    private static final String FILEPATH= "src/resources/TranscribingDNAintoRNA.txt";
+    private static final String FILEPATH = "src/resources/TranscribingDNAintoRNA.txt";
 
     public static void main(String[] args) throws Exception {
         String input = Utils.readFromFile(FILEPATH).get(0);

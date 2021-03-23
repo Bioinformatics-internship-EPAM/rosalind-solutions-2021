@@ -5,7 +5,7 @@ import utils.Utils;
 import java.util.StringJoiner;
 
 public class FindingaMotifinDNATask {
-    private static final String FILEPATH= "src/resources/FindingaMotifinDNA.txt";
+    private static final String FILEPATH = "src/resources/FindingaMotifinDNA.txt";
 
     public static void main(String[] args) throws Exception {
         String dna = Utils.readFromFile(FILEPATH).get(0);

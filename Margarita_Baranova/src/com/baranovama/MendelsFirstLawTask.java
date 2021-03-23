@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MendelsFirstLawTask {
-    private static final String FILEPATH= "src/resources/MendelsFirstLaw.txt";
+    private static final String FILEPATH = "src/resources/MendelsFirstLaw.txt";
 
     public static void main(String[] args) throws Exception {
         String[] input = Utils.readFromFile(FILEPATH).get(0).split(" ");
@@ -15,13 +15,13 @@ public class MendelsFirstLawTask {
 
     private static String getResult(String[] input) {
 
-        HashMap<String, Object> counts = new HashMap<>(Map.of(
+        Map<String, Object> counts = Map.of(
                 "AA", Integer.parseInt(input[0]),
                 "Aa", Integer.parseInt(input[1]),
                 "aa", Integer.parseInt(input[2])
-        ));
+        );
 
-        var count = (int) counts.get("AA")+ (int) counts.get("Aa")+ (int) counts.get("aa");
+        var count = (int) counts.get("AA") + (int) counts.get("Aa") + (int) counts.get("aa");
 
         float allVariants = count*(count - 1)/2;
 
@@ -32,8 +32,7 @@ public class MendelsFirstLawTask {
         probability += 0.75f * ((int) counts.get("Aa") * ((int) counts.get("Aa") - 1) / 2) / allVariants; //Aa+Aa
         probability += 0.5f *(int) counts.get("Aa")*(int) counts.get("aa")/allVariants; //Aa+aa
 
-        final String result;
-        result = String.format("%.5f", probability);
+        final String result = String.format("%.5f", probability);
         return result.replace(',', '.');
     }
 }

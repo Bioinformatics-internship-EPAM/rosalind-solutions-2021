@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.stream.IntStream;
 
 public class CountingDNANucleotidesTask {
-    private static final String FILEPATH= "src/resources/CountingDNANucleotides.txt";
+    private static final String FILEPATH = "src/resources/CountingDNANucleotides.txt";
 
     public static void main(String[] args) throws Exception {
         String input = Utils.readFromFile(FILEPATH).get(0);
@@ -26,7 +26,7 @@ public class CountingDNANucleotidesTask {
             if (!map.containsKey(chars[i])) {
                 System.out.println("Error");
             }
-            map.put(chars[i], map.get(chars[i]) + 1);
+            map.merge(chars[i], 1, Integer::sum);
         });
         return String.format("%d %d %d %d", map.get('A'), map.get('C'), map.get('G'), map.get('T'));
     }

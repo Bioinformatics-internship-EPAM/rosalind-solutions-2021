@@ -13,6 +13,8 @@ public class RabbitsandRecurrenceRelationsTask {
     }
 
     private static long getResult(Integer months, Integer offspring) {
-        return months <= 2 ? 1 : getResult(months - 2, offspring) * offspring + getResult(months - 1, offspring);
+        return months <= 2 ?
+                1 :
+                getResult(months - 2, offspring) * offspring + getResult(months - 1, offspring);
     }
 }
