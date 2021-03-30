@@ -1,5 +1,7 @@
 package BioinformStrong.SUBS;
 
+import java.io.IOException;
+
 public class Main {
 
     final static String pathSUBSTask = "rosalind_subs";
@@ -9,6 +11,14 @@ public class Main {
         //To load dataset
         ParserForSUBS parserForSUBS = new ParserForSUBS(pathSUBSTask);
 
-        MyMatchers.letsFind(parserForSUBS.getSource(), parserForSUBS.getMatch(), MyMatchers.typeMatchers.KnuthMorrisPratt);
+        MyMatchers myMatchers = new MyMatchers(parserForSUBS.getSource(), parserForSUBS.getMatch());
+
+        try {
+            myMatchers.letsFind(MyMatchers.typeMatchers.KnuthMorrisPratt);
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+            System.out.println("\n\n\t\t->\t\tMaybe writer wasn't prepared (look up).");
+        }
     }
 }

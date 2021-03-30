@@ -5,22 +5,26 @@ import java.io.IOException;
 public class MyMatchers {
 
     /** current position in global matching */
-    static int pos;
+    int pos;
 
     /** buffer of current position for offset */
-    static int nextPosition;
+    int nextPosition;
 
     /** position in local matching */
-    static int resultMatching;
+    int resultMatching;
 
-    static int sizeTargetText;
-    static int sizeSample;
+    int sizeTargetText;
+    int sizeSample;
 
+    String sampleWord;
+    String targetText;
+
+    /** choose matcher on your own */
     public enum typeMatchers {
         KnuthMorrisPratt
     }
 
-    static int[] prefixFunction(String fragmentWord) {
+    int[] prefixFunction(String fragmentWord) {
         int[] prefix = new int[fragmentWord.length()];
         int greatestProper = 0;
         for (int prefixPosition = 1; prefixPosition < fragmentWord.length(); prefixPosition++) {
@@ -37,13 +41,16 @@ public class MyMatchers {
     // greatestProper - is number, which is determined size of repeated sequence.
 
     /** It is local matcher */
-    static int kmpMatcher(String sampleWord, String targetText) {
-        if (sizeTargetText == 0)
+    int kmpMatcher() {
+        if (sizeTargetText == 0) {
             return 0;
+        }
         int[] prefix = prefixFunction(targetText);
         for (int comparisonIndex = 0, matchingIndex = 0; comparisonIndex < sizeSample; comparisonIndex++)
             for (; ; matchingIndex = prefix[matchingIndex - 1]) {
-                if (targetText.charAt(matchingIndex) == sampleWord.charAt(comparisonIndex)) {
+
+                // Compare with offset, because every start local matcher resume from position, determined from global matcher.
+                if (targetText.charAt(matchingIndex) == sampleWord.charAt(comparisonIndex + nextPosition)) {
                     if (++matchingIndex == sizeTargetText)
                         return comparisonIndex + 1 - sizeTargetText;
                     break;
@@ -59,50 +66,50 @@ public class MyMatchers {
 
 
     /** It is local matcher */
-    static int defaultMatcher(String sourceString, String matchingString) {
-        return sourceString.indexOf(matchingString);
+    int defaultMatcher() {
+        return sampleWord.substring(nextPosition).indexOf(targetText);
     }
 
-    /** It is global matcher */
-    public static void letsFind(String sampleWord, String targetText, typeMatchers type_Matchers) {
+    public MyMatchers(String sampleWord, String targetText) {
+        this.sampleWord = sampleWord;
+        this.targetText = targetText;
         sizeSample = sampleWord.length();
         sizeTargetText = targetText.length();
         resultMatching = -1;
         nextPosition = 0;
         pos = -1;
-        try {
+    }
 
-            //prepare to writing
-            MyWriter myWriter = null;
-            while (true) {
-                if (type_Matchers == typeMatchers.KnuthMorrisPratt) {
-                    resultMatching = kmpMatcher(sampleWord.substring(nextPosition), targetText);
-                } else {
-                    resultMatching = defaultMatcher(sampleWord.substring(nextPosition), targetText);
-                }
-                if (resultMatching < 0) {
-                    System.out.println("End");
-                    break;
-                }
+    /** It is global matcher */
+    public void letsFind(typeMatchers type_Matchers) throws IOException {
 
-                //if in whole successful, continue loop and offset index of searching
-                pos = resultMatching + nextPosition + 1;
-                sizeSample = sizeSample - (pos - nextPosition);
-                if (myWriter == null) {
-                    myWriter = new MyWriter();
-                    myWriter.writeResult(Integer.toString(pos));
-                }
-                else {
-                    myWriter.writeResult("\s" + pos);
-                }
-                nextPosition = pos;
+        //prepare to writing
+        MyWriter myWriter = null;
+        while (true) {
+            if (type_Matchers == typeMatchers.KnuthMorrisPratt) {
+                resultMatching = kmpMatcher();
+            } else {
+                resultMatching = defaultMatcher();
             }
-            if (myWriter != null) {
-                myWriter.Close();
+            if (resultMatching < 0) {
+                System.out.println("End");
+                break;
             }
+
+            //if in whole successful, continue loop and offset index of searching
+            pos = resultMatching + nextPosition + 1;
+            sizeSample = sizeSample - (pos - nextPosition);
+            if (myWriter == null) {
+                myWriter = new MyWriter();
+                myWriter.writeResult(Integer.toString(pos));
+            }
+            else {
+                myWriter.writeResult("\s" + pos);
+            }
+            nextPosition = pos;
         }
-        catch (IOException ex) {
-            ex.printStackTrace();
+        if (myWriter != null) {
+            myWriter.Close();
         }
     }
 }
