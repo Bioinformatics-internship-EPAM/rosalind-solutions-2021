@@ -16,7 +16,7 @@ public class Main {
     public static void main(String[] args) {
 
         // ДАТАСЕТ ДЛЯ ТЕКУЩЕГО ЗАДАНИЯ
-        int n = 4;
+        int n = 5;
 
         int[] indexes = new int[n];
         int[] elements = new int[n];

@@ -7,26 +7,19 @@ import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class ParserForSUBS {
-    static String parsedSource;
-    static String parsedMatch;
+    final String defaultDatasetName = "rosalind_subs";
+    String parsedSource;
+    String parsedMatch;
 
-    static void parsedMatch(Scanner scanner) {
-        parsedMatch = scanner.nextLine();
-    }
-
-    static void parseSource(Scanner scanner) {
-        parsedSource = scanner.nextLine();
-        parsedMatch(scanner);
-    }
-
-    static void parse(String filename) throws IOException {
+    void parse(String filename) throws IOException {
         try (BufferedReader brReader = new BufferedReader(new FileReader(filename, StandardCharsets.UTF_8))) {
             Scanner scanner = new Scanner(brReader);
-            parseSource(scanner);
+            parsedSource = scanner.nextLine();
+            parsedMatch = scanner.nextLine();
         }
     }
 
-    public static void LetsParse(String pathName) {
+    ParserForSUBS(String pathName) {
         try {
             parse(pathName + ".txt");
         }
@@ -35,34 +28,36 @@ public class ParserForSUBS {
         }
     }
 
-    public static String getSource() {
+    public String getSource() {
         if (parsedSource != null && !parsedSource.equals("")) {
             return parsedSource;
         }
         else {
             try {
-                parse("rosalind-SUBS");
+                parse(defaultDatasetName);
             }
             catch (IOException e) {
                 e.printStackTrace();
+                System.out.println("\n\n\t\t->\t\tDataset is out (см. выше).");
             }
-            System.out.println("dataset wasn't parsed");
+            System.out.println("Dataset wasn't parsed. Please repeat the request.");
             return "";
         }
     }
 
-    public static String getMatch() {
+    public String getMatch() {
         if (parsedMatch != null && !parsedMatch.equals("")) {
             return parsedMatch;
         }
         else {
             try {
-                parse("rosalind-SUBS");
+                parse(defaultDatasetName);
             }
             catch (IOException e) {
                 e.printStackTrace();
+                System.out.println("\n\n\t\t->\t\tDataset is out (см. выше).");
             }
-            System.out.println("dataset wasn't parsed");
+            System.out.println("Dataset wasn't parsed. Please repeat the request.");
             return "";
         }
     }

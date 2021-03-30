@@ -4,83 +4,102 @@ import java.io.IOException;
 
 public class MyMatchers {
 
-    static int nextPosition;
+    /** current position in global matching */
     static int pos;
+
+    /** buffer of current position for offset */
+    static int nextPosition;
+
+    /** position in local matching */
     static int resultMatching;
 
-    static int sizeMatch;
-    static int sizeSource;
+    static int sizeTargetText;
+    static int sizeSample;
 
     public enum typeMatchers {
-        DEfault,
         KnuthMorrisPratt
     }
 
-    static int[] prefixFunction(String s) {
-        int[] p = new int[s.length()];
-        int k = 0;
-        for (int i = 1; i < s.length(); i++) {
-            while (k > 0 && s.charAt(k) != s.charAt(i))
-                k = p[k - 1];
-            if (s.charAt(k) == s.charAt(i))
-                ++k;
-            p[i] = k;
+    static int[] prefixFunction(String fragmentWord) {
+        int[] prefix = new int[fragmentWord.length()];
+        int greatestProper = 0;
+        for (int prefixPosition = 1; prefixPosition < fragmentWord.length(); prefixPosition++) {
+            while (greatestProper > 0 && fragmentWord.charAt(greatestProper) != fragmentWord.charAt(prefixPosition))
+                greatestProper = prefix[greatestProper - 1];
+            if (fragmentWord.charAt(greatestProper) == fragmentWord.charAt(prefixPosition))
+                ++greatestProper;
+            prefix[prefixPosition] = greatestProper;
         }
-        return p;
+        return prefix;
     }
+    // Which:
+    // prefixPosition - is position, which is calculated greatest proper;
+    // greatestProper - is number, which is determined size of repeated sequence.
 
-    static int kmpMatcher(String sourceString, String matchingString) {
-        if (sizeMatch == 0)
+    /** It is local matcher */
+    static int kmpMatcher(String sampleWord, String targetText) {
+        if (sizeTargetText == 0)
             return 0;
-        int[] p = prefixFunction(matchingString);
-        for (int i = 0, k = 0; i < sizeSource; i++)
-            for (; ; k = p[k - 1]) {
-                if (matchingString.charAt(k) == sourceString.charAt(i)) {
-                    if (++k == sizeMatch)
-                        return i + 1 - sizeMatch;
+        int[] prefix = prefixFunction(targetText);
+        for (int comparisonIndex = 0, matchingIndex = 0; comparisonIndex < sizeSample; comparisonIndex++)
+            for (; ; matchingIndex = prefix[matchingIndex - 1]) {
+                if (targetText.charAt(matchingIndex) == sampleWord.charAt(comparisonIndex)) {
+                    if (++matchingIndex == sizeTargetText)
+                        return comparisonIndex + 1 - sizeTargetText;
                     break;
                 }
-                if (k == 0)
+                if (matchingIndex == 0)
                     break;
             }
         return -1;
     }
+    // Which:
+    // comparisonIndex - is position, which compare strings at the moment;
+    // matchingIndex - is end-position after comparing sample with target text.
 
 
-    //default matcher
+    /** It is local matcher */
     static int defaultMatcher(String sourceString, String matchingString) {
         return sourceString.indexOf(matchingString);
     }
 
-    public static void letsFind(String sourceString, String matchingString, typeMatchers type_Matchers) {
-        sizeSource = sourceString.length();
-        sizeMatch = matchingString.length();
+    /** It is global matcher */
+    public static void letsFind(String sampleWord, String targetText, typeMatchers type_Matchers) {
+        sizeSample = sampleWord.length();
+        sizeTargetText = targetText.length();
         resultMatching = -1;
         nextPosition = 0;
         pos = -1;
         try {
 
-            //подготовка к записи
-            MyWriter myWriter = new MyWriter();
-            while (resultMatching < sizeSource) {
+            //prepare to writing
+            MyWriter myWriter = null;
+            while (true) {
                 if (type_Matchers == typeMatchers.KnuthMorrisPratt) {
-                    resultMatching = kmpMatcher(sourceString.substring(nextPosition), matchingString);
+                    resultMatching = kmpMatcher(sampleWord.substring(nextPosition), targetText);
                 } else {
-                    resultMatching = defaultMatcher(sourceString.substring(nextPosition), matchingString);
+                    resultMatching = defaultMatcher(sampleWord.substring(nextPosition), targetText);
                 }
-
-                if (resultMatching == -1) {
-                    myWriter.writeResult("End");
+                if (resultMatching < 0) {
+                    System.out.println("End");
                     break;
                 }
 
                 //if in whole successful, continue loop and offset index of searching
-                pos = resultMatching + 1 + nextPosition;
-                sizeSource = sizeSource - pos + nextPosition;
-                myWriter.writeResult(pos + " ");
+                pos = resultMatching + nextPosition + 1;
+                sizeSample = sizeSample - (pos - nextPosition);
+                if (myWriter == null) {
+                    myWriter = new MyWriter();
+                    myWriter.writeResult(Integer.toString(pos));
+                }
+                else {
+                    myWriter.writeResult("\s" + pos);
+                }
                 nextPosition = pos;
             }
-            myWriter.Close();
+            if (myWriter != null) {
+                myWriter.Close();
+            }
         }
         catch (IOException ex) {
             ex.printStackTrace();

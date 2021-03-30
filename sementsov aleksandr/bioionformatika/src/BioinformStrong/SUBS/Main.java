@@ -7,10 +7,8 @@ public class Main {
     public static void main(String[] args) {
 
         //To load dataset
-        ParserForSUBS.LetsParse(pathSUBSTask);
-        String s = ParserForSUBS.getSource();
-        String searchString = ParserForSUBS.getMatch();
+        ParserForSUBS parserForSUBS = new ParserForSUBS(pathSUBSTask);
 
-        MyMatchers.letsFind(s, searchString, MyMatchers.typeMatchers.KnuthMorrisPratt);
+        MyMatchers.letsFind(parserForSUBS.getSource(), parserForSUBS.getMatch(), MyMatchers.typeMatchers.KnuthMorrisPratt);
     }
 }
