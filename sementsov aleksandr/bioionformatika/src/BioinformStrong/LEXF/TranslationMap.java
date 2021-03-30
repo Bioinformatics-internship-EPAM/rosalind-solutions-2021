@@ -9,13 +9,13 @@ public class TranslationMap {
     int[][] translationMap;
 
     void constructMap(int n, int numeration) {
-        translationMap = new int[MyPower.pow(n,numeration)][n];
+        translationMap = new int[(int)Math.pow(numeration, n)][n];
         for (int[] mapLine: translationMap) {
             Arrays.fill(mapLine, 0);
         }
 
         //для того, чтобы первая строка была нулевая, начнём с i=1
-        for (int i = 1; i < MyPower.pow(n, numeration); i++) {
+        for (int i = 1; i < (int)Math.pow(numeration, n); i++) {
             for (int j = n-1; j > -1; j--) {
 
                 //I don't like recursive call (:
@@ -27,7 +27,7 @@ public class TranslationMap {
                     translationMap[i][j] = 0;
                 }
             }
-            if (i+1 <  MyPower.pow(n, numeration)) {
+            if (i+1 <  (int)Math.pow(numeration, n)) {
                 System.arraycopy(translationMap[i], 0, translationMap[i+1], 0, translationMap[i].length);
             }
             else { System.out.println("TranslationMap is ready!"); }

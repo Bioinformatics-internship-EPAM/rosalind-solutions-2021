@@ -27,21 +27,21 @@ public class Main {
 
         try {
 
-            //загрузка протеиновой таблицы
+            // Loading protein table.
             RNACodonTable rnaCodonTable = new RNACodonTable();
             try {
 
-                //получение датасета
+                // Dataset set
                 currentData = new StringBuilder(getDataSet(pathPROTTask));
                 try {
 
-                    //подготовка к записи
+                    // Prepare to write
                     writer = new FileWriter(outputPath, StandardCharsets.UTF_8);
                     String result;
                     for (int dataIndex = 0; dataIndex < (currentData != null ? currentData.length() : 0);) {
                         try {
 
-                            //поиск сопоставимого элемента из протеиновой таблицы
+                            // Find target item from protein table.
                             result = rnaCodonTable.codonList.get(currentData.substring(dataIndex, dataIndex + 3));
                             if (result.equals(stopProtein)) {
                                 result = "";
@@ -66,8 +66,8 @@ public class Main {
             }
         }
         catch (IOException e) {
-            System.out.println("Таблица перевода не была найдена.");
             e.printStackTrace();
+            System.out.println("\nProtein table not found (look up).");
         }
     }
 }
