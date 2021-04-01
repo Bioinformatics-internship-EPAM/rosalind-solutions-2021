@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
+/** Special parser for parsing SUBS-task */
 public class ParserForSUBS {
     final String defaultDatasetName = "rosalind_subs";
     String parsedSource;
@@ -14,8 +15,13 @@ public class ParserForSUBS {
     void parse(String filename) throws IOException {
         try (BufferedReader brReader = new BufferedReader(new FileReader(filename, StandardCharsets.UTF_8))) {
             Scanner scanner = new Scanner(brReader);
+
+            // Order of parsing on your own
             parsedSource = scanner.nextLine();
             parsedMatch = scanner.nextLine();
+
+            // And at the end, close scanner
+            scanner.close();
         }
     }
 
@@ -38,7 +44,7 @@ public class ParserForSUBS {
             }
             catch (IOException e) {
                 e.printStackTrace();
-                System.out.println("\n\n\t\t->\t\tDataset is out (см. выше).");
+                System.out.println("\n\n\t->\tDataset is out (look up).");
             }
             System.out.println("Dataset wasn't parsed. Please repeat the request.");
             return "";
@@ -55,7 +61,7 @@ public class ParserForSUBS {
             }
             catch (IOException e) {
                 e.printStackTrace();
-                System.out.println("\n\n\t\t->\t\tDataset is out (см. выше).");
+                System.out.println("\n\n\t->\tDataset is out (look up).");
             }
             System.out.println("Dataset wasn't parsed. Please repeat the request.");
             return "";

@@ -13,8 +13,10 @@ public class RNACodonTable {
 
     final String codonTableFile = "RNA-codon-table.txt";
 
-    public Map<String, String> codonList;
+    /** RNA codon table in Map-format */
+    Map<String, String> codonList;
 
+    /** This constructor generate RNA codon table from text-file */
     RNACodonTable() throws IOException {
         try (BufferedReader brReader = new BufferedReader(new FileReader(codonTableFile, StandardCharsets.UTF_8))) {
             codonList = new TreeMap<>();
@@ -24,17 +26,19 @@ public class RNACodonTable {
             String[] currentSequence = new String[2];
             int elementIndex = 0;
 
-            //работа с файлом
+            // working with file
             while (true) {
-                try {
-                    readString = scanner.nextLine(); //если строка будет присутствовать, то программа продолжит работу
-                    elementsInString = readString.split("\s+"); //учесть пробел (\s), имеющий длину не меньше одного символа (+)
 
-                    //рассмотрим пары, имеющиеся в извлечённой строке
+                // if line is exists, program continue
+                try {
+                    readString = scanner.nextLine();
+                    elementsInString = readString.split("\s+"); // fix space (\s), having length not less 1 symbol (+)
+
+                    // occur pair from ejected line
                     for (String s : elementsInString) {
                         currentSequence[elementIndex % 2] = s;
 
-                        //если пара целиком записана, то можно добавить добавить в словарь
+                        // if pair whole processing, put this pair on map
                         if (elementIndex % 2 == 1) {
                             codonList.put(currentSequence[0], currentSequence[1]);
                         }
@@ -46,5 +50,9 @@ public class RNACodonTable {
                 }
             }
         }
+    }
+
+    public String getProteinItem(String keyForProteinItem) {
+        return codonList.get(keyForProteinItem);
     }
 }

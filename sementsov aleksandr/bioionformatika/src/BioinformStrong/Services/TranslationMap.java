@@ -1,9 +1,13 @@
-package BioinformStrong.SIGN;
+package BioinformStrong.Services;
+
 
 import java.io.IOException;
 import java.util.Arrays;
 
+//карта, являющаяся фундаментом по предсавлению различных комбинаций данных
 public class TranslationMap {
+
+    int[][] translationMap;
 
     int getFactorial(int length) {
         int res = 1;
@@ -14,7 +18,7 @@ public class TranslationMap {
     }
 
     public int getNumberPermutations(int length) throws IOException {
-        MyWriter myWriter = new MyWriter();
+        MyWriter myWriter = new MyWriter(true);
         int factorialPermutation = getFactorial(length);
         int binaryNumberPermutation = (int) Math.pow(2, length);
         int resultNumberPermutation = factorialPermutation * binaryNumberPermutation;
@@ -23,8 +27,34 @@ public class TranslationMap {
         return resultNumberPermutation;
     }
 
-    int[][] translationMap;
+    /** To generate same translation map */
+    void constructMap(int n, int numeration) {
+        translationMap = new int[(int)Math.pow(numeration, n)][n];
+        for (int[] mapLine: translationMap) {
+            Arrays.fill(mapLine, 0);
+        }
 
+        // beginning in i = 1 for first line can be nullable
+        for (int i = 1; i < (int)Math.pow(numeration, n); i++) {
+            for (int j = n-1; j > -1; j--) {
+
+                //I don't like recursive call (:
+                if (translationMap[i][j] != (numeration - 1)) {
+                    translationMap[i][j] += 1;
+                    break;
+                }
+                else {
+                    translationMap[i][j] = 0;
+                }
+            }
+            if (i+1 <  (int)Math.pow(numeration, n)) {
+                System.arraycopy(translationMap[i], 0, translationMap[i+1], 0, translationMap[i].length);
+            }
+            else { System.out.println("TranslationMap is ready!"); }
+        }
+    }
+
+    /** To generate same translation map */
     void constructMap(int n) {
         translationMap = new int[(int)Math.pow(2, n)][n];
         for (int i = 0; i < (int)Math.pow(2, n); i++) {
@@ -51,13 +81,40 @@ public class TranslationMap {
         }
     }
 
-    TranslationMap(int width) {
+    /** Initialize translation map */
+    public TranslationMap(int width) {
         constructMap(width);
     }
 
-    public int getMap(int[] numberArray, int counter) {
+    /** Initialize translation map */
+    public TranslationMap(int width, int numeration) {
+        constructMap(width, numeration);
+    }
+
+    /** Output results to console and dataset-result */
+    public void getMap(String alphabet) {
         try {
             MyWriter myWriter = new MyWriter();
+            for (int[] ints : translationMap) {
+                for (int anInt : ints) {
+                    System.out.print(alphabet.charAt(anInt));
+                    myWriter.writeResult(alphabet.charAt(anInt));
+                }
+                System.out.println();
+                myWriter.writeResult('\n');
+            }
+            myWriter.Close();
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+            System.out.println("\n\n\t->\tNot success to write results (look up).");
+        }
+    }
+
+    /** Output results to console and dataset-result */
+    public int getMap(int[] numberArray, int counter) {
+        try {
+            MyWriter myWriter = new MyWriter(true);
             for (int[] ints : translationMap) {
                 for (int j = 0; j < ints.length; j++) {
                     if (ints[j] == 0) {

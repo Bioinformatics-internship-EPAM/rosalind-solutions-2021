@@ -10,15 +10,13 @@ public class Main {
 
         //To load dataset
         ParserForSUBS parserForSUBS = new ParserForSUBS(pathSUBSTask);
-
         MyMatchers myMatchers = new MyMatchers(parserForSUBS.getSource(), parserForSUBS.getMatch());
-
         try {
             myMatchers.letsFind(MyMatchers.typeMatchers.KnuthMorrisPratt);
         }
         catch (IOException ex) {
             ex.printStackTrace();
-            System.out.println("\n\n\t\t->\t\tMaybe writer wasn't prepared (look up).");
+            System.out.println("\n\n\t->\tMaybe writer wasn't prepared (look up).");
         }
     }
 }

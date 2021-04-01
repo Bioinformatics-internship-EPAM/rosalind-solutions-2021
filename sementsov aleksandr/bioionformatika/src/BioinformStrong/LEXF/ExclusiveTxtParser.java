@@ -5,18 +5,21 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Scanner;
 
+/** Special parser for parsing LEXF-task */
 public class ExclusiveTxtParser {
 
-    static String parsedAlphabet;
-    static int parsedNumber;
-    final static String keyWordDatasetPath = "LEXF";
+    String parsedAlphabet;
+    int parsedNumber;
 
-    static String findDataSet() throws FileNotFoundException {
+    /** this key word, which make unique name of this task */
+    final String keyWordDatasetPath = "LEXF";
+
+    String findDataSet() throws FileNotFoundException {
         String directory = System.getProperty("user.dir");
         String[] files = new File(directory).list();
         String res = "";
         for (String file : Objects.requireNonNull(files)) {
-            if (file.contains(ExclusiveTxtParser.keyWordDatasetPath.toLowerCase())) {
+            if (file.contains(this.keyWordDatasetPath.toLowerCase())) {
                 res = file;
                 break;
             }
@@ -24,24 +27,33 @@ public class ExclusiveTxtParser {
         return res;
     }
 
-    static String parseAlphabet(Scanner scanner) {
+    void parseWidth(Scanner scanner) {
+        parsedNumber = scanner.nextInt();
+    }
+
+    void parseAlphabet(Scanner scanner) {
         String ejectedAlphabet = scanner.nextLine();
-        return ejectedAlphabet.replaceAll("\s", "");
+        parsedAlphabet = ejectedAlphabet.replaceAll("\s", "");
+
+        // next, call parser for width
+        parseWidth(scanner);
     }
 
-    static int parseWidth(Scanner scanner) {
-        return scanner.nextInt();
-    }
-
-    public static void parse(String stringWay) throws IOException {
+    /** start parse dataset */
+    void parse(String stringWay) throws IOException {
         try (BufferedReader buffForRead = new BufferedReader(new FileReader(stringWay, StandardCharsets.UTF_8))) {
             Scanner scanner = new Scanner(buffForRead);
-            parsedAlphabet = parseAlphabet(scanner);
-            parsedNumber = parseWidth(scanner);
+
+            // first of all, call parser for alphabet
+            parseAlphabet(scanner);
+
+            // And at the end, close scanner
+            scanner.close();
         }
     }
 
-    public static void goParse() {
+    /** Parser was initialized, while start parsing */
+    public ExclusiveTxtParser() {
         try {
             String pathDataset = findDataSet();
             try {
@@ -56,11 +68,11 @@ public class ExclusiveTxtParser {
         }
     }
 
-    public static String getAlphabet() {
+    public String getAlphabet() {
         return parsedAlphabet;
     }
 
-    public static int getWidth() {
+    public int getWidth() {
         return parsedNumber;
     }
 }

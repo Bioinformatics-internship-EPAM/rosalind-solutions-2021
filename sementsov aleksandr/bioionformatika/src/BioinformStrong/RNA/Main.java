@@ -12,9 +12,9 @@ public class Main {
     final static String pathRNATask = "rosalind_rna.txt";
     final static String outputPath = "submission.txt";
     
-    static String getDataSet(String stringWay) throws IOException {
+    static String getDataSet() throws IOException {
         String s;
-        try (BufferedReader brReader = new BufferedReader(new FileReader(stringWay, StandardCharsets.UTF_8))) {
+        try (BufferedReader brReader = new BufferedReader(new FileReader(Main.pathRNATask, StandardCharsets.UTF_8))) {
             Scanner scanner = new Scanner(brReader);
             s = scanner.nextLine();
         }
@@ -27,7 +27,7 @@ public class Main {
         String s = "";
 
         try {
-            s = getDataSet(pathRNATask);
+            s = getDataSet();
         }
         catch (IOException e) {
             e.printStackTrace();

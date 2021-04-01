@@ -1,9 +1,8 @@
-//Dataset at the moment:
-//6
 package BioinformStrong.SIGN;
 
 import java.io.IOException;
 import java.util.Arrays;
+import BioinformStrong.Services.*;
 
 public class Main {
 
@@ -15,18 +14,18 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // ДАТАСЕТ ДЛЯ ТЕКУЩЕГО ЗАДАНИЯ
-        int n = 5;
+        // dataset
+        int n = 4;
 
         int[] indexes = new int[n];
         int[] elements = new int[n];
         TranslationMap translationMap = new TranslationMap(n);
 
-        // посчитаем количество перестановок
+        // calculate number of permutations
         try {
             int counter = translationMap.getNumberPermutations(n);
 
-            // посчитаем сами перестановки
+            // now, execute same permutation
             Arrays.fill(indexes, 0);
             for (int i = 0; i < elements.length; i++) {
                 elements[i] = i + 1;
@@ -53,7 +52,7 @@ public class Main {
         }
         catch (IOException ex) {
             ex.printStackTrace();
-            System.out.println("\n\n\t->\tне удалось посчитать количество перестановок (см. выше)");
+            System.out.println("\n\n\t->\tProblem in calculating number of permutation (look up).");
         }
     }
 }

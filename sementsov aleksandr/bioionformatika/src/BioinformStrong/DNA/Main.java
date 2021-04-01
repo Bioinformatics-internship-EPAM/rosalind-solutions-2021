@@ -1,10 +1,11 @@
-//Dataset at the moment:
 package BioinformStrong.DNA;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
+
 public class Main {
 
     final static String pathDNATask = "rosalind_DNA.txt";
@@ -19,9 +20,9 @@ public class Main {
     public static void main(String[] args) {
 
         //To load a dataset
-        String s = "";
+        String sourceData = "";
         try {
-            s = getDataSet();
+            sourceData = getDataSet();
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -32,7 +33,7 @@ public class Main {
 
         //To realize the algorithm
         for (char nucleotide : nucleotides) {
-            freq = s.chars().filter(ch -> ch == nucleotide).count();
+            freq = sourceData.chars().filter(ch -> ch == nucleotide).count();
             System.out.printf("%d ", freq);
         }
     }

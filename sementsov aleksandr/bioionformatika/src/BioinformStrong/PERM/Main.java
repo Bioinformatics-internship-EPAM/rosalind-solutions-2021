@@ -16,6 +16,7 @@ public class Main {
         input[b] = buffer;
     }
 
+    /** printing result with saving in the file */
     public static void printArray(int[] input, FileWriter writer) {
         StringBuilder lineToWrite = new StringBuilder();
         try {

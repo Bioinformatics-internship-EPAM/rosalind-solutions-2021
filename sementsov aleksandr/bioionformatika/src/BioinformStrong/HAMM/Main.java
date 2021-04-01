@@ -32,7 +32,7 @@ public class Main {
         }
 
         //To init frequency of differ
-        int freq =0;
+        int freq = 0;
 
         //To realize the algorithm
         for(int i = 0; i < (dataSet != null ? dataSet[0].length() : 0); i++) {
