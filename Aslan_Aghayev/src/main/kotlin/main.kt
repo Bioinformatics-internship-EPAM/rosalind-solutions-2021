@@ -293,11 +293,11 @@ CAGAAGGGACGCAAACCCACCCTATAGAATGAGCGGTC
     val chars = arrayListOf("C", "G")
 
     var resId = ""
-    var resCount = 0.00000
+    var resCount = 0.0
 
     for (ind in strings.indices) {
         val s = strings[ind]
-        var num = 0.0000000000
+        var num = 0.0
 
         for (al in chars) {
             num += s.count { al.contains(it) }
