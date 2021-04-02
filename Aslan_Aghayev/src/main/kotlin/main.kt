@@ -125,11 +125,9 @@ fun lab4() {
         Pair("GGA", "G"),
         Pair("GGG", "G")
     )
+    val CODON_LENGTH = 3
     var prevIndex = 0
-    for (i in 3..s.length step 3) {
-        println(s.substring(prevIndex, i))
-        println(m[s.substring(prevIndex, i)])
-
+    for (i in CODON_LENGTH..s.length step CODON_LENGTH) {
         val new = m.getOrDefault(s.substring(prevIndex, i), s.substring(prevIndex, i))
         if (new === "Stop") {
             break;
