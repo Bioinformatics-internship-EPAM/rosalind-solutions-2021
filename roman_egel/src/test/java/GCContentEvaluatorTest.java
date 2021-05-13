@@ -123,5 +123,4 @@ public class GCContentEvaluatorTest {
     Assert.assertEquals("Rosalind_9226", gcContent.getKey());
     Assert.assertEquals(51.52998776009792, gcContent.getValue(), 0.0001);
   }
-
 }

@@ -15,5 +15,4 @@ public class MotifInDnaFinderTest {
         .collect(Collectors.joining(" ")));
     Assert.assertEquals(List.of(2, 4, 10), positions);
   }
-
 }
