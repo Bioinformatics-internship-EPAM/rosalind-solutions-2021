@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.*;
 
 public class Tasks {
@@ -241,5 +242,156 @@ public class Tasks {
             }
         }
         return result.toString();
+    }
+
+    // 10 - ORF
+    private static final String START_CODON = "AUG";
+    private static final int MIN_PROTEIN_LENGTH = 1;
+
+    public static Set<String> openReadingFrames(String dataset) {
+        String rnaString = transcribingDNAIntoRNA(dataset);
+        Set<String> result = new HashSet<>();
+
+        List<Integer> startIndexes = new ArrayList<>();
+        int lastIndex = 0;
+        while (lastIndex != -1) {
+            lastIndex = rnaString.indexOf(START_CODON, lastIndex);
+            if (lastIndex != -1) {
+                startIndexes.add(lastIndex);
+                lastIndex += 1;
+            }
+        }
+
+        List<Integer> complementStartIndexes = new ArrayList<>();
+        String reverseComplementString = complementingAStrandOfDNA(dataset);
+        String reverseComplementRNAString = transcribingDNAIntoRNA(reverseComplementString);
+        lastIndex = 0;
+        while (lastIndex != -1) {
+            lastIndex = reverseComplementRNAString.indexOf(START_CODON, lastIndex);
+            if (lastIndex != -1) {
+                complementStartIndexes.add(lastIndex);
+                lastIndex += 1;
+            }
+        }
+
+        for (int index : startIndexes) {
+            StringBuilder proteinString = new StringBuilder();
+            for (int i = index; i < rnaString.length() - CODON_LENGTH; i += CODON_LENGTH) {
+                String key = rnaString.substring(i, i + CODON_LENGTH);
+                String str = Tasks.codonTable.get(key);
+                if (str.equals("Stop")) {
+                    if (proteinString.length() >= MIN_PROTEIN_LENGTH) {
+                        result.add(proteinString.toString());
+                    }
+                    break;
+                }
+                proteinString.append(str);
+            }
+        }
+
+        for (int index : complementStartIndexes) {
+            StringBuilder proteinString = new StringBuilder();
+            for (int i = index; i < reverseComplementRNAString.length() - CODON_LENGTH; i += CODON_LENGTH) {
+                String key = reverseComplementRNAString.substring(i, i + CODON_LENGTH);
+                String str = Tasks.codonTable.get(key);
+                if (str.equals("Stop")) {
+                    if (proteinString.length() >= MIN_PROTEIN_LENGTH) {
+                        result.add(proteinString.toString());
+                    }
+                    break;
+                }
+                proteinString.append(str);
+            }
+        }
+        return result;
+    }
+
+    // 11 - PRTM
+    private static Map<Character, Double> massTable = new HashMap<Character, Double>() {{
+        put('A', 71.03711);
+        put('C', 103.00919);
+        put('D', 115.02694);
+        put('E', 129.04259);
+        put('F', 147.06841);
+        put('G', 57.02146);
+        put('H', 137.05891);
+        put('I', 113.08406);
+        put('K', 128.09496);
+        put('L', 113.08406);
+        put('M', 131.04049);
+        put('N', 114.04293);
+        put('P', 97.05276);
+        put('Q', 128.05858);
+        put('R', 156.10111);
+        put('S', 87.03203);
+        put('T', 101.04768);
+        put('V', 99.06841);
+        put('W', 186.07931);
+        put('Y', 163.06333);
+    }};
+
+    static String calculatingProteinMass(String dataset) {
+        double result = 0.0;
+        for (char ch : dataset.toCharArray()) {
+            result += massTable.get(ch);
+        }
+        return String.format(Locale.US,"%.3f", result);
+    }
+
+    static String callFunction(int taskNumber) throws IOException {
+        String fileName;
+        switch (taskNumber) {
+            case 0:
+                fileName = "maksim_prokhorov/datasets/rosalind_dna.txt";
+                return Tasks.countingDNANucleotides(IO.getString(fileName));
+            case 1:
+                fileName = "maksim_prokhorov/datasets/rosalind_rna.txt";
+                return Tasks.transcribingDNAIntoRNA(IO.getString(fileName));
+            case 2:
+                fileName = "maksim_prokhorov/datasets/rosalind_revc.txt";
+                return Tasks.complementingAStrandOfDNA(IO.getString(fileName));
+            case 3:
+                fileName = "maksim_prokhorov/datasets/rosalind_fib.txt";
+                return Tasks.rabbitsAndRecurrenceRelations(IO.getString(fileName)) + "";
+            case 4:
+                fileName = "maksim_prokhorov/datasets/rosalind_fibd.txt";
+                return Tasks.mortalFibonacciRabbits(IO.getString(fileName)) + "";
+            case 5:
+                fileName = "maksim_prokhorov/datasets/rosalind_gc.txt";
+                return Tasks.computingGCContent(IO.getListOfStrings(fileName));
+            case 6:
+                fileName = "maksim_prokhorov/datasets/rosalind_prot.txt";
+                return Tasks.translatingRNAIntoProtein(IO.getString(fileName));
+            case 7:
+                fileName = "maksim_prokhorov/datasets/rosalind_subs.txt";
+                List<String> dataset = IO.getTwoStrings(fileName);
+                return Tasks.findingAMotifInDNA(dataset.get(0), dataset.get(1));
+            case 8:
+                fileName = "maksim_prokhorov/datasets/rosalind_hamm.txt";
+                List<String> dataset1 = IO.getTwoStrings(fileName);
+                return Tasks.countingPointMutations(dataset1.get(0), dataset1.get(1)) + "";
+            case 9:
+                fileName = "maksim_prokhorov/datasets/rosalind_revp.txt";
+                return Tasks.locatingRestrictionSites(IO.getMultipleStringsInOne((fileName)));
+            default:
+                return "Unknown function number.\n" + printHelp();
+        }
+    }
+
+    static String printHelp() {
+        String helpText = "Use number [0-9] in program args to call function:\n" +
+                "0: DNA  - Counting DNA Nucleotides\n" +
+                "1: RNA  - Transcribing DNA into RNA\n" +
+                "2: REVC - Complementing a Strand of DNA\n" +
+                "3: FIB  - Rabbits and Recurrence Relations\n" +
+                "4: FIBD - Mortal Fibonacci Rabbits\n" +
+                "5: GC   - Computing GC Content\n" +
+                "6: PROT - Translating RNA into Protein\n" +
+                "7: SUBS - Finding a Motif in DNA\n" +
+                "8: HAMM - Counting Point Mutations\n" +
+                "9: REVP - Locating Restriction Sites\n" +
+                "10: ORF - Open Reading Frames\n" +
+                "11: PRTM - Calculating ProteinMass";
+        return helpText;
     }
 }
